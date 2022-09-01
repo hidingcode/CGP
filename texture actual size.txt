@@ -1,0 +1,3 @@
+militia.png  w:128,h: 192 delayfactor 10
+character.png w:1142, h:635, delayfactor 7
+character2.png w:480, h:240
