@@ -34,3 +34,7 @@ void Character::UpdateCharacterAnim()
 	characterAnimRect.right = characterAnimRect.left + characterSpriteWidth;
 	characterAnimRect.bottom = characterAnimRect.top + characterSpriteHeight;
 }
+
+void Character::RenderCharacter()
+{
+}
