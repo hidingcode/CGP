@@ -139,12 +139,11 @@
   <ItemGroup>
     <ClInclude Include="Character.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="PlayerCharacter.h" />
-    <ClInclude Include="Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="ZombieSagaF1.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
