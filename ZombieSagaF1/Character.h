@@ -7,12 +7,11 @@ class Character
 	public:
 		Character();
 		// Initialise Character
-		void InitCharacter(D3DXVECTOR2 characterPosition, D3DXVECTOR2 characterScaling,D3DXVECTOR2 characterSpriteCentre, 
-			float characterMass, float characterMovForce, float characterRotationSpeed);
+		void Init();
 		// Update Character Animation
-		void UpdateCharacterAnim();
+		void UpdateAnim();
 		// Render Character
-		void RenderCharacter();
+		void Render();
 	private:
 		// Character Animation Rectangle
 		RECT characterAnimRect;

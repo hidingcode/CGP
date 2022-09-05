@@ -4,7 +4,7 @@
 class Texture 
 {
 	public:
-		Texture(int textureWidth, int textureHeight, int spriteWidth, int spriteHeight);
+		Texture(int textureWidth, int textureHeight);
 		void CreateGameTexture();
 		
 	private:

@@ -1,33 +1,32 @@
 #include "Character.h"
 
-void Character::InitCharacter(D3DXVECTOR2 characterPosition,  D3DXVECTOR2 characterScaling, D3DXVECTOR2 characterSpriteCentre, 
-	float characterMass, float characterMovForce, float characterRotationSpeed)
+void Character::Init()
 {	
 	
-	characterAnimRect.left = 0;
-	characterAnimRect.right = characterAnimRect.left + characterSpriteWidth;
-	characterAnimRect.top = 0;
-	characterAnimRect.bottom = characterAnimRect.top + characterSpriteHeight;
+	this->characterAnimRect.left = 0;
+	this->characterAnimRect.right = this->characterAnimRect.left + characterSpriteWidth;
+	this->characterAnimRect.top = 0;
+	this->characterAnimRect.bottom = this->characterAnimRect.top + characterSpriteHeight;
 
-	characterColRect.left = 0;
-	characterAnimRect.right = characterAnimRect.left + characterSpriteWidth;
-	characterAnimRect.top = 0;
-	characterAnimRect.bottom = characterAnimRect.top + characterSpriteHeight;
+	this->characterColRect.left = 0;
+	this->characterAnimRect.right = this->characterAnimRect.left + characterSpriteWidth;
+	this->characterAnimRect.top = 0;
+	this->characterAnimRect.bottom = this->characterAnimRect.top + characterSpriteHeight;
 
-	characterPosition = D3DXVECTOR2(100, 300);
-	characterVelocity = D3DXVECTOR2(0, 0);
-	characterAcceleration = D3DXVECTOR2(0, 0);
-	characterMovForce = 1;
-	characterDirection = 0;
-	characterMass = 1;
-	characterFrameCounter = 0;
+	this->characterPosition = D3DXVECTOR2(100, 300);
+	this->characterVelocity = D3DXVECTOR2(0, 0);
+	this->characterAcceleration = D3DXVECTOR2(0, 0);
+	this->characterMovForce = 1;
+	this->characterDirection = 0;
+	this->characterMass = 1;
+	this->characterFrameCounter = 0;
 
-	characterScaling = D3DXVECTOR2(1, 1);
-	characterSpriteCentre = D3DXVECTOR2(characterSpriteWidth / 2, characterSpriteHeight / 2);
-	characterRotationSpeed = 0.01;
+	this->characterScaling = D3DXVECTOR2(1, 1);
+	this->characterSpriteCentre = D3DXVECTOR2(characterSpriteWidth / 2, characterSpriteHeight / 2);
+	this->characterRotationSpeed = 0.01;
 }
 
-void Character::UpdateCharacterAnim()
+void Character::UpdateAnim()
 {
 	characterAnimRect.left = 0;
 	characterAnimRect.top = characterFrameCounter * characterSpriteHeight;
@@ -35,6 +34,6 @@ void Character::UpdateCharacterAnim()
 	characterAnimRect.bottom = characterAnimRect.top + characterSpriteHeight;
 }
 
-void Character::RenderCharacter()
+void Character::Render()
 {
 }
