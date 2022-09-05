@@ -4,10 +4,11 @@
 class Texture 
 {
 	public:
+		Texture(int textureWidth, int textureHeight, int spriteWidth, int spriteHeight);
 		void CreateGameTexture();
 		
 	private:
-		LPDIRECT3DTEXTURE9 Texture = NULL;
+		LPDIRECT3DTEXTURE9 texture = NULL;
 		int textureWidth;
 		int textureHeight;
 		int spriteWidth;
