@@ -1,4 +1,4 @@
-# OOP:
+# OOP
 
 
 - GameObject
