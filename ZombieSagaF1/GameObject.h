@@ -1,7 +1,6 @@
 #pragma once
 #include <Windows.h>
 #include <d3dx9.h>
-#include "Texture.h"
 
 class GameObject
 {
@@ -36,5 +35,7 @@ private:
 	D3DXVECTOR2 characterSpriteCentre;
 	// Character Rotate Speed
 	float rotationSpeed = 0;
+
+	// Texture
 };
 
