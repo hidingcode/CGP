@@ -30,9 +30,9 @@ private:
 	// Character Frame Counter for Animation
 	int frameCounter = 0;
 	// Character Scalling
-	D3DXVECTOR2 characterScaling;
+	D3DXVECTOR2 scaling;
 	// Character Sprite Centre
-	D3DXVECTOR2 characterSpriteCentre;
+	D3DXVECTOR2 spriteCentre;
 	// Character Rotate Speed
 	float rotationSpeed = 0;
 
