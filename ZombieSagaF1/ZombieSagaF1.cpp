@@ -13,9 +13,13 @@
 #include <d3dx9.h>
 // include tje Direct Input library
 #include <dinput.h>
-#include "FrameTimer.h"
 #include <ctime>
-#include "Audio.h"
+
+// Game Object Class
+#include "GameObject.h"
+#include "Player.h"
+#include "FrameTimer.h"
+// include "Audio.h"
 
 using namespace std;
 
@@ -34,7 +38,7 @@ HWND g_hWnd = NULL;
 // Window's Structure  /DESIGN PATTERN SINGLETON
 WNDCLASS wndClass;
 
-Audio* audioManager;
+// Audio* audioManager;
 
 // DX globals
 IDirect3DDevice9* d3dDevice;
@@ -48,6 +52,21 @@ BYTE  diKeys[256];
 // Mouse input buffer
 DIMOUSESTATE mouseState;
 LPD3DXSPRITE spriteBrush = NULL;
+
+// Game Object globals
+GameObject* F1 = new GameObject(750,450, 3, 6, 20, 5);
+Player* test = GameObject(750,450,3,6,20,5);
+
+// Input checker
+bool leftKeyPressed = false;
+bool rightKeyPressed = false;
+bool upKeyPressed = false;
+bool downKeyPressed = false;
+bool wKeyPressed = false;
+bool aKeyPressed = false;
+bool sKeyPressed = false;
+bool dKeyPressed = false;
+bool spaceKeyPressed = false;
 
 // !! Place to implement
 bool CircleCollisionDetection(int radiusA, int radiusB, D3DXVECTOR2 positionA, D3DXVECTOR2 positionB)
@@ -143,10 +162,10 @@ bool WindowIsRunning() {
 }
 
 void CleanupMyLevel() {
-	playerTexture->Release();
-	playerTexture = NULL;
+	LPDIRECT3DTEXTURE9 f1Texture = F1->GetTexture();
+	f1Texture->Release();
+	f1Texture = NULL;
 }
-
 
 void CreateMyDX() {
 	//	Define Direct3D 9.
@@ -205,7 +224,6 @@ void CreateMyDirectInput()
 		cout << "Create Mouse Input Device Failed" << endl;
 	}
 
-
 	//	Set the input data format.
 	hr = dInputKeyboardDevice->SetDataFormat(&c_dfDIKeyboard);
 
@@ -216,11 +234,6 @@ void CreateMyDirectInput()
 	//	To Do:
 	//	Try with different combination.
 	dInputKeyboardDevice->SetCooperativeLevel(g_hWnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
-
-	dInputKeyboardDevice->SetCooperativeLevel(g_hWnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
-	mousePosition.x = WindowWidth / 2;
-	mousePosition.y = WindowHeight / 2;
-
 }
 
 // !! Place to implement
@@ -228,147 +241,17 @@ void InitializeLevel() {
 
 	srand(time(0));
 
-	audioManager->PlaySoundTrack();
+	// audioManager->PlaySoundTrack();
 
 	//	Create texture. Study the documentation.
-	HRESULT hr = D3DXCreateTextureFromFile(d3dDevice, "Assets/spaceship.png", &playerTexture);
-	hr = D3DXCreateTextureFromFile(d3dDevice, "Assets/pointer.png", &mouseTexture);
-	//load mass
-	hr = D3DXCreateTextureFromFile(d3dDevice, "Assets/mass.png", &massTexture);
-
-	//hr = D3DXCreateTextureFromFileEx(/* Your Direct3D device */, "01.bmp", D3DX_DEFAULT, D3DX_DEFAULT, 
-	//									D3DX_DEFAULT, NULL, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, 
-	//									D3DX_DEFAULT, D3DX_DEFAULT, D3DCOLOR_XRGB(255, 255, 255), 
-	//									NULL, NULL, &texture);
+	HRESULT hr = F1->CreateTexture(d3dDevice, "Assets/F1.PNG");
+									;
 	if (FAILED(hr)) {
 		cout << "Create texture failed" << endl;
 	}
 
-	playerTextureWidth = 64;
-	playerTextureHeight = 64;
-	playerTextureRow = 2;
-	playerTextureColumn = 2;
-	playerSpriteWidth = playerTextureWidth / playerTextureColumn;
-	playerSpriteHeight = playerTextureHeight / playerTextureRow;
-	playerSpriteFPS = 10;
-	playerMaxFrame = 1;
-	friction = 0.01;
-
-	// Player 1
-	player1ID = 1;
-
-	player1AnimRect.left = (player1ID - 1) * playerSpriteWidth;
-	player1AnimRect.right = player1AnimRect.left + playerSpriteWidth;
-	player1AnimRect.top = 0;
-	player1AnimRect.bottom = player1AnimRect.top + playerSpriteHeight;
-
-	player1ColRect.left = 0;
-	player1ColRect.right = player1ColRect.left + playerSpriteWidth;
-	player1ColRect.top = 0;
-	player1ColRect.bottom = player1ColRect.top + playerSpriteHeight;
-
-	player1Position = D3DXVECTOR2(100, 300);
-	player1Velocity = D3DXVECTOR2(0, 0);
-	player1Acceleration = D3DXVECTOR2(0, 0);
-	player1EngineForce = 1;
-	player1Direction = 0;
-	player1Mass = 1;
-	player1FrameCounter = 0;
-
-	player1Scaling = D3DXVECTOR2(1, 1);
-	player1SpriteCentre = D3DXVECTOR2(playerSpriteWidth / 2, playerSpriteHeight / 2);
-	player1RotationSpeed = 0.05;
-	player1HP = 1;
-
-	//	Player 2
-	player2ID = 2;
-
-	player2AnimRect.left = (player2ID - 1) * playerSpriteWidth;
-	player2AnimRect.right = player2AnimRect.left + playerSpriteWidth;
-	player2AnimRect.top = 0;
-	player2AnimRect.bottom = player2AnimRect.top + playerSpriteHeight;
-
-	player2ColRect.left = 0;
-	player2ColRect.right = player2ColRect.left + playerSpriteWidth;
-	player2ColRect.top = 0;
-	player2ColRect.bottom = player2ColRect.top + playerSpriteHeight;
-
-	player2Position = D3DXVECTOR2(700, 300);
-	player2Velocity = D3DXVECTOR2(0, 0);
-	player2Acceleration = D3DXVECTOR2(0, 0);
-	player2EngineForce = 1;
-	player2Direction = 0;
-	player2Mass = 1;
-	player2FrameCounter = 0;
-
-	player2Scaling = D3DXVECTOR2(1, 1);
-	player2SpriteCentre = D3DXVECTOR2(playerSpriteWidth / 2, playerSpriteHeight / 2);
-	player2RotationSpeed = 0.05;
-	player2HP = 1;
-
-	// Mass Initialize
-	massTextureWidth = 32;
-	massTextureHeight = 32;
-	massTextureRow = 4;
-	massTextureColumn = 4;
-	massSpriteWidth = 9;
-	massSpriteHeight = 9;
-	massSpriteFPS = 10;
-	massMaxFrame = 0;
-
-	// mass 1
-	mass1AnimRect.left = 0;
-	mass1AnimRect.right = mass1AnimRect.left + massSpriteWidth;
-	mass1AnimRect.top = 0;
-	mass1AnimRect.bottom = mass1AnimRect.top + massSpriteHeight;
-
-	mass1ColRect.left = 0;
-	mass1ColRect.right = mass1ColRect.left + massSpriteWidth;
-	mass1ColRect.top = 0;
-	mass1ColRect.bottom = mass1ColRect.top + massSpriteHeight;
-
-	mass1Position = D3DXVECTOR2(rand() % WindowWidth - massSpriteWidth, rand() % WindowWidth - massSpriteHeight);
-	mass1Velocity = D3DXVECTOR2(0, 0);
-	mass1Acceleration = D3DXVECTOR2(0, 0);
-	mass1EngineForce = 0;
-	mass1Direction = 0;
-	mass1Mass = 1;
-	mass1FrameCounter = 0;
-
-	mass1Scaling = D3DXVECTOR2(1, 1);
-	mass1SpriteCentre = D3DXVECTOR2(massSpriteWidth / 2, massSpriteHeight / 2);
-	mass1RotationSpeed = 0;
-	mass1HP = 1;
-
-	//	mass 2
-	mass2AnimRect.left = 0;
-	mass2AnimRect.right = mass2AnimRect.left + massSpriteWidth;
-	mass2AnimRect.top = 0;
-	mass2AnimRect.bottom = mass2AnimRect.top + massSpriteHeight;
-
-	mass2ColRect.left = 0;
-	mass2ColRect.right = mass2ColRect.left + massSpriteWidth;
-	mass2ColRect.top = 0;
-	mass2ColRect.bottom = mass2ColRect.top + massSpriteHeight;
-
-	mass2Position = D3DXVECTOR2(rand() % WindowWidth - massSpriteWidth, rand() % WindowWidth - massSpriteHeight);
-	mass2Velocity = D3DXVECTOR2(0, 0);
-	mass2Acceleration = D3DXVECTOR2(0, 0);
-	mass2EngineForce = 0;
-	mass2Direction = 0;
-	mass2Mass = 1;
-	mass2FrameCounter = 0;
-
-	mass2Scaling = D3DXVECTOR2(1, 1);
-	mass2SpriteCentre = D3DXVECTOR2(massSpriteWidth / 2, massSpriteHeight / 2);
-	mass2RotationSpeed = 0;
-	mass2HP = 1;
-
-	// Mouse
-	mouseRect.left = 0;
-	mouseRect.top = 0;
-	mouseRect.right = 32;
-	mouseRect.bottom = 32;
+	// F1 car (player) initialization
+	F1->Init(D3DXVECTOR2(100, 300), 1, 0, 1, D3DXVECTOR2(1,1),0.1);
 }
 
 void GetInput()
@@ -439,150 +322,59 @@ void GetInput()
 
 // !! Place to implement
 void Update(int framesToUpdate) {
-	audioManager->UpdateSound();
+	// audioManager->UpdateSound();
 
 	for (int i = 0; i < framesToUpdate; i++) {
 		/*counter++;*/
-
-		if (aKeyPressed) {
-			player1Direction -= player1RotationSpeed;
-		}
-
-		if (dKeyPressed) {
-			player1Direction += player1RotationSpeed;
-		}
 
 		if (wKeyPressed) {
 			/*if (counter % timer->getFPS() / player1SpriteFPS) {
 				player1FrameCounter++
 			}*/
-			player1FrameCounter++;
-
-			player1Acceleration.x = sin(player1Direction) * player1EngineForce / player1Mass;
-			player1Acceleration.y = -cos(player1Direction) * player1EngineForce / player1Mass;
+			F1->IncreaseFrameCounter();
 		}
 
-		if (sKeyPressed) {
-			player1FrameCounter++;
+		if (spaceKeyPressed) {
 
-			player1Acceleration.x = -sin(player1Direction) * player1EngineForce / player1Mass;
-			player1Acceleration.y = cos(player1Direction) * player1EngineForce / player1Mass;
 		}
 
 		if (leftKeyPressed) {
-			player2Direction -= player2RotationSpeed;
+	
 		}
 
 		if (rightKeyPressed) {
-			player2Direction += player2RotationSpeed;
+
 		}
 
-		if (upKeyPressed) {
-			/*if (counter % timer->getFPS() / player1SpriteFPS) {
-				player1FrameCounter++
-			}*/
-			player2FrameCounter++;
+		F1->Update();
 
-			player2Acceleration.x = sin(player2Direction) * player2EngineForce / player2Mass;
-			player2Acceleration.y = -cos(player2Direction) * player2EngineForce / player2Mass;
-		}
-
-		if (downKeyPressed) {
-			player2FrameCounter++;
-
-			player2Acceleration.x = -sin(player2Direction) * player2EngineForce / player2Mass;
-			player2Acceleration.y = cos(player2Direction) * player2EngineForce / player2Mass;
-		}
-
-		player1Velocity += player1Acceleration;
-		//friction
-		player1Velocity *= 1 - friction;
-		player1Position += player1Velocity;
-
-		player2Velocity += player2Acceleration;
-		//friction
-		player2Velocity *= 1 - friction;
-		player2Position += player2Velocity;
-
-		if (CircleCollisionDetection(playerSpriteWidth / 2, playerSpriteWidth / 2, player1Position + player1SpriteCentre, player2Position + player2SpriteCentre))
-		{
-			player1HP -= 0;
-			player1Velocity.x *= -1;
-			player1Velocity.y *= -1;
-
-			/*player2Position.x -= player1Velocity.x;
-			player2Position.y -= player1Velocity.y;*/
-			cout << "Collision detected between spaceship" << endl;
-
-			// find the angle
-			// perpendicular to the vector
-		}
-
-		if (mass1HP > 0)
-		{
-			if (CircleCollisionDetection(playerSpriteWidth / 2, playerSpriteWidth / 2, player1Position, mass1Position + mass1SpriteCentre))
-			{
-				player1Mass += mass1Mass;
-				mass1HP = 0;
-				audioManager->PlaySound1();
-				cout << "Collision detected with mass 1" << endl;
-			}
-		}
-
-		if (mass2HP > 0)
-		{
-			if (CircleCollisionDetection(playerSpriteWidth / 2, playerSpriteWidth / 2, player1Position, mass2Position + mass2SpriteCentre))
-			{
-				player1Mass += mass2Mass;
-				mass2HP = 0;
-				cout << "Collision detected with mass 2" << endl;
-			}
-		}
-
-		if (player1FrameCounter > playerMaxFrame) {
+		/*if (player1FrameCounter > playerMaxFrame) {
 			player1FrameCounter = 0;
-		}
-
-		player1AnimRect.left = (player1ID - 1) * playerSpriteWidth;
-		player1AnimRect.top = player1FrameCounter * playerSpriteHeight;
-		player1AnimRect.right = player1AnimRect.left + playerSpriteWidth;
-		player1AnimRect.bottom = player1AnimRect.top + playerSpriteHeight;
-
-		if (player2FrameCounter > playerMaxFrame) {
-			player2FrameCounter = 0;
-		}
-
-		player2AnimRect.left = (player2ID - 1) * playerSpriteWidth;
-		player2AnimRect.top = player2FrameCounter * playerSpriteHeight;
-		player2AnimRect.right = player2AnimRect.left + playerSpriteWidth;
-		player2AnimRect.bottom = player2AnimRect.top + playerSpriteHeight;
+		}*/
 
 		// boundry
-		if (player1Position.x <0 || player1Position.x > WindowWidth - playerSpriteWidth) {
-			player1Velocity.x *= -1;
-		}
-		if (player1Position.y <0 || player1Position.y > WindowHeight - playerSpriteHeight) {
-			player1Velocity.y *= -1;
-		}
-		if (player2Position.x <0 || player2Position.x > WindowWidth - playerSpriteWidth) {
-			player2Velocity.x *= -1;
-		}
-		if (player2Position.y <0 || player2Position.y > WindowHeight - playerSpriteHeight) {
-			player2Velocity.y *= -1;
-		}
+		//if (player1Position.x <0 || player1Position.x > WindowWidth - playerSpriteWidth) {
+		//	player1Velocity.x *= -1;
+		//}
+		//if (player1Position.y <0 || player1Position.y > WindowHeight - playerSpriteHeight) {
+		//	player1Velocity.y *= -1;
+		//}
+		//if (player2Position.x <0 || player2Position.x > WindowWidth - playerSpriteWidth) {
+		//	player2Velocity.x *= -1;
+		//}
+		//if (player2Position.y <0 || player2Position.y > WindowHeight - playerSpriteHeight) {
+		//	player2Velocity.y *= -1;
+		//}
 
 	}
-	leftKeyPressed = false;
-	rightKeyPressed = false;
-	upKeyPressed = false;
-	downKeyPressed = false;
-	aKeyPressed = false;
-	dKeyPressed = false;
-	wKeyPressed = false;
-	sKeyPressed = false;
-
-	player1Acceleration = D3DXVECTOR2(0, 0);
-	player2Acceleration = D3DXVECTOR2(0, 0);
+		leftKeyPressed = false;
+		rightKeyPressed = false;
+		upKeyPressed = false;
+		downKeyPressed = false;
+		aKeyPressed = false;
+		dKeyPressed = false;
+		wKeyPressed = false;
+		sKeyPressed = false;
 }
 
 void Render() {
@@ -599,59 +391,13 @@ void Render() {
 	//	Specify alpha blend will ensure that the sprite will render the background with alpha.
 	spriteBrush->Begin(D3DXSPRITE_ALPHABLEND);
 
-	// D3DXMATRIX mat;
-	// D3DXVECTOR2 scaling = D3DXVECTOR2(1.0f, 1.0f);
-	// D3DXVECTOR2 spriteCentre = D3DXVECTOR2(spriteWidth / 2, spriteHeight / 2);
-	// float rotation = 0.0f;
-
-	// D3DXMatrixTransformation2D(&mat, NULL, 0.0, &scaling, &spriteCentre, rotation, &playerPosition);
-
-	// spriteBrush->SetTransform(&mat);
-	// 
-	//	Sprite rendering. Study the documentation.
-	// D3DCOLOR_XRGB() - COLOR FILTER
-	//spriteBrush->Draw(texture, NULL, NULL, NULL, D3DCOLOR_XRGB(255, 255, 255));
-	//spriteBrush->Draw(texture, &spriteRect, NULL, NULL, D3DCOLOR_XRGB(255, 255, 255));
-	//spriteBrush->Draw(texture, &spriteRect, NULL, &playerPosition, D3DCOLOR_XRGB(255, 255, 255));
-	//spriteBrush->Draw(mouseTexture, &mouseRect, NULL, &mousePosition, D3DCOLOR_XRGB(255, 255, 255));
-	//font->DrawText(spriteBrush, "Hello World!", -1, &textRect, 0, D3DCOLOR_XRGB(255, 255, 255));
-
-	/*D3DXMatrixTransformation2D(&mat, NULL, 0.0, &scaling, &spriteCentre, rotation, &fontPosition);
-	spriteBrush->SetTransform(&mat);
-	font->DrawText(spriteBrush, "Hello World!", -1, &textRect, 0, D3DCOLOR_XRGB(255, 255, 255));*/
-
 	D3DXMATRIX mat;
 
-	// draw Player 1
-	D3DXMatrixTransformation2D(&mat, NULL, 0.0, &player1Scaling, &player1SpriteCentre, player1Direction, &player1Position);
-	spriteBrush->SetTransform(&mat);
-	spriteBrush->Draw(playerTexture, &player1AnimRect, NULL, NULL, D3DCOLOR_XRGB(255, 255, 255));
-
-	// draw Player 2
-	D3DXMatrixTransformation2D(&mat, NULL, 0.0, &player2Scaling, &player2SpriteCentre, player2Direction, &player2Position);
-	spriteBrush->SetTransform(&mat);
-	spriteBrush->Draw(playerTexture, &player2AnimRect, NULL, NULL, D3DCOLOR_XRGB(255, 255, 255));
-
-	if (mass1HP > 0)
-	{
-		// draw Mass 1
-		D3DXMatrixTransformation2D(&mat, NULL, 0.0, &mass1Scaling, &mass1SpriteCentre, mass1Direction, &mass1Position);
-		spriteBrush->SetTransform(&mat);
-		spriteBrush->Draw(massTexture, &mass1AnimRect, NULL, NULL, D3DCOLOR_XRGB(255, 255, 255));
-	}
-
-	if (mass2HP > 0)
-	{
-		// draw Mass 2
-		D3DXMatrixTransformation2D(&mat, NULL, 0.0, &mass2Scaling, &mass2SpriteCentre, mass2Direction, &mass2Position);
-		spriteBrush->SetTransform(&mat);
-		spriteBrush->Draw(massTexture, &mass2AnimRect, NULL, NULL, D3DCOLOR_XRGB(255, 255, 255));
-	}
-
-
-	//D3DXMatrixTransformation2D(&mat, NULL, 0.0, D3DXVECTOR3(1,1), D3DXVECTOR3(WindowWidth/2, WindowHeight/2), 0, &mousePosition);
-	//spriteBrush->SetTransform(&mat);
-	//spriteBrush->Draw(mouseTexture, &mouseRect, NULL, NULL, D3DCOLOR_XRGB(255, 255, 255));
+	// draw F1
+	F1->Render(spriteBrush, &mat);
+	//D3DXMatrixTransformation2D(&mat,NULL, 0.0, &F1->scaling, &spriteCentre, 0, D3DXVECTOR2(50,50);
+	//spriteBrush->SetTransform(mat);
+	//spriteBrush->Draw(this->texture, &this->spriteRect, NULL, NULL, colorFilter);
 
 	//	End sprite drawing
 	spriteBrush->End();
@@ -704,9 +450,9 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 	CreateMyDX();
 	CreateMyDirectInput();
 
-	audioManager = new Audio();
-	audioManager->InitializeAudio();
-	audioManager->LoadSounds();
+	//audioManager = new Audio();
+	//audioManager->InitializeAudio();
+	//audioManager->LoadSounds();
 
 	InitializeLevel();
 
