@@ -11,15 +11,21 @@
 #include <iostream>
 //	include the D3DX9 library
 #include <d3dx9.h>
-// include tje Direct Input library
+// include the Direct Input library
 #include <dinput.h>
 #include <ctime>
 
-// Game Object Class
+// Background
+#include "Background.h"
+
+// Game Object 
 #include "GameObject.h"
-#include "Player.h"
+
+// Timer
 #include "FrameTimer.h"
-// include "Audio.h"
+
+// Audio Library
+#include "AudioManager.h"
 
 using namespace std;
 
@@ -51,11 +57,18 @@ LPDIRECTINPUTDEVICE8 dInputMouseDevice;
 BYTE  diKeys[256];
 // Mouse input buffer
 DIMOUSESTATE mouseState;
+// Sprite Brush
 LPD3DXSPRITE spriteBrush = NULL;
+
+// Background global
+Background* bg = new Background(840, 650);
 
 // Game Object globals
 GameObject* F1 = new GameObject(750,450, 3, 6, 20, 5);
-Player* test = GameObject(750,450,3,6,20,5);
+
+// Audio global 
+AudioManager* audioManager;
+
 
 // Input checker
 bool leftKeyPressed = false;
@@ -239,19 +252,24 @@ void CreateMyDirectInput()
 // !! Place to implement
 void InitializeLevel() {
 
+	audioManager->PlaySoundTrack();
 	srand(time(0));
 
-	// audioManager->PlaySoundTrack();
+	//	Create texture
+	HRESULT hr = bg->CreateTexture(d3dDevice, "Assets/roadBG.png");
 
-	//	Create texture. Study the documentation.
-	HRESULT hr = F1->CreateTexture(d3dDevice, "Assets/F1.PNG");
+	if (FAILED(hr)) {
+		cout << "Create background texture failed" << endl;
+	}
+
+	hr = F1->CreateTexture(d3dDevice, "Assets/F1.PNG");
 									;
 	if (FAILED(hr)) {
-		cout << "Create texture failed" << endl;
+		cout << "Create F1 texture failed" << endl;
 	}
 
 	// F1 car (player) initialization
-	F1->Init(D3DXVECTOR2(100, 300), 1, 0, 1, D3DXVECTOR2(1,1),0.1);
+	F1->Init(D3DXVECTOR2(100, 300), 1.0f, 0.0f, 2.0f, D3DXVECTOR2(0.4f,0.4f),0.05f, 0.001f);
 }
 
 void GetInput()
@@ -331,40 +349,25 @@ void Update(int framesToUpdate) {
 			/*if (counter % timer->getFPS() / player1SpriteFPS) {
 				player1FrameCounter++
 			}*/
-			F1->IncreaseFrameCounter();
+			F1->MovForward();
+			F1->IncreaseFrameCounter();	
 		}
 
-		if (spaceKeyPressed) {
-
+		if (sKeyPressed) {
+			F1->MovBackward();
 		}
 
 		if (leftKeyPressed) {
-	
+			F1->TurnLeft();
 		}
 
 		if (rightKeyPressed) {
-
+			F1->TurnRight();
 		}
 
-		F1->Update();
-
-		/*if (player1FrameCounter > playerMaxFrame) {
-			player1FrameCounter = 0;
-		}*/
-
-		// boundry
-		//if (player1Position.x <0 || player1Position.x > WindowWidth - playerSpriteWidth) {
-		//	player1Velocity.x *= -1;
-		//}
-		//if (player1Position.y <0 || player1Position.y > WindowHeight - playerSpriteHeight) {
-		//	player1Velocity.y *= -1;
-		//}
-		//if (player2Position.x <0 || player2Position.x > WindowWidth - playerSpriteWidth) {
-		//	player2Velocity.x *= -1;
-		//}
-		//if (player2Position.y <0 || player2Position.y > WindowHeight - playerSpriteHeight) {
-		//	player2Velocity.y *= -1;
-		//}
+		F1->UpdateAnim();
+		F1->UpdatePhysics();
+		F1->CheckBoundary(WindowWidth, WindowHeight);
 
 	}
 		leftKeyPressed = false;
@@ -394,10 +397,8 @@ void Render() {
 	D3DXMATRIX mat;
 
 	// draw F1
+	bg->Render(spriteBrush, &mat, D3DXVECTOR2(1.1, 1.1), D3DXVECTOR2(0, 0));
 	F1->Render(spriteBrush, &mat);
-	//D3DXMatrixTransformation2D(&mat,NULL, 0.0, &F1->scaling, &spriteCentre, 0, D3DXVECTOR2(50,50);
-	//spriteBrush->SetTransform(mat);
-	//spriteBrush->Draw(this->texture, &this->spriteRect, NULL, NULL, colorFilter);
 
 	//	End sprite drawing
 	spriteBrush->End();
@@ -450,15 +451,15 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 	CreateMyDX();
 	CreateMyDirectInput();
 
-	//audioManager = new Audio();
-	//audioManager->InitializeAudio();
-	//audioManager->LoadSounds();
+	audioManager = new AudioManager();
+	audioManager->InitializeAudio();
+	audioManager->LoadSounds();
 
 	InitializeLevel();
 
 	FrameTimer* timer = new FrameTimer();
 
-	timer->Init(30);
+	timer->Init(20);
 	while (WindowIsRunning())
 	{
 		GetInput();

@@ -15,12 +15,12 @@ GameObject::GameObject(int textureWidth, int textureHeight, int textureRow, int 
 }
 
 // Initialise Game Object
-void GameObject::Init(D3DXVECTOR2 position, float engineForce, float direction, float mass, D3DXVECTOR2 scaling, float rotationSpeed)
+void GameObject::Init(D3DXVECTOR2 position, float thrust, float direction, float mass, D3DXVECTOR2 scaling, float rotationSpeed, float friction)
 {	
 	// Calculate Sprite Width and Spite Height
 	spriteWidth = textureWidth / textureColumn;
 	spriteHeight = textureHeight / textureRow;
-	
+
 	// Crop texture into required rectangle
 	spriteRect.left = frameCounter % textureColumn * spriteWidth;
 	spriteRect.right = spriteRect.left + spriteWidth;
@@ -30,7 +30,7 @@ void GameObject::Init(D3DXVECTOR2 position, float engineForce, float direction, 
 	this->position = position;
 	velocity = D3DXVECTOR2(0, 0);
 	acceleration = D3DXVECTOR2(0, 0);
-	this->engineForce = engineForce;
+	this->thrust = thrust;
 	this->direction = direction;
 	this->mass = mass;
 
@@ -45,8 +45,50 @@ HRESULT GameObject::CreateTexture(IDirect3DDevice9* d3dDevice, LPCSTR textureFil
 	return D3DXCreateTextureFromFile(d3dDevice, textureFilePath, &texture);
 }
 
-void GameObject::Update()
-{	
+void GameObject::MovForward()
+{
+	acceleration.x = sin(direction) * thrust / mass;
+	acceleration.y = -cos(direction) * thrust / mass;
+}
+
+void GameObject::TurnLeft()
+{
+	direction -= rotationSpeed;
+}
+
+void GameObject::TurnRight()
+{
+	direction += rotationSpeed;
+}
+
+void GameObject::MovBackward()
+{
+	acceleration.x = -sin(direction) * thrust / mass;
+	acceleration.y = cos(direction) * thrust/ mass;
+}
+
+void GameObject::CheckBoundary(int WindowWidth, int WindowHeight) {
+	if (position.x <0 || position.x > WindowWidth - spriteWidth * scaling.x) {
+		velocity.x *= -1;
+	}
+	if (position.y <0 || position.y > WindowHeight - spriteHeight * scaling.y) {
+		velocity.y *= -1;
+	}
+}
+
+void GameObject::UpdatePhysics() {
+	cout << "Velocity X: ";
+	cout << velocity.x << endl;
+	cout << "Velocity Y: ";
+	cout << velocity.y << endl;
+	velocity += acceleration;
+	velocity -=  friction * velocity;
+	position += velocity;
+	acceleration = D3DXVECTOR2(0, 0);
+}
+
+void GameObject::UpdateAnim()
+{
 	// Crop texture into required rectangle
 	spriteRect.left = frameCounter % textureColumn * spriteWidth;
 	spriteRect.right = spriteRect.left + spriteWidth;

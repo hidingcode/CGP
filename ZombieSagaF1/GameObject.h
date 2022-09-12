@@ -9,13 +9,26 @@ public:
 	GameObject(int textureWidth,int textureHeight,int textureRow, int textureColumn,int spriteFPS,int maxFrame);
 	
 	// Initialise GameObject
-	void Init(D3DXVECTOR2 position, float engineForce, float direction, float mass, D3DXVECTOR2 scaling, float rotationSpeed);
+	void Init(D3DXVECTOR2 position, float thrust, float direction, float mass, D3DXVECTOR2 scaling, float rotationSpeed, float friction);
 	
 	// Create Texture
 	HRESULT CreateTexture(IDirect3DDevice9* d3dDevice, LPCSTR textureFilePath);
 	
+	// Update movement
+	void MovForward();
+	void TurnLeft();
+	void TurnRight();
+	void MovBackward();
+
+	// Update Physics
+	void UpdatePhysics();
+	// Update Animation
+	void UpdateAnim();
+
+	// Prevent the Game Object from going out the screen
+	void CheckBoundary(int WindowWidth, int WindowHeight);
+
 	// Render Game Object
-	void Update();
 	void Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat);
 	
 	// Getter
@@ -53,10 +66,13 @@ private:
 	float scalingRotation = 0.0f;
 	D3DXVECTOR2 scaling;
 	D3DXVECTOR2 spriteCentre;
-	float engineForce = 0;
+	float thrust = 0;
 	// Facing Direction
 	float direction = 0;
 	float mass = 0;
 	float rotationSpeed = 0;
+
+	// Frcition
+	float friction = 0.0f;
 };
 
