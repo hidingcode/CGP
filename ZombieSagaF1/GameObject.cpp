@@ -3,6 +3,10 @@
 
 using namespace std;
 
+GameObject::GameObject()
+{
+}
+
 // Constructor
 GameObject::GameObject(int textureWidth, int textureHeight, int textureRow, int textureColumn, int spriteFPS, int maxFrame)
 {	
@@ -45,27 +49,27 @@ HRESULT GameObject::CreateTexture(IDirect3DDevice9* d3dDevice, LPCSTR textureFil
 	return D3DXCreateTextureFromFile(d3dDevice, textureFilePath, &texture);
 }
 
-void GameObject::MovForward()
-{
-	acceleration.x = sin(direction) * thrust / mass;
-	acceleration.y = -cos(direction) * thrust / mass;
-}
-
-void GameObject::TurnLeft()
-{
-	direction -= rotationSpeed;
-}
-
-void GameObject::TurnRight()
-{
-	direction += rotationSpeed;
-}
-
-void GameObject::MovBackward()
-{
-	acceleration.x = -sin(direction) * thrust / mass;
-	acceleration.y = cos(direction) * thrust/ mass;
-}
+//void GameObject::MovForward() // Got bug
+//{
+//	acceleration.x = sin(direction) * thrust / mass;
+//	acceleration.y = -cos(direction) * thrust / mass;
+//}
+//
+//void GameObject::TurnLeft()
+//{
+//	direction -= rotationSpeed;
+//}
+//
+//void GameObject::TurnRight()
+//{
+//	direction += rotationSpeed;
+//}
+//
+//void GameObject::MovBackward() // Got bug
+//{
+//	acceleration.x = -sin(direction) * thrust / mass;
+//	acceleration.y = cos(direction) * thrust/ mass;
+//}
 
 void GameObject::CheckBoundary(int WindowWidth, int WindowHeight) {
 	if (position.x <0 || position.x > WindowWidth - spriteWidth * scaling.x) {
@@ -122,12 +126,4 @@ LPDIRECT3DTEXTURE9 GameObject::GetTexture()
 	return texture;
 }
 
-int GameObject::GetFrameCounter() {
-	return frameCounter;
-}
-
-void GameObject::IncreaseFrameCounter()
-{
-	frameCounter++;
-}
 

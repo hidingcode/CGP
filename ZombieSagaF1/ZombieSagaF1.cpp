@@ -20,6 +20,7 @@
 
 // Game Object 
 #include "GameObject.h"
+#include "Player.h"
 
 // Timer
 #include "FrameTimer.h"
@@ -64,7 +65,8 @@ LPD3DXSPRITE spriteBrush = NULL;
 Background* bg = new Background(840, 650);
 
 // Game Object globals
-GameObject* F1 = new GameObject(750,450, 3, 6, 20, 5);
+// GameObject* F1 = new GameObject(750,450, 3, 6, 20, 5);
+Player* F1 = new Player(750, 450, 3, 6, 20, 5);
 
 // Audio global 
 AudioManager* audioManager;
@@ -268,7 +270,7 @@ void InitializeLevel() {
 		cout << "Create F1 texture failed" << endl;
 	}
 
-	// F1 car (player) initialization
+	// F1 car (player) initialisation
 	F1->Init(D3DXVECTOR2(100, 300), 1.0f, 0.0f, 2.0f, D3DXVECTOR2(0.4f,0.4f),0.05f, 0.001f);
 }
 
@@ -354,15 +356,15 @@ void Update(int framesToUpdate) {
 		}
 
 		if (sKeyPressed) {
-			F1->MovBackward();
+			/*F1->MovBackward();*/
 		}
 
 		if (leftKeyPressed) {
-			F1->TurnLeft();
+			/*F1->TurnLeft();*/
 		}
 
 		if (rightKeyPressed) {
-			F1->TurnRight();
+			/*F1->TurnRight();*/
 		}
 
 		F1->UpdateAnim();

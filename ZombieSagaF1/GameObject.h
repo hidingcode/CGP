@@ -6,7 +6,8 @@ class GameObject
 {
 public:
 	// Constructor
-	GameObject(int textureWidth,int textureHeight,int textureRow, int textureColumn,int spriteFPS,int maxFrame);
+	GameObject();
+	GameObject(int texture,int textureHeight,int textureRow, int textureColumn,int spriteFPS,int maxFrame);
 	
 	// Initialise GameObject
 	void Init(D3DXVECTOR2 position, float thrust, float direction, float mass, D3DXVECTOR2 scaling, float rotationSpeed, float friction);
@@ -14,31 +15,24 @@ public:
 	// Create Texture
 	HRESULT CreateTexture(IDirect3DDevice9* d3dDevice, LPCSTR textureFilePath);
 	
-	// Update movement
-	void MovForward();
-	void TurnLeft();
-	void TurnRight();
-	void MovBackward();
+	//// Update movement
+	//void MovForward();
+	//void TurnLeft();
+	//void TurnRight();
+	//void MovBackward();
 
 	// Update Physics
 	void UpdatePhysics();
 	// Update Animation
 	void UpdateAnim();
-
-	// Prevent the Game Object from going out the screen
-	void CheckBoundary(int WindowWidth, int WindowHeight);
-
 	// Render Game Object
 	void Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat);
-	
-	// Getter
+	// Prevent the Game Object from going out the screen
+	void CheckBoundary(int WindowWidth, int WindowHeight);
+	// Get Texture
 	LPDIRECT3DTEXTURE9 GetTexture();
-	int GetFrameCounter();
-
-	// Increase the frame counter to animate the player object
-	void IncreaseFrameCounter();
 	
-private:
+protected:
 	// Texture and animation variables
 
 	// Game Object Texture
@@ -51,14 +45,10 @@ private:
 	int spriteHeight = 0;
 	int spriteFPS = 0;
 	int maxFrame = 0;
-
 	// Spirte Rectangle
 	RECT spriteRect;
-	// Frame counter for animation
-	int frameCounter = 0;
-
+	
 	// Movement and Physics Calculation Variable
-
 	D3DXVECTOR2 position;
 	D3DXVECTOR2 velocity;
 	D3DXVECTOR2 acceleration;
@@ -74,5 +64,7 @@ private:
 
 	// Frcition
 	float friction = 0.0f;
+	// Frame counter for animation
+	int frameCounter = 0;
 };
 
