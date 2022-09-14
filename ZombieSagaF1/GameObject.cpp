@@ -40,37 +40,20 @@ void GameObject::Init(D3DXVECTOR2 position, float thrust, float direction, float
 
 	this->scaling = scaling;
 	// Caculate the sprite centre by dividing the sprite widht and sprite height by 2
-	spriteCentre = D3DXVECTOR2(spriteWidth / 2, spriteHeight / 2);
+	spriteCentre = D3DXVECTOR2(spriteWidth / 2.0f, spriteHeight / 2.0f);
 	this->rotationSpeed = rotationSpeed;
 }
 
-HRESULT GameObject::CreateTexture(IDirect3DDevice9* d3dDevice, LPCSTR textureFilePath)
+void GameObject::CreateTexture(IDirect3DDevice9* d3dDevice, LPCSTR textureFilePath)
 {
-	return D3DXCreateTextureFromFile(d3dDevice, textureFilePath, &texture);
+	HRESULT hr = D3DXCreateTextureFromFile(d3dDevice, textureFilePath, &texture);
+
+	if (FAILED(hr)) {
+		cout << "Create texture failed" << endl;
+	}
 }
 
-//void GameObject::MovForward() // Got bug
-//{
-//	acceleration.x = sin(direction) * thrust / mass;
-//	acceleration.y = -cos(direction) * thrust / mass;
-//}
-//
-//void GameObject::TurnLeft()
-//{
-//	direction -= rotationSpeed;
-//}
-//
-//void GameObject::TurnRight()
-//{
-//	direction += rotationSpeed;
-//}
-//
-//void GameObject::MovBackward() // Got bug
-//{
-//	acceleration.x = -sin(direction) * thrust / mass;
-//	acceleration.y = cos(direction) * thrust/ mass;
-//}
-
+// Check the boundary to prevent the game object from going out oute the screen
 void GameObject::CheckBoundary(int WindowWidth, int WindowHeight) {
 	if (position.x <0 || position.x > WindowWidth - spriteWidth * scaling.x) {
 		velocity.x *= -1;
@@ -80,17 +63,15 @@ void GameObject::CheckBoundary(int WindowWidth, int WindowHeight) {
 	}
 }
 
-void GameObject::UpdatePhysics() {
-	cout << "Velocity X: ";
-	cout << velocity.x << endl;
-	cout << "Velocity Y: ";
-	cout << velocity.y << endl;
+// Update Physics
+void GameObject::UpdatePhysics() { // Xin Nan part
 	velocity += acceleration;
 	velocity -=  friction * velocity;
 	position += velocity;
 	acceleration = D3DXVECTOR2(0, 0);
 }
 
+// Update Animation
 void GameObject::UpdateAnim()
 {
 	// Crop texture into required rectangle
@@ -107,6 +88,7 @@ void GameObject::UpdateAnim()
 	}
 }
  
+// Render the image
 void GameObject::Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat)
 {	
 	D3DXMatrixTransformation2D(mat, &scalingCentre, scalingRotation, &scaling, &spriteCentre, direction, &position);
@@ -121,6 +103,7 @@ void GameObject::Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat)
 	}
 }
 
+// Get Texture from Game Object
 LPDIRECT3DTEXTURE9 GameObject::GetTexture()
 {
 	return texture;

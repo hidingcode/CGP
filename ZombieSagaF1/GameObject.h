@@ -13,14 +13,8 @@ public:
 	void Init(D3DXVECTOR2 position, float thrust, float direction, float mass, D3DXVECTOR2 scaling, float rotationSpeed, float friction);
 	
 	// Create Texture
-	HRESULT CreateTexture(IDirect3DDevice9* d3dDevice, LPCSTR textureFilePath);
+	void CreateTexture(IDirect3DDevice9* d3dDevice, LPCSTR textureFilePath);
 	
-	//// Update movement
-	//void MovForward();
-	//void TurnLeft();
-	//void TurnRight();
-	//void MovBackward();
-
 	// Update Physics
 	void UpdatePhysics();
 	// Update Animation

@@ -13,7 +13,8 @@ void Player::MovForward() // ! (Bug)--> Velocity does not decrease
 
 void Player::TurnLeft()
 {
-	direction -= rotationSpeed;
+	acceleration.x = sin(direction) * thrust / mass;
+	acceleration.y = -cos(direction) * thrust / mass;
 }
 
 void Player::TurnRight()

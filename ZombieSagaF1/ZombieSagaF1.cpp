@@ -30,8 +30,8 @@
 
 using namespace std;
 
-#define WindowWidth 900
-#define WindowHeight 700
+#define WindowWidth 840
+#define WindowHeight 650
 
 #pragma comment(lib, "d3d9.lib ")
 #pragma comment(lib, "d3dx9.lib ")
@@ -61,16 +61,15 @@ DIMOUSESTATE mouseState;
 // Sprite Brush
 LPD3DXSPRITE spriteBrush = NULL;
 
-// Background global
-Background* bg = new Background(840, 650);
+// Background globals
+Background* background1 = new Background(840, 650);
+Background* background2 = new Background(840, 650);
 
 // Game Object globals
-// GameObject* F1 = new GameObject(750,450, 3, 6, 20, 5);
 Player* F1 = new Player(750, 450, 3, 6, 20, 5);
 
-// Audio global 
+// Audio globals
 AudioManager* audioManager;
-
 
 // Input checker
 bool leftKeyPressed = false;
@@ -114,19 +113,9 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 		case VK_ESCAPE:
 			PostQuitMessage(0);
 			break;
-		case VK_SPACE:
-			spaceKeyPressed = true;
-			cout << "SPACE" << endl;
-			break;
 		}
 		break;
 		//	Default handling for other messages.
-	/*
-	case WM_MOUSEMOVE:
-		playerPosition.y = (short)HIWORD(lParam);
-		playerPosition.x = (short)LOWORD(lParam);
-		break;
-	*/
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam); // Return messages back to the OS
 	}
@@ -147,7 +136,7 @@ void CreateMyWindow() {
 	wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wndClass.hInstance = GetModuleHandle(NULL);
 	wndClass.lpfnWndProc = WindowProcedure; // Long Pointer to a window procedure function
-	wndClass.lpszClassName = "My Window";
+	wndClass.lpszClassName = "Zombie Saga F1";
 	wndClass.style = CS_HREDRAW | CS_VREDRAW;
 
 	//	Register the window.
@@ -155,7 +144,7 @@ void CreateMyWindow() {
 
 	//	You are to refer to MSDN for each of the parameters details.
 	//  Create instance of window
-	g_hWnd = CreateWindowEx(0, wndClass.lpszClassName, "My Window's Name", WS_OVERLAPPEDWINDOW, 0, 100, WindowWidth, WindowHeight, NULL, NULL, GetModuleHandle(NULL), NULL);
+	g_hWnd = CreateWindowEx(0, wndClass.lpszClassName, "Zombie Sage F1", WS_OVERLAPPEDWINDOW, 0, 0, WindowWidth, WindowHeight, NULL, NULL, GetModuleHandle(NULL), NULL);
 	ShowWindow(g_hWnd, 1);
 }
 
@@ -255,21 +244,14 @@ void CreateMyDirectInput()
 void InitializeLevel() {
 
 	audioManager->PlaySoundTrack();
+	cout << "" << endl;
 	srand(time(0));
 
 	//	Create texture
-	HRESULT hr = bg->CreateTexture(d3dDevice, "Assets/roadBG.png");
-
-	if (FAILED(hr)) {
-		cout << "Create background texture failed" << endl;
-	}
-
-	hr = F1->CreateTexture(d3dDevice, "Assets/F1.PNG");
-									;
-	if (FAILED(hr)) {
-		cout << "Create F1 texture failed" << endl;
-	}
-
+	background1->CreateTexture(d3dDevice, "Assets/roadBG.png");
+	background2->CreateTexture(d3dDevice, "Assets/roadBG.png");
+	F1->CreateTexture(d3dDevice, "Assets/F1.PNG");
+									
 	// F1 car (player) initialisation
 	F1->Init(D3DXVECTOR2(100, 300), 1.0f, 0.0f, 2.0f, D3DXVECTOR2(0.4f,0.4f),0.05f, 0.001f);
 }
@@ -330,19 +312,11 @@ void GetInput()
 		cout << "D" << std::endl;
 		dKeyPressed = true;
 	}
-
-	/*
-	if (diKeys[DIK_SPACE] & 0x80)
-	{
-		cout << "SPACE" << std::endl;
-		spaceKeyPressed = true;
-	}
-	*/
 }
 
 // !! Place to implement
 void Update(int framesToUpdate) {
-	// audioManager->UpdateSound();
+	audioManager->UpdateSound();
 
 	for (int i = 0; i < framesToUpdate; i++) {
 		/*counter++;*/
@@ -353,10 +327,11 @@ void Update(int framesToUpdate) {
 			}*/
 			F1->MovForward();
 			F1->IncreaseFrameCounter();	
+			cout << F1->GetFrameCounter() << endl;
 		}
 
 		if (sKeyPressed) {
-			/*F1->MovBackward();*/
+			F1->MovBackward();
 		}
 
 		if (leftKeyPressed) {
@@ -399,7 +374,8 @@ void Render() {
 	D3DXMATRIX mat;
 
 	// draw F1
-	bg->Render(spriteBrush, &mat, D3DXVECTOR2(1.1, 1.1), D3DXVECTOR2(0, 0));
+	background1->Render(spriteBrush, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 0));
+	background2->Render(spriteBrush, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 650));
 	F1->Render(spriteBrush, &mat);
 
 	//	End sprite drawing
@@ -463,7 +439,7 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 
 	timer->Init(20);
 	while (WindowIsRunning())
-	{
+	{	
 		GetInput();
 		Update(timer->FramesToUpdate());
 		Render();

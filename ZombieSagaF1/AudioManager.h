@@ -14,6 +14,7 @@ public:
 	void PlaySound1();
 	void PlaySoundTrack();
 	void LoadSounds();
+	void GetSoundLength();
 	void UpdateSound();
 
 	AudioManager();
