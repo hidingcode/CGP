@@ -30,3 +30,9 @@ void Text::Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat, D3DXVECTOR2 scaling
 	spriteBrush->SetTransform(mat);
 	font->DrawText(spriteBrush, text, -1, &textRect, 0, textColor);
 }
+
+void Text::CleanUp()
+{
+	font->Release();
+	font = NULL;
+}

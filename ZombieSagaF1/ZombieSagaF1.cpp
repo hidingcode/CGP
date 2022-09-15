@@ -21,14 +21,15 @@
 // Background
 #include "Background.h"
 
-// Text 
+// Text and Box
 #include "Text.h"
+#include "Box.h"
 
 // Game Object 
 #include "GameObject.h"
 #include "Player.h"
 
-// Timer
+// Frame Timer
 #include "FrameTimer.h"
 
 // Audio Library
@@ -64,6 +65,8 @@ BYTE  diKeys[256];
 DIMOUSESTATE mouseState;
 // Sprite Brush
 LPD3DXSPRITE spriteBrush = NULL;
+// Line
+LPD3DXLINE line = NULL;
 
 // Input
 Input* inputW = new Input();
@@ -75,8 +78,9 @@ Input* inputD = new Input();
 Background* background1 = new Background(840, 650);
 Background* background2 = new Background(840, 650);
 
-// Text globals
+// Text and Box globals
 Text* text = new Text();
+Box* box = new Box();
 
 // Game Object globals
 Player* F1 = new Player(750, 450, 3, 6, 5);
@@ -204,6 +208,11 @@ void CreateMyDX() {
 
 	text->CreateFontType(d3dDevice, "Arial");
 
+	hr = D3DXCreateLine(d3dDevice, &line);
+
+	if (FAILED(hr)) {
+		cout << "Create line failed" << endl;
+	}
 }
 
 void CreateMyDirectInput()
@@ -256,8 +265,9 @@ void InitialiseLevel() {
 	F1->CreateTexture(d3dDevice, "Assets/F1.png");
 									
 	// F1 car (player) initialisation
-	text->Init(0,0,100,100);
 	F1->Init(D3DXVECTOR2(395, 580), 1.0f, 0.0f, 2.0f, D3DXVECTOR2(0.4f,0.4f),0.05f, 0.001f);
+	box->Init(150,50,D3DXVECTOR2(0,0));
+	text->Init(0,0,100,100);
 }
 
 void GetInput()
@@ -331,16 +341,21 @@ void Render() {
 	spriteBrush->Begin(D3DXSPRITE_ALPHABLEND);
 
 	D3DXMATRIX mat;
-
-	// Draw background
-	background1->Render(spriteBrush, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 0));
-	background2->Render(spriteBrush, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 650));
 	
-	// Draw text
-	text->Render(spriteBrush, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 0), 0.0f, "Score:", D3DCOLOR_XRGB(0,0,0));
+	// Draw background
+	//background1->Render(spriteBrush, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 0));
+	//background2->Render(spriteBrush, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 650));
+	
 	// Draw F1
 	F1->Render(spriteBrush, &mat);
 
+	// Draw Box
+	box->Render(line, D3DCOLOR_XRGB(255, 0, 0));
+	
+	// Draw Text
+	text->Render(spriteBrush, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 0), 0.0f, 
+		"Score:", D3DCOLOR_XRGB(0,0,0));
+	
 	//	End sprite drawing
 	spriteBrush->End();
 
@@ -355,6 +370,11 @@ void CleanupMyDx() {
 	//	Release and clean up everything
 	spriteBrush->Release();
 	spriteBrush = NULL;
+
+	text->CleanUp();
+
+	line->Release();
+	line = NULL;
 
 	//	Release the device when exiting.
 	d3dDevice->Release();

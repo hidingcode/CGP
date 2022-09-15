@@ -15,6 +15,8 @@ public:
 	// Render Text
 	void Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat, D3DXVECTOR2 scaling, D3DXVECTOR2 textCentre,
 		D3DXVECTOR2 fontPosition, float rotation, LPCSTR text, D3DXCOLOR textColor);
+	// Clean Up Text
+	void CleanUp();
 
 private:
 	LPD3DXFONT font = NULL;
