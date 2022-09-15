@@ -14,13 +14,10 @@ public:
 	void TurnRight();
 	// Move the player backward
 	void MovBackward();
-	// Get Frame Counter
-	int GetFrameCounter();
 	// Increase the frame counter to animate the game object
 	void IncreaseFrameCounter();
 
 private:
-	// Frame counter for animation
-	int frameCounter = 0;
+
 };
 

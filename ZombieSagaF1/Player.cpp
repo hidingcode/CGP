@@ -28,11 +28,6 @@ void Player::MovBackward()
 	acceleration.y = cos(direction) * thrust / mass;
 }
 
-int Player::GetFrameCounter()
-{
-	return frameCounter;
-}
-
 void Player::IncreaseFrameCounter()
 {
 	frameCounter++;

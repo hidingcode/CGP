@@ -15,6 +15,9 @@
 #include <dinput.h>
 #include <ctime>
 
+// Input
+#include "Input.h"
+
 // Background
 #include "Background.h"
 
@@ -27,6 +30,7 @@
 
 // Audio Library
 #include "AudioManager.h"
+
 
 using namespace std;
 
@@ -45,8 +49,6 @@ HWND g_hWnd = NULL;
 // Window's Structure  /DESIGN PATTERN SINGLETON
 WNDCLASS wndClass;
 
-// Audio* audioManager;
-
 // DX globals
 IDirect3DDevice9* d3dDevice;
 //	Direct Input globals.
@@ -61,6 +63,12 @@ DIMOUSESTATE mouseState;
 // Sprite Brush
 LPD3DXSPRITE spriteBrush = NULL;
 
+// Input
+Input* inputW = new Input();
+Input* inputS = new Input();
+Input* inputA = new Input();
+Input* inputD = new Input();
+
 // Background globals
 Background* background1 = new Background(840, 650);
 Background* background2 = new Background(840, 650);
@@ -70,17 +78,6 @@ Player* F1 = new Player(750, 450, 3, 6, 20, 5);
 
 // Audio globals
 AudioManager* audioManager;
-
-// Input checker
-bool leftKeyPressed = false;
-bool rightKeyPressed = false;
-bool upKeyPressed = false;
-bool downKeyPressed = false;
-bool wKeyPressed = false;
-bool aKeyPressed = false;
-bool sKeyPressed = false;
-bool dKeyPressed = false;
-bool spaceKeyPressed = false;
 
 // !! Place to implement
 bool CircleCollisionDetection(int radiusA, int radiusB, D3DXVECTOR2 positionA, D3DXVECTOR2 positionB)
@@ -253,11 +250,12 @@ void InitializeLevel() {
 	F1->CreateTexture(d3dDevice, "Assets/F1.PNG");
 									
 	// F1 car (player) initialisation
-	F1->Init(D3DXVECTOR2(100, 300), 1.0f, 0.0f, 2.0f, D3DXVECTOR2(0.4f,0.4f),0.05f, 0.001f);
+	F1->Init(D3DXVECTOR2(395, 580), 1.0f, 0.0f, 2.0f, D3DXVECTOR2(0.4f,0.4f),0.05f, 0.001f);
 }
 
 void GetInput()
-{	//	Acquire the device.
+{	
+	//	Acquire the device.
 	dInputKeyboardDevice->Acquire();
 	dInputMouseDevice->Acquire();
 	//	Get immediate Keyboard Data.
@@ -265,53 +263,11 @@ void GetInput()
 	// Get Mouse Data
 	dInputMouseDevice->GetDeviceState(sizeof(mouseState), &mouseState);
 
-	if (diKeys[DIK_UP] & 0x80)
-	{
-		cout << "UP" << std::endl;
-		upKeyPressed = true;
-	}
+	inputW->GetInput(diKeys, DIK_W);
+	inputS->GetInput(diKeys, DIK_S);
+	inputA->GetInput(diKeys, DIK_A);
+	inputD->GetInput(diKeys, DIK_D);
 
-	if (diKeys[DIK_DOWN] & 0x80)
-	{
-		cout << "DOWN" << std::endl;
-		downKeyPressed = true;
-	}
-
-	if (diKeys[DIK_LEFT] & 0x80)
-	{
-		cout << "LEFT" << std::endl;
-		leftKeyPressed = true;
-	}
-
-	if (diKeys[DIK_RIGHT] & 0x80)
-	{
-		cout << "RIGHT" << std::endl;
-		rightKeyPressed = true;
-	}
-
-	if (diKeys[DIK_W] & 0x80)
-	{
-		cout << "W" << std::endl;
-		wKeyPressed = true;
-	}
-
-	if (diKeys[DIK_A] & 0x80)
-	{
-		cout << "A" << std::endl;
-		aKeyPressed = true;
-	}
-
-	if (diKeys[DIK_S] & 0x80)
-	{
-		cout << "S" << std::endl;
-		sKeyPressed = true;
-	}
-
-	if (diKeys[DIK_D] & 0x80)
-	{
-		cout << "D" << std::endl;
-		dKeyPressed = true;
-	}
 }
 
 // !! Place to implement
@@ -321,25 +277,24 @@ void Update(int framesToUpdate) {
 	for (int i = 0; i < framesToUpdate; i++) {
 		/*counter++;*/
 
-		if (wKeyPressed) {
+		if (inputW->GetKeyPressed()) {
 			/*if (counter % timer->getFPS() / player1SpriteFPS) {
 				player1FrameCounter++
 			}*/
 			F1->MovForward();
 			F1->IncreaseFrameCounter();	
-			cout << F1->GetFrameCounter() << endl;
 		}
 
-		if (sKeyPressed) {
+		if (inputS->GetKeyPressed()) {
 			F1->MovBackward();
 		}
 
-		if (leftKeyPressed) {
-			/*F1->TurnLeft();*/
+		if (inputA->GetKeyPressed()) {
+			F1->TurnLeft();
 		}
 
-		if (rightKeyPressed) {
-			/*F1->TurnRight();*/
+		if (inputD->GetKeyPressed()) {
+			F1->TurnRight();
 		}
 
 		F1->UpdateAnim();
@@ -347,14 +302,10 @@ void Update(int framesToUpdate) {
 		F1->CheckBoundary(WindowWidth, WindowHeight);
 
 	}
-		leftKeyPressed = false;
-		rightKeyPressed = false;
-		upKeyPressed = false;
-		downKeyPressed = false;
-		aKeyPressed = false;
-		dKeyPressed = false;
-		wKeyPressed = false;
-		sKeyPressed = false;
+	inputW->SetKeyPressed(false);
+	inputA->SetKeyPressed(false);
+	inputS->SetKeyPressed(false);
+	inputD->SetKeyPressed(false);
 }
 
 void Render() {
