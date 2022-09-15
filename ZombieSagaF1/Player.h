@@ -5,7 +5,7 @@ class Player: public GameObject
 {
 public:
 	// Constructor
-	Player(int textureWidth, int textureHeight, int textureRow, int textureColumn, int spriteFPS, int maxFrame);
+	Player(int textureWidth, int textureHeight, int textureRow, int textureColumn, int maxFrame);
 	// Move the player forward
 	void MovForward();
 	// Move the player left

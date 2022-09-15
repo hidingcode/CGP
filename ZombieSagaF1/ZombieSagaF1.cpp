@@ -74,7 +74,7 @@ Background* background1 = new Background(840, 650);
 Background* background2 = new Background(840, 650);
 
 // Game Object globals
-Player* F1 = new Player(750, 450, 3, 6, 20, 5);
+Player* F1 = new Player(750, 450, 3, 6, 5);
 
 // Audio globals
 AudioManager* audioManager;
@@ -309,10 +309,7 @@ void Update(int framesToUpdate) {
 }
 
 void Render() {
-	//	To Do:
-		//	Update.
-
-		//	Clear the back buffer.
+	//	Clear the back buffer.
 	d3dDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 
 	//	Begin the scene
@@ -331,7 +328,6 @@ void Render() {
 
 	//	End sprite drawing
 	spriteBrush->End();
-	//PlaySound()
 
 	//	End the scene
 	d3dDevice->EndScene();
@@ -369,13 +365,6 @@ void CleanupMyWindow() {
 //	use WinMain if you don't want the console
 int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) // WinMain is a function in WINAPI
 {
-	/*
-	   HINSTANCE hInstance - ID Number
-	   HINSTANCE hPrevInstance - previous window
-	   LPSTR lpCmdLine - Long pointer to a command line (ping.exe ->www.yahoo.com<-)
-	   int nShowCmd - window mode (fullscreen, borderless)
-	*/
-
 	CreateMyWindow();
 	CreateMyDX();
 	CreateMyDirectInput();

@@ -1,7 +1,7 @@
 #include "Player.h"
 
-Player::Player(int textureWidth, int textureHeight, int textureRow, int textureColumn, int spriteFPS, int maxFrame)
-	:GameObject(textureWidth, textureHeight, textureRow, textureColumn, spriteFPS, maxFrame)
+Player::Player(int textureWidth, int textureHeight, int textureRow, int textureColumn, int maxFrame)
+	:GameObject(textureWidth, textureHeight, textureRow, textureColumn, maxFrame)
 {
 }
 
@@ -13,8 +13,7 @@ void Player::MovForward() // ! (Bug)--> Velocity does not decrease
 
 void Player::TurnLeft()
 {
-	acceleration.x = sin(direction) * thrust / mass;
-	acceleration.y = -cos(direction) * thrust / mass;
+	direction -= rotationSpeed;
 }
 
 void Player::TurnRight()

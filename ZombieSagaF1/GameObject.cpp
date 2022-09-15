@@ -8,13 +8,12 @@ GameObject::GameObject()
 }
 
 // Constructor
-GameObject::GameObject(int textureWidth, int textureHeight, int textureRow, int textureColumn, int spriteFPS, int maxFrame)
+GameObject::GameObject(int textureWidth, int textureHeight, int textureRow, int textureColumn, int maxFrame)
 {	
 	this->textureWidth = textureWidth;
 	this->textureHeight = textureHeight;
 	this->textureRow = textureRow;
 	this->textureColumn = textureColumn;
-	this->spriteFPS = spriteFPS;
 	this->maxFrame = maxFrame;
 }
 

@@ -7,7 +7,7 @@ class GameObject
 public:
 	// Constructor
 	GameObject();
-	GameObject(int texture,int textureHeight,int textureRow, int textureColumn,int spriteFPS,int maxFrame);
+	GameObject(int texture,int textureHeight,int textureRow, int textureColumn,int maxFrame);
 	
 	// Initialise GameObject
 	void Init(D3DXVECTOR2 position, float thrust, float direction, float mass, D3DXVECTOR2 scaling, float rotationSpeed, float friction);
@@ -37,7 +37,6 @@ protected:
 	int textureColumn = 0;
 	int spriteWidth = 0;
 	int spriteHeight = 0;
-	int spriteFPS = 0;
 	int maxFrame = 0;
 	// Spirte Rectangle
 	RECT spriteRect;
@@ -50,6 +49,7 @@ protected:
 	float scalingRotation = 0.0f;
 	D3DXVECTOR2 scaling;
 	D3DXVECTOR2 spriteCentre;
+	// Force
 	float thrust = 0;
 	// Facing Direction
 	float direction = 0;
