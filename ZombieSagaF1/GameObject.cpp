@@ -1,5 +1,4 @@
 #include "GameObject.h"
-#include <iostream>
 
 using namespace std;
 
@@ -102,10 +101,34 @@ void GameObject::Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat)
 	}
 }
 
-// Get Texture from Game Object
+// Get Game Object Texture
 LPDIRECT3DTEXTURE9 GameObject::GetTexture()
 {
 	return texture;
 }
+
+// Get Gme Object Position
+D3DXVECTOR2 GameObject::GetPosition()
+{
+	return position;
+}
+
+// Get Sprite Centre
+D3DXVECTOR2 GameObject::GetSpriteCentre()
+{
+	return spriteCentre;
+}
+
+// Get Sprite Width
+int GameObject::GetSpriteWidth()
+{
+	return spriteWidth;
+}
+
+// Get Sprite Height
+int GameObject::GetSpriteHeight()
+{
+	return spriteHeight;
+};
 
 

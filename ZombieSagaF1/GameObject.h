@@ -1,6 +1,7 @@
 #pragma once
 #include <Windows.h>
 #include <d3dx9.h>
+#include <iostream>
 
 class GameObject
 {
@@ -23,8 +24,16 @@ public:
 	void Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat);
 	// Prevent the Game Object from going out the screen
 	void CheckBoundary(int WindowWidth, int WindowHeight);
-	// Get Texture
+	// Get Game Object Texture
 	LPDIRECT3DTEXTURE9 GetTexture();
+	// Get Game Object Position
+	D3DXVECTOR2 GetPosition();
+	// Get Sprite Centre
+	D3DXVECTOR2 GetSpriteCentre();
+	// Get Sprite Width
+	int GetSpriteWidth();
+	// Get Sprite Height
+	int GetSpriteHeight();
 	
 protected:
 	// Texture and animation variables

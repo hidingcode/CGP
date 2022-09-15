@@ -21,6 +21,9 @@
 // Background
 #include "Background.h"
 
+// Text 
+#include "Text.h"
+
 // Game Object 
 #include "GameObject.h"
 #include "Player.h"
@@ -30,7 +33,6 @@
 
 // Audio Library
 #include "AudioManager.h"
-
 
 using namespace std;
 
@@ -72,6 +74,9 @@ Input* inputD = new Input();
 // Background globals
 Background* background1 = new Background(840, 650);
 Background* background2 = new Background(840, 650);
+
+// Text globals
+Text* text = new Text();
 
 // Game Object globals
 Player* F1 = new Player(750, 450, 3, 6, 5);
@@ -197,6 +202,8 @@ void CreateMyDX() {
 		cout << "Create sprite failed" << endl;
 	}
 
+	text->CreateFontType(d3dDevice, "Arial");
+
 }
 
 void CreateMyDirectInput()
@@ -238,18 +245,18 @@ void CreateMyDirectInput()
 }
 
 // !! Place to implement
-void InitializeLevel() {
+void InitialiseLevel() {
 
 	audioManager->PlaySoundTrack();
-	cout << "" << endl;
 	srand(time(0));
 
 	//	Create texture
 	background1->CreateTexture(d3dDevice, "Assets/roadBG.png");
 	background2->CreateTexture(d3dDevice, "Assets/roadBG.png");
-	F1->CreateTexture(d3dDevice, "Assets/F1.PNG");
+	F1->CreateTexture(d3dDevice, "Assets/F1.png");
 									
 	// F1 car (player) initialisation
+	text->Init(0,0,100,100);
 	F1->Init(D3DXVECTOR2(395, 580), 1.0f, 0.0f, 2.0f, D3DXVECTOR2(0.4f,0.4f),0.05f, 0.001f);
 }
 
@@ -276,7 +283,6 @@ void Update(int framesToUpdate) {
 
 	for (int i = 0; i < framesToUpdate; i++) {
 		/*counter++;*/
-
 		if (inputW->GetKeyPressed()) {
 			/*if (counter % timer->getFPS() / player1SpriteFPS) {
 				player1FrameCounter++
@@ -296,6 +302,11 @@ void Update(int framesToUpdate) {
 		if (inputD->GetKeyPressed()) {
 			F1->TurnRight();
 		}
+		
+		//if (CircleCollisionDetection(F1->GetSpriteWidth() / 2, playerSpriteWidth / 2, F1->GetPosition() + F1->GetSpriteCentre(), player2Position + player2SpriteCentre))
+		//{
+		//	cout << "Collision detected between spaceship" << endl;
+		//}
 
 		F1->UpdateAnim();
 		F1->UpdatePhysics();
@@ -321,9 +332,13 @@ void Render() {
 
 	D3DXMATRIX mat;
 
-	// draw F1
+	// Draw background
 	background1->Render(spriteBrush, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 0));
 	background2->Render(spriteBrush, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 650));
+	
+	// Draw text
+	text->Render(spriteBrush, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 0), 0.0f, "Score:", D3DCOLOR_XRGB(0,0,0));
+	// Draw F1
 	F1->Render(spriteBrush, &mat);
 
 	//	End sprite drawing
@@ -373,7 +388,7 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 	audioManager->InitializeAudio();
 	audioManager->LoadSounds();
 
-	InitializeLevel();
+	InitialiseLevel();
 
 	FrameTimer* timer = new FrameTimer();
 
