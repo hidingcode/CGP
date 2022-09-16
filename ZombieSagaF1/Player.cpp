@@ -8,8 +8,8 @@ Player::Player(int textureWidth, int textureHeight, int textureRow, int textureC
 
 void Player::MovForward() // ! (Bug)--> Velocity does not decrease
 {
-	acceleration.x = sin(direction) * thrust;
-	acceleration.y = -cos(direction) * thrust;
+	acceleration.x = sin(direction) * thrust / mass;
+	acceleration.y = -cos(direction) * thrust / mass;
 }
 
 void Player::TurnLeft()
@@ -29,7 +29,6 @@ void Player::MovBackward()
 }
 
 void Player::UpdatePhysics() { // Xin Nan part
-	cout << "Friction: " << friction << endl;
 	velocity += acceleration;
 	velocity *= 1 - friction;
 	position += velocity;
