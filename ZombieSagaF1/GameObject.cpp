@@ -41,6 +41,7 @@ void GameObject::Init(D3DXVECTOR2 position, float thrust, float direction, float
 	// Caculate the sprite centre by dividing the sprite widht and sprite height by 2
 	spriteCentre = D3DXVECTOR2(spriteWidth * scaling.x / 2, spriteHeight * scaling.y / 2);
 	this->rotationSpeed = rotationSpeed;
+	this->friction = friction;
 }
 
 void GameObject::CreateTexture(IDirect3DDevice9* d3dDevice, LPCSTR textureFilePath)

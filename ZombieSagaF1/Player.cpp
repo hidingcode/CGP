@@ -1,4 +1,5 @@
 #include "Player.h"
+using namespace std;
 
 Player::Player(int textureWidth, int textureHeight, int textureRow, int textureColumn, int maxFrame)
 	:GameObject(textureWidth, textureHeight, textureRow, textureColumn, maxFrame)
@@ -7,8 +8,8 @@ Player::Player(int textureWidth, int textureHeight, int textureRow, int textureC
 
 void Player::MovForward() // ! (Bug)--> Velocity does not decrease
 {
-	acceleration.x = sin(direction) * thrust / mass;
-	acceleration.y = -cos(direction) * thrust / mass;
+	acceleration.x = sin(direction) * thrust;
+	acceleration.y = -cos(direction) * thrust;
 }
 
 void Player::TurnLeft()
@@ -28,8 +29,9 @@ void Player::MovBackward()
 }
 
 void Player::UpdatePhysics() { // Xin Nan part
+	cout << "Friction: " << friction << endl;
 	velocity += acceleration;
-	velocity -= friction * velocity;
+	velocity *= 1 - friction;
 	position += velocity;
 	acceleration = D3DXVECTOR2(0, 0);
 }

@@ -14,6 +14,7 @@
 // include the Direct Input library
 #include <dinput.h>
 #include <ctime>
+#include <vector>
 
 // Input
 #include "Input.h"
@@ -84,6 +85,7 @@ Box* box = new Box();
 // Game Object globals
 Player* F1 = new Player(750, 450, 3, 6, 5);
 Enemy* zombie = new Enemy(3774, 241, 1, 17, 16);
+vector<Enemy> zombie1(1, Enemy(3774, 241, 1, 17, 16)) ;
 
 // Audio globals
 AudioManager* audioManager;
@@ -263,9 +265,10 @@ void InitialiseLevel() {
 	background1->CreateTexture(d3dDevice, "Assets/roadBG.png");
 	F1->CreateTexture(d3dDevice, "Assets/F1.png");
 	zombie->CreateTexture(d3dDevice, "Assets/zombie_idle.png");
-									
+	
 	//  Initialisation
-	F1->Init(D3DXVECTOR2(395, 580), 1.0f, 0.0f, 2.0f, D3DXVECTOR2(0.5f,0.5f),0.05f, 0.001f);
+	F1->Init(D3DXVECTOR2(395, 580), 1.0f, 0.0f, 2.0f, D3DXVECTOR2(0.4f,0.4f),0.05f, 0.01f);
+	
 	zombie->Init(D3DXVECTOR2(200, 200), 0.0f, 0.0f, 1.0f, D3DXVECTOR2(0.2f, 0.2f), 0.0f, 0.001f);
 	box->Init(120, 30, D3DXVECTOR2(10,10));
 	text->Init(0,0,200,200);
@@ -285,7 +288,6 @@ void GetInput()
 	inputS->GetInput(diKeys, DIK_S);
 	inputA->GetInput(diKeys, DIK_A);
 	inputD->GetInput(diKeys, DIK_D);
-
 }
 
 // !! Place to implement
@@ -316,7 +318,7 @@ void Update(int framesToUpdate) {
 		
 		if (CircleCollisionDetection(F1->GetSpriteWidth() / 2, zombie->GetSpriteWidth() / 2, F1->GetPosition() + F1->GetSpriteCentre(), zombie->GetPosition() + zombie->GetSpriteCentre()))
 		{
-			cout << "Collision detected between spaceship" << endl;
+			cout << "Collision occurs" << endl;
 		}
 
 		F1->UpdateAnim();
