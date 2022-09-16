@@ -102,14 +102,14 @@ D3DXVECTOR2 GameObject::GetSpriteCentre()
 
 // Get Sprite Width
 int GameObject::GetSpriteWidth()
-{
-	return spriteWidth;
+{	
+	return spriteWidth * scaling.x;
 }
 
 // Get Sprite Height
 int GameObject::GetSpriteHeight()
 {
-	return spriteHeight;
+	return spriteHeight * scaling.y;
 };
 
 
