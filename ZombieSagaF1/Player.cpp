@@ -27,7 +27,26 @@ void Player::MovBackward()
 	acceleration.y = cos(direction) * thrust / mass;
 }
 
-void Player::IncreaseFrameCounter()
+void Player::UpdatePhysics() { // Xin Nan part
+	velocity += acceleration;
+	velocity -= friction * velocity;
+	position += velocity;
+	acceleration = D3DXVECTOR2(0, 0);
+}
+
+// Update Animation
+void Player::UpdateAnim()
 {
-	frameCounter++;
+	// Crop texture into required rectangle
+	spriteRect.left = frameCounter % textureColumn * spriteWidth;
+	spriteRect.right = spriteRect.left + spriteWidth;
+	spriteRect.top = 0;
+	spriteRect.bottom = spriteRect.top + spriteHeight;
+
+	// If the frame counter exceed max frame set the frame counter back to 0
+	// to loop the animation
+	if (frameCounter > maxFrame)
+	{
+		frameCounter = 0;
+	}
 }

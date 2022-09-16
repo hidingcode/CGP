@@ -14,10 +14,9 @@ public:
 	void TurnRight();
 	// Move the player backward
 	void MovBackward();
-	// Increase the frame counter to animate the game object
-	void IncreaseFrameCounter();
-
-private:
-
+	// Update Physics
+	void UpdatePhysics();
+	// Update Animation
+	void UpdateAnim();
 };
 

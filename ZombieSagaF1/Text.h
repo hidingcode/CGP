@@ -7,7 +7,11 @@ using namespace std;
 class Text
 {
 public:
+	// Constructor
 	Text();
+	Text(LPDIRECT3DDEVICE9 pDevice, INT Height, UINT Width, UINT Weight,
+		UINT MipLevels, BOOL Italic, DWORD CharSet, DWORD OuptPrecision, DWORD Quality,
+		DWORD PitchAndFamily, LPCSTR pFaceName, LPD3DXFONT* ppFont);
 	// Create Font Type
 	void CreateFontType(IDirect3DDevice9* d3dDevice, LPCSTR fontType);
 	// Initialise Text 

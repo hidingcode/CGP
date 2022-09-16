@@ -2,13 +2,13 @@
 
 Text::Text()
 {
-
 }
 
 void Text::CreateFontType(IDirect3DDevice9* d3dDevice, LPCSTR fontType)
 {
 	HRESULT hr = D3DXCreateFont(d3dDevice, 25, 0, 0, 1, false, DEFAULT_CHARSET, OUT_TT_ONLY_PRECIS, DEFAULT_QUALITY,
 		DEFAULT_PITCH | FF_DONTCARE, fontType, &font);
+
 
 	if (FAILED(hr)) {
 		cout << "Create font failed" << endl;

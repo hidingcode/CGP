@@ -17,7 +17,8 @@ GameObject::GameObject(int textureWidth, int textureHeight, int textureRow, int 
 }
 
 // Initialise Game Object
-void GameObject::Init(D3DXVECTOR2 position, float thrust, float direction, float mass, D3DXVECTOR2 scaling, float rotationSpeed, float friction)
+void GameObject::Init(D3DXVECTOR2 position, float thrust, float direction, float mass, 
+	D3DXVECTOR2 scaling, float rotationSpeed, float friction)
 {	
 	// Calculate Sprite Width and Spite Height
 	spriteWidth = textureWidth / textureColumn;
@@ -38,7 +39,7 @@ void GameObject::Init(D3DXVECTOR2 position, float thrust, float direction, float
 
 	this->scaling = scaling;
 	// Caculate the sprite centre by dividing the sprite widht and sprite height by 2
-	spriteCentre = D3DXVECTOR2(spriteWidth / 2.0f, spriteHeight / 2.0f);
+	spriteCentre = D3DXVECTOR2(spriteWidth * scaling.x / 2, spriteHeight * scaling.y / 2);
 	this->rotationSpeed = rotationSpeed;
 }
 
@@ -60,31 +61,6 @@ void GameObject::CheckBoundary(int WindowWidth, int WindowHeight) {
 		velocity.y *= -1;
 	}
 }
-
-// Update Physics
-void GameObject::UpdatePhysics() { // Xin Nan part
-	velocity += acceleration;
-	velocity -=  friction * velocity;
-	position += velocity;
-	acceleration = D3DXVECTOR2(0, 0);
-}
-
-// Update Animation
-void GameObject::UpdateAnim()
-{
-	// Crop texture into required rectangle
-	spriteRect.left = frameCounter % textureColumn * spriteWidth;
-	spriteRect.right = spriteRect.left + spriteWidth;
-	spriteRect.top = 0;
-	spriteRect.bottom = spriteRect.top + spriteHeight;
-
-	// If the frame counter exceed max frame set the frame counter back to 0
-	// to loop the animation
-	if (frameCounter > maxFrame)
-	{
-		frameCounter = 0;
-	}
-}
  
 // Render the image
 void GameObject::Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat)
@@ -95,10 +71,15 @@ void GameObject::Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat)
 	spriteBrush->SetTransform(mat);
 
 	// Draw the sprite
-	HRESULT hr = spriteBrush->Draw(texture, &spriteRect,NULL,NULL, D3DCOLOR_XRGB(255, 255, 255));
+	HRESULT hr = spriteBrush->Draw(texture, &spriteRect,NULL, NULL, D3DCOLOR_XRGB(255, 255, 255));
 	if (FAILED(hr)) {
-		cout << "Draw failed" << endl;
+		cout << "Draw Game Object failed" << endl;
 	}
+}
+
+void GameObject::IncreaseFrameCounter()
+{
+	frameCounter++;
 }
 
 // Get Game Object Texture

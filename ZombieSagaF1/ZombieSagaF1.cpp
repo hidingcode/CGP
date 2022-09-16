@@ -26,8 +26,8 @@
 #include "Box.h"
 
 // Game Object 
-#include "GameObject.h"
 #include "Player.h"
+#include "Enemy.h"
 
 // Frame Timer
 #include "FrameTimer.h"
@@ -76,7 +76,6 @@ Input* inputD = new Input();
 
 // Background globals
 Background* background1 = new Background(840, 650);
-Background* background2 = new Background(840, 650);
 
 // Text and Box globals
 Text* text = new Text();
@@ -84,6 +83,7 @@ Box* box = new Box();
 
 // Game Object globals
 Player* F1 = new Player(750, 450, 3, 6, 5);
+Enemy* zombie = new Enemy(3774, 241, 1, 17, 16);
 
 // Audio globals
 AudioManager* audioManager;
@@ -261,13 +261,14 @@ void InitialiseLevel() {
 
 	//	Create texture
 	background1->CreateTexture(d3dDevice, "Assets/roadBG.png");
-	background2->CreateTexture(d3dDevice, "Assets/roadBG.png");
 	F1->CreateTexture(d3dDevice, "Assets/F1.png");
+	zombie->CreateTexture(d3dDevice, "Assets/zombie_idle.png");
 									
-	// F1 car (player) initialisation
+	//  Initialisation
 	F1->Init(D3DXVECTOR2(395, 580), 1.0f, 0.0f, 2.0f, D3DXVECTOR2(0.4f,0.4f),0.05f, 0.001f);
-	box->Init(150,50,D3DXVECTOR2(0,0));
-	text->Init(0,0,100,100);
+	zombie->Init(D3DXVECTOR2(200, 200), 0.0f, 0.0f, 1.0f, D3DXVECTOR2(1.0f, 1.0f), 0.0f, 0.001f);
+	box->Init(120, 30, D3DXVECTOR2(10,10));
+	text->Init(0,0,200,200);
 }
 
 void GetInput()
@@ -313,13 +314,14 @@ void Update(int framesToUpdate) {
 			F1->TurnRight();
 		}
 		
-		//if (CircleCollisionDetection(F1->GetSpriteWidth() / 2, playerSpriteWidth / 2, F1->GetPosition() + F1->GetSpriteCentre(), player2Position + player2SpriteCentre))
-		//{
-		//	cout << "Collision detected between spaceship" << endl;
-		//}
+		if (CircleCollisionDetection(F1->GetSpriteWidth() / 2, zombie->GetSpriteWidth() / 2, F1->GetPosition() + F1->GetSpriteCentre(), zombie->GetPosition() + zombie->GetSpriteCentre()))
+		{
+			cout << "Collision detected between spaceship" << endl;
+		}
 
 		F1->UpdateAnim();
 		F1->UpdatePhysics();
+		zombie->UpdateAnim();
 		F1->CheckBoundary(WindowWidth, WindowHeight);
 
 	}
@@ -343,21 +345,24 @@ void Render() {
 	D3DXMATRIX mat;
 	
 	// Draw background
-	//background1->Render(spriteBrush, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 0));
-	//background2->Render(spriteBrush, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 650));
+	background1->Render(spriteBrush, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 0));
+	/*background2->Render(spriteBrush, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 650));*/
 	
 	// Draw F1
 	F1->Render(spriteBrush, &mat);
-
-	// Draw Box
-	box->Render(line, D3DCOLOR_XRGB(255, 0, 0));
 	
+	// Zombie 
+	zombie->Render(spriteBrush, &mat);
+
 	// Draw Text
-	text->Render(spriteBrush, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 0), 0.0f, 
-		"Score:", D3DCOLOR_XRGB(0,0,0));
+	text->Render(spriteBrush, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(1, 1), box->GetBoxPosition(), 0.0f,
+		"Score: 1000", D3DCOLOR_XRGB(0,0,0));
 	
 	//	End sprite drawing
 	spriteBrush->End();
+
+	// Draw Box
+	box->Render(line, D3DCOLOR_XRGB(255, 0, 0));
 
 	//	End the scene
 	d3dDevice->EndScene();
