@@ -267,7 +267,7 @@ void InitialiseLevel() {
 	zombie->CreateTexture(d3dDevice, "Assets/zombie_idle.png");
 	
 	//  Initialisation
-	F1->Init(D3DXVECTOR2(395, 580), 1.0f, 0.0f, 2.0f, D3DXVECTOR2(0.4f,0.4f),0.05f, 0.01f);
+	F1->Init(D3DXVECTOR2(395, 580), 1.0f, 0.0f, 2.0f, D3DXVECTOR2(0.4f,0.4f),0.05f, 0.05f);
 	
 	zombie->Init(D3DXVECTOR2(200, 200), 0.0f, 0.0f, 1.0f, D3DXVECTOR2(0.2f, 0.2f), 0.0f, 0.001f);
 	box->Init(120, 30, D3DXVECTOR2(10,10));
