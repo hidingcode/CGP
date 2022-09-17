@@ -324,14 +324,12 @@ void Update(int framesToUpdate) {
 			F1->TurnRight();
 		}
 		
-
-		if (CircleCollisionDetection(F1->GetSpriteWidth() / 2, zombie[i].GetSpriteWidth() / 2, F1->GetPosition() + F1->GetSpriteCentre(), zombie[i].GetPosition() + zombie[i].GetSpriteCentre()))
-		{
-			cout << "Collision occurs" << endl;
-		}
-
 		for (int i = 0; i < spawnNum; i++)
 		{
+			if (CircleCollisionDetection(F1->GetSpriteWidth() / 2, zombie[i].GetSpriteWidth() / 2, F1->GetPosition() + F1->GetSpriteCentre(), zombie[i].GetPosition() + zombie[i].GetSpriteCentre()))
+			{
+				cout << "Collision occurs" << endl;
+			}
 			zombie[i].UpdateAnim();
 		}
 
@@ -442,6 +440,7 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 		Update(timer->FramesToUpdate());
 		Render();
 	}
+
 	CleanupMyLevel();
 	CleanupMyDirectInput();
 	CleanupMyDx();

@@ -41,6 +41,9 @@ public:
 
 	// Get Sprite Height
 	int GetSpriteHeight();
+
+	// Get Sprite Height
+	D3DXVECTOR2 GetPlayerVelocity();
 	
 protected:
 	// Game Object Texture

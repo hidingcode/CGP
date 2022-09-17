@@ -109,6 +109,11 @@ int GameObject::GetSpriteWidth()
 int GameObject::GetSpriteHeight()
 {
 	return spriteHeight * scaling.y;
-};
+}
+D3DXVECTOR2 GameObject::GetPlayerVelocity()
+{
+	return velocity;
+}
+
 
 
