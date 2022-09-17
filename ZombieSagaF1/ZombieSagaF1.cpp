@@ -82,10 +82,12 @@ Background* background1 = new Background(840, 650);
 Text* text = new Text();
 Box* box = new Box();
 
+// Number of zombie that will be spawn in the game
+const int spawnNum = 10;
+
 // Game Object globals
-Player* F1 = new Player(750, 450, 3, 6, 5);
-Enemy* zombie = new Enemy(3774, 241, 1, 17, 16);
-vector<Enemy> zombie1(1, Enemy(3774, 241, 1, 17, 16)) ;
+Player* F1 = new Player(768, 450, 3, 6, 5);
+Enemy zombie[spawnNum];
 
 // Audio globals
 AudioManager* audioManager;
@@ -264,14 +266,20 @@ void InitialiseLevel() {
 	//	Create texture
 	background1->CreateTexture(d3dDevice, "Assets/roadBG.png");
 	F1->CreateTexture(d3dDevice, "Assets/F1.png");
-	zombie->CreateTexture(d3dDevice, "Assets/zombie_idle.png");
-	
+
 	//  Initialisation
 	F1->Init(D3DXVECTOR2(395, 580), 1.0f, 0.0f, 2.0f, D3DXVECTOR2(0.4f,0.4f),0.05f, 0.05f);
-	
-	zombie->Init(D3DXVECTOR2(200, 200), 0.0f, 0.0f, 1.0f, D3DXVECTOR2(0.2f, 0.2f), 0.0f, 0.001f);
 	box->Init(120, 30, D3DXVECTOR2(10,10));
 	text->Init(0,0,200,200);
+	
+	for (int i = 0; i < spawnNum; i++)
+	{
+		zombie[i] = Enemy(3774, 241, 1, 17, 16);
+		zombie[i].CreateTexture(d3dDevice, "Assets/zombie_idle.png");
+		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (WindowWidth - zombie[i].GetSpriteWidth()), rand() % (WindowHeight - zombie[i].GetSpriteHeight()));
+		zombie[i].Init(randomSpawn, 0.0f, 0.0f, 1.0f, D3DXVECTOR2(0.4f, 0.4f), 0.0f, 0.001f);
+	}
+
 }
 
 void GetInput()
@@ -316,14 +324,19 @@ void Update(int framesToUpdate) {
 			F1->TurnRight();
 		}
 		
-		if (CircleCollisionDetection(F1->GetSpriteWidth() / 2, zombie->GetSpriteWidth() / 2, F1->GetPosition() + F1->GetSpriteCentre(), zombie->GetPosition() + zombie->GetSpriteCentre()))
+
+		if (CircleCollisionDetection(F1->GetSpriteWidth() / 2, zombie[i].GetSpriteWidth() / 2, F1->GetPosition() + F1->GetSpriteCentre(), zombie[i].GetPosition() + zombie[i].GetSpriteCentre()))
 		{
 			cout << "Collision occurs" << endl;
 		}
 
+		for (int i = 0; i < spawnNum; i++)
+		{
+			zombie[i].UpdateAnim();
+		}
+
 		F1->UpdateAnim();
 		F1->UpdatePhysics();
-		zombie->UpdateAnim();
 		F1->CheckBoundary(WindowWidth, WindowHeight);
 
 	}
@@ -352,9 +365,11 @@ void Render() {
 	
 	// Draw F1
 	F1->Render(spriteBrush, &mat);
-	
-	// Zombie 
-	zombie->Render(spriteBrush, &mat);
+
+	for (int i = 0; i < spawnNum; i++)
+	{
+		zombie[i].Render(spriteBrush, &mat);
+	}
 
 	// Draw Text
 	text->Render(spriteBrush, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(1, 1), box->GetBoxPosition(), 0.0f,
@@ -404,6 +419,7 @@ void CleanupMyDirectInput()
 void CleanupMyWindow() {
 	UnregisterClass(wndClass.lpszClassName, GetModuleHandle(NULL)); // Delete window class
 }
+
 //	use WinMain if you don't want the console
 int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) // WinMain is a function in WINAPI
 {
@@ -421,7 +437,7 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 
 	timer->Init(20);
 	while (WindowIsRunning())
-	{	
+	{
 		GetInput();
 		Update(timer->FramesToUpdate());
 		Render();

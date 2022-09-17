@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <d3dx9.h>
 #include <iostream>
+using namespace std;
 
 class GameObject
 {

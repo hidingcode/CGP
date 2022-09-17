@@ -18,5 +18,7 @@ public:
 	void UpdatePhysics();
 	// Update Animation
 	void UpdateAnim();
+	// Render the image
+	void Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat);
 };
 
