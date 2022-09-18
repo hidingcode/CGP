@@ -21,4 +21,7 @@ public:
 	void LoadSounds();
 	void UpdateSound();
 	void PlayCollision();
+
+	AudioManager();
+	~AudioManager();
 };

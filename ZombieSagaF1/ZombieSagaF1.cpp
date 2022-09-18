@@ -346,7 +346,7 @@ void Update(int framesToUpdate) {
 				{
 					F1->SetVelocity(F1->GetVelocity() / 2);
 					cout << "Collision occurs" << endl;
-
+					audioManager->PlayCollision();
 					// Final Velocity of F1 after collision
 					D3DXVECTOR2 f1FVelocity = F1->GetVelocity() * (F1->GetMass() - zombie[i].GetMass()) + 2 * zombie[i].GetMass() * zombie[i].GetVelocity() / (F1->GetMass() + zombie[i].GetMass());
 
