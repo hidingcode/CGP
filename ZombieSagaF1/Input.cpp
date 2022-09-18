@@ -26,3 +26,4 @@ bool Input::GetKeyPressed()
 {
 	return isKeyPressed;
 }
+
