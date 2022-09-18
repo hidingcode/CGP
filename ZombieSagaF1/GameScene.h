@@ -6,7 +6,8 @@ class GameScene
 public: 
 	enum GameMode
 	{
-		GM_MENU,GM_GAMEPLAY,
+		GM_MENU,
+		GM_GAMEPLAY,
 	};
 
 	GameMode current_gamemode;

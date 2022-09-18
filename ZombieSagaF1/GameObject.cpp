@@ -60,7 +60,16 @@ void GameObject::CheckBoundary(int WindowWidth, int WindowHeight) {
 		velocity.y *= -1;
 	}
 }
- 
+
+void GameObject::UpdatePhysics() // Xin Nan part
+{ 
+	velocity += acceleration;
+	velocity *= 1 - friction;
+
+	position += velocity;
+	acceleration = D3DXVECTOR2(0, 0);
+}
+
 // Render the image
 void GameObject::Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat)
 {	
@@ -99,6 +108,16 @@ D3DXVECTOR2 GameObject::GetSpriteCentre()
 	return spriteCentre;
 }
 
+D3DXVECTOR2 GameObject::GetVelocity()
+{
+	return velocity;
+}
+
+void GameObject::SetVelocity(D3DXVECTOR2 velocity)
+{
+	this->velocity = velocity;
+}
+
 // Get Sprite Width
 int GameObject::GetSpriteWidth()
 {	
@@ -110,9 +129,10 @@ int GameObject::GetSpriteHeight()
 {
 	return spriteHeight * scaling.y;
 }
-D3DXVECTOR2 GameObject::GetPlayerVelocity()
+
+int GameObject::GetMass()
 {
-	return velocity;
+	return mass;
 }
 
 

@@ -11,6 +11,7 @@ public:
 	void UpdateAnim();
 	// Render the image
 	void Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat);
-	void UpdatePhysics(float pushX, float pushY);
+	// Prevent the Game Object from going out the screen
+	void CheckBoundary(int WindowWidth, int WindowHeight);
 };
 

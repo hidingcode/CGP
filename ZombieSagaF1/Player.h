@@ -14,8 +14,6 @@ public:
 	void TurnRight();
 	// Move the player backward
 	void MovBackward();
-	// Update Physics
-	void UpdatePhysics(float pushX, float pushY);
 	// Update Animation
 	void UpdateAnim();
 	// Render the image
