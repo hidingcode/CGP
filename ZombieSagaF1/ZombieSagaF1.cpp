@@ -276,6 +276,7 @@ void CreateMyDirectInput()
 // !! Place to implement
 void InitialiseLevel() {
 	audioManager->PlaySoundTrack();
+	audioManager->PlayCarSound();
 	srand(time(0));
 
 	//	Create texture
@@ -316,36 +317,44 @@ void GetInput()
 	inputD->GetInput(diKeys, DIK_D);
 }
 
-void CheckInput()
+void CarMoving()
 {
-	if (inputW->GetKeyPressed()) {
-		F1->MovForward();
-		F1->IncreaseFrameCounter();
+	if (inputW->GetKeyPressed() == true || inputS->GetKeyPressed() == true)
+	{
+		bool pause = false;
+		audioManager->ChangeState(pause);
 	}
 
-	if (inputS->GetKeyPressed()) {
-		F1->MovBackward();
-	}
-
-	if (inputA->GetKeyPressed()) {
-		F1->TurnLeft();
-	}
-
-	if (inputD->GetKeyPressed()) {
-		F1->TurnRight();
+	else
+	{
+		cout << "i am not doing anything" << endl;
+		bool pause = true;
+		audioManager->ChangeState(pause);
 	}
 }
 
 void Update(int framesToUpdate) {
 	audioManager->UpdateSound();
+	CarMoving();
 	
 	for (int i = 0; i < framesToUpdate; i++) {
-		CheckInput();
+		if (inputW->GetKeyPressed()) {
+			F1->MovForward();
+			F1->IncreaseFrameCounter();	
+		}
 
-		F1->UpdateAnim();
-		F1->UpdatePhysics();
-		F1->CheckBoundary(WindowWidth, WindowHeight);
+		if (inputS->GetKeyPressed()) {
+			F1->MovBackward();
+		}
 
+		if (inputA->GetKeyPressed()) {
+			F1->TurnLeft();
+		}
+
+		if (inputD->GetKeyPressed()) {
+			F1->TurnRight();
+		}
+	;
 		for (int i = 0; i < spawnNum; i++)
 		{	
 			if (zombie[i].GetHP() <= 0)
@@ -375,6 +384,10 @@ void Update(int framesToUpdate) {
 			zombie[i].UpdateAnim();
 			zombie[i].CheckBoundary(WindowWidth, WindowHeight);
 		}
+
+		F1->UpdateAnim();
+		F1->UpdatePhysics();
+		F1->CheckBoundary(WindowWidth, WindowHeight);
 	}
 	inputW->SetKeyPressed(false);
 	inputA->SetKeyPressed(false);
@@ -500,3 +513,4 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 
 	return 0;
 }
+

@@ -6,11 +6,10 @@ void AudioManager::InitializeAudio()
 	result = system->init(32, FMOD_INIT_NORMAL, extradriverdata);
 }
 
-void AudioManager::PlaySound1()
+void AudioManager::PlayCarSound()
 {	
-	result = system->playSound(sound1, 0, false, &channel);
-
-	channel->setVolume(0.1);
+	result = system->playSound(sound1, 0, false, &channel3);
+	/*channel->setVolume(0);*/
 }
 
 void AudioManager::PlaySoundTrack()
@@ -28,7 +27,9 @@ void AudioManager::PlayCollision()
 void AudioManager::LoadSounds()
 {
 	result = system->createSound("Assets/carSound.mp3", FMOD_DEFAULT, 0, &sound1);
-	result = sound1->setMode(FMOD_LOOP_OFF);
+	result = sound1->setMode(FMOD_LOOP_NORMAL);
+	result = sound2->setLoopCount(-1);
+	
 
 	result = system->createStream("Assets/gameMusic.wav", FMOD_DEFAULT, 0, &sound2);
 	// Allow the sound to be loopable
@@ -49,26 +50,27 @@ void AudioManager::UpdateSound()
 
 AudioManager::AudioManager()
 {
+
 }
 
 AudioManager::~AudioManager()
 {
 }
 
-/*
-void AudioManager::ChangeState(boolean pause)
+
+
+void AudioManager::ChangeState(bool pause)
 {
 	if (pause == true)
 	{
 		//pause the music
-		result = setPaused(true);
-		;
+		result = channel3->setPaused(true);
 	}
 	else
 	{
 		//resume the music
-		;
+		result = channel3->setPaused(false);
 	}
 
 }
-*/
+
