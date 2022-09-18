@@ -1,8 +1,8 @@
 #include "MainMenu.h"
 
 Background* mainMenu = new Background(842, 651);
-Background* startButton = new Background(842, 651);
-Background* quitButton = new Background(842, 651);
+Background* startButton = new Background(300, 300);
+Background* quitButton = new Background(300, 300);
 
 MainMenu::MainMenu()
 {
@@ -11,8 +11,8 @@ MainMenu::MainMenu()
 
 void MainMenu::CreateTexture(IDirect3DDevice9* d3dDevice, LPCSTR textureFilePath)
 {	
-	startButton->CreateTexture(d3dDevice, "Assets/roadBG.png");
-	quitButton->CreateTexture(d3dDevice, "Assets/roadBG.png");
+	startButton->CreateTexture(d3dDevice, "Assets/startButton.png");
+	quitButton->CreateTexture(d3dDevice, "Assets/quitButton.png");
 }
 
 // Render the image

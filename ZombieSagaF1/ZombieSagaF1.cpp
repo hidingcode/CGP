@@ -339,19 +339,25 @@ void Update(int framesToUpdate) {
 	
 	for (int i = 0; i < framesToUpdate; i++) {
 		if (inputW->GetKeyPressed()) {
+			F1->SetForward();
 			F1->MovForward();
-			F1->IncreaseFrameCounter();	
+			F1->IncreaseFrameCounter();
+			
 		}
 
 		if (inputS->GetKeyPressed()) {
+			F1->SetForward();
 			F1->MovBackward();
+			F1->IncreaseFrameCounter();
 		}
 
 		if (inputA->GetKeyPressed()) {
+			F1->SetLeft();
 			F1->TurnLeft();
 		}
 
 		if (inputD->GetKeyPressed()) {
+			F1->SetRight();
 			F1->TurnRight();
 		}
 	;
