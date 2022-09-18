@@ -36,6 +36,11 @@
 // Audio Library
 #include "AudioManager.h"
 
+// Game State
+#include "GameState.h"
+#include "MainMenu.h"
+#include "Level1.h"
+
 using namespace std;
 
 #define WindowWidth 840
@@ -425,6 +430,12 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 	CreateMyDX();
 	CreateMyDirectInput();
 
+	GameState mainmenu = GameState();
+	GameState level1 = GameState();
+	vector<GameState*> gameState = {&mainmenu, &level1};
+	/*gameState.push_back(&mainmenu);
+	gameState.push_back(&level1);*/
+
 	audioManager = new AudioManager();
 	audioManager->InitializeAudio();
 	audioManager->LoadSounds();
@@ -435,10 +446,13 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 
 	timer->Init(20);
 	while (WindowIsRunning())
-	{
-		GetInput();
-		Update(timer->FramesToUpdate());
-		Render();
+	{	
+		/*gameState.front()->GetInput();*/
+		gameState.front()->Update("test");
+		/*gameState.front()->Render();*/
+		//GetInput();
+		//Update(timer->FramesToUpdate());
+		//Render();
 	}
 
 	CleanupMyLevel();

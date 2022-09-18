@@ -140,10 +140,12 @@
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Background.h" />
     <ClInclude Include="FrameTimer.h" />
-    <ClInclude Include="GameLevelManager.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Box.h" />
+    <ClInclude Include="Level1.h" />
+    <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Enemy.h" />
@@ -152,10 +154,12 @@
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="FrameTimer.cpp" />
-    <ClCompile Include="GameLevelManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Box.cpp" />
+    <ClCompile Include="Level1.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Enemy.cpp" />
