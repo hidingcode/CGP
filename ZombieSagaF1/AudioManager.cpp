@@ -9,6 +9,7 @@ void AudioManager::InitializeAudio()
 void AudioManager::PlaySound1()
 {	
 	result = system->playSound(sound1, 0, false, &channel);
+
 	/*channel->setVolume(0);*/
 }
 
@@ -18,10 +19,16 @@ void AudioManager::PlaySoundTrack()
 	channel->setVolume(0.1);
 }
 
+void AudioManager::PlayCollision()
+{
+	result = system->playSound(sound3, 0, false, &channel);
+	/*channel->setVolume(0);*/
+}
+
 void AudioManager::LoadSounds()
 {
-	result = system->createSound("Assets/bomb.wav", FMOD_DEFAULT, 0, &sound1);
-	result = sound1->setMode(FMOD_LOOP_NORMAL);
+	result = system->createSound("Assets/crashSound.mp3", FMOD_DEFAULT, 0, &sound1);
+	result = sound1->setMode(FMOD_LOOP_OFF);
 	
 
 	result = system->createStream("Assets/gameMusic.wav", FMOD_DEFAULT, 0, &sound2);
@@ -29,6 +36,14 @@ void AudioManager::LoadSounds()
 	result = sound2->setMode(FMOD_LOOP_NORMAL);
 	// Set the sound to keep looping
 	result = sound2->setLoopCount(-1);
+	//FMOD_RESULT = result, sound = sound123, setLoopCount(-1)
+
+	result = system->createSound("Assests/crashSound.mp3", FMOD_DEFAULT, 0, &sound3);
+	result = sound3->setMode(FMOD_LOOP_OFF);
+	
+
+	
+
 }
 
 void AudioManager::UpdateSound()
@@ -43,3 +58,21 @@ AudioManager::AudioManager()
 AudioManager::~AudioManager()
 {
 }
+
+/*
+void AudioManager::ChangeState(boolean pause)
+{
+	if (pause == true)
+	{
+		//pause the music
+		result = setPaused(true);
+		;
+	}
+	else
+	{
+		//resume the music
+		;
+	}
+
+}
+*/

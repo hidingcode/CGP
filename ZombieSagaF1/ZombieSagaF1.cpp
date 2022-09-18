@@ -309,6 +309,7 @@ void GetInput()
 void Update(int framesToUpdate) {
 	audioManager->UpdateSound();
 	
+	
 	for (int i = 0; i < framesToUpdate; i++) {
 		/*counter++;*/
 		
@@ -356,6 +357,7 @@ void Update(int framesToUpdate) {
 
 				F1->SetVelocity(f1FVelocity);
 				zombie[i].SetVelocity(zombieFVelocity);
+				audioManager->PlayCollision();
 			}
 			zombie[i].UpdatePhysics();
 			zombie[i].UpdateAnim();
