@@ -303,28 +303,36 @@ void GetInput()
 	inputD->GetInput(diKeys, DIK_D);
 }
 
+void CheckInput()
+{
+	if (inputW->GetKeyPressed()) {
+		F1->MovForward();
+		F1->IncreaseFrameCounter();
+	}
+
+	if (inputS->GetKeyPressed()) {
+		F1->MovBackward();
+	}
+
+	if (inputA->GetKeyPressed()) {
+		F1->TurnLeft();
+	}
+
+	if (inputD->GetKeyPressed()) {
+		F1->TurnRight();
+	}
+}
+
 void Update(int framesToUpdate) {
 	audioManager->UpdateSound();
 	
-	
 	for (int i = 0; i < framesToUpdate; i++) {
-		if (inputW->GetKeyPressed()) {
-			F1->MovForward();
-			F1->IncreaseFrameCounter();	
-		}
+		CheckInput();
 
-		if (inputS->GetKeyPressed()) {
-			F1->MovBackward();
-		}
+		F1->UpdateAnim();
+		F1->UpdatePhysics();
+		F1->CheckBoundary(WindowWidth, WindowHeight);
 
-		if (inputA->GetKeyPressed()) {
-			F1->TurnLeft();
-		}
-
-		if (inputD->GetKeyPressed()) {
-			F1->TurnRight();
-		}
-	;
 		for (int i = 0; i < spawnNum; i++)
 		{	
 			if (zombie[i].GetHP() <= 0)
@@ -354,10 +362,6 @@ void Update(int framesToUpdate) {
 			zombie[i].UpdateAnim();
 			zombie[i].CheckBoundary(WindowWidth, WindowHeight);
 		}
-
-		F1->UpdateAnim();
-		F1->UpdatePhysics();
-		F1->CheckBoundary(WindowWidth, WindowHeight);
 	}
 	inputW->SetKeyPressed(false);
 	inputA->SetKeyPressed(false);
