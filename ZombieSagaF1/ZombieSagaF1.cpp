@@ -89,7 +89,7 @@ Text* text = new Text();
 Box* box = new Box();
 
 // Number of zombie that will be spawn in the game
-const int spawnNum = 2;
+const int spawnNum = 10;
 
 // Game Object globals
 Player* F1 = new Player(768, 450, 3, 6, 5);
@@ -98,10 +98,6 @@ Enemy zombie[spawnNum];
 // Audio globals
 AudioManager* audioManager;
 
-//global stuff for checking collision
-boolean collision = false;
-
-// !! Place to implement
 bool CircleCollisionDetection(int radiusA, int radiusB, D3DXVECTOR2 positionA, D3DXVECTOR2 positionB)
 {
 	D3DXVECTOR2 distance = positionA - positionB;
@@ -267,7 +263,6 @@ void CreateMyDirectInput()
 
 // !! Place to implement
 void InitialiseLevel() {
-
 	audioManager->PlaySoundTrack();
 	srand(time(0));
 
@@ -284,8 +279,10 @@ void InitialiseLevel() {
 	{
 		zombie[i] = Enemy(3774, 241, 1, 17, 16);
 		zombie[i].CreateTexture(d3dDevice, "Assets/zombie_idle.png");
-		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (WindowWidth - zombie[i].GetSpriteWidth()), rand() % (WindowHeight - zombie[i].GetSpriteHeight()));
-		zombie[i].Init(randomSpawn, 0.0f, 0.0f, 1.0f, D3DXVECTOR2(0.3f, 0.3f), 0.0f, 0.01f);
+
+		cout << WindowWidth - zombie[i].GetSpriteWidth() << endl;
+		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (WindowWidth - zombie[i].GetSpriteWidth() - 100), rand() % (WindowHeight - zombie[i].GetSpriteHeight() - 100));
+		zombie[i].Init(randomSpawn, 0.0f, 0.0f, 1.0f, D3DXVECTOR2(0.3f, 0.3f), 0.0f, 0.01f, 20);
 	}
 }
 
@@ -305,18 +302,11 @@ void GetInput()
 	inputD->GetInput(diKeys, DIK_D);
 }
 
-// !! Place to implement
 void Update(int framesToUpdate) {
 	audioManager->UpdateSound();
 	
 	for (int i = 0; i < framesToUpdate; i++) {
-		/*counter++;*/
-		
-
 		if (inputW->GetKeyPressed()) {
-			/*if (counter % timer->getFPS() / player1SpriteFPS) {
-				player1FrameCounter++
-			}*/
 			F1->MovForward();
 			F1->IncreaseFrameCounter();	
 		}
@@ -332,30 +322,31 @@ void Update(int framesToUpdate) {
 		if (inputD->GetKeyPressed()) {
 			F1->TurnRight();
 		}
-		
-		F1->SetVelocity(F1->GetVelocity());
-
+	;
 		for (int i = 0; i < spawnNum; i++)
-		{
-			//if (zombie[i].GetPosition().x == NULL || zombie[i].GetPosition().y == NULL)
-			//{
+		{	
+			if (zombie[i].GetHP() <= 0)
+			{
+				zombie[i].~Enemy();
+			}
 
-			//}
-			cout << "Velocity: " << zombie[i].GetVelocity().x << endl;
+			if (zombie[i].GetHP() > 0)
+			{
+				if (CircleCollisionDetection(F1->GetSpriteWidth() / 2, zombie[i].GetSpriteWidth() / 2, F1->GetPosition() + F1->GetSpriteCentre(), zombie[i].GetPosition() + zombie[i].GetSpriteCentre()))
+				{
+					F1->SetVelocity(F1->GetVelocity() / 2);
+					cout << "Collision occurs" << endl;
 
-			if (CircleCollisionDetection(F1->GetSpriteWidth() / 2, zombie[i].GetSpriteWidth() / 2, F1->GetPosition() + F1->GetSpriteCentre(), zombie[i].GetPosition() + zombie[i].GetSpriteCentre()))
-			{	
-				F1->SetVelocity(F1->GetVelocity() / 2);
-				cout << "Collision occurs" << endl;
-				
-				// Final Velocity of F1 after collision
-				D3DXVECTOR2 f1FVelocity = F1->GetVelocity() * (F1->GetMass() - zombie[i].GetMass()) + 2 * zombie[i].GetMass() * zombie[i].GetVelocity() / (F1->GetMass() + zombie[i].GetMass());
-				
-				// Final Velocity of zombie after collision
-				D3DXVECTOR2 zombieFVelocity = zombie[i].GetVelocity() * (zombie[i].GetMass() - F1->GetMass()) + 2 * F1->GetMass() * F1->GetVelocity() / (F1->GetMass() + zombie[i].GetMass());
+					// Final Velocity of F1 after collision
+					D3DXVECTOR2 f1FVelocity = F1->GetVelocity() * (F1->GetMass() - zombie[i].GetMass()) + 2 * zombie[i].GetMass() * zombie[i].GetVelocity() / (F1->GetMass() + zombie[i].GetMass());
 
-				F1->SetVelocity(f1FVelocity);
-				zombie[i].SetVelocity(zombieFVelocity);
+					// Final Velocity of zombie after collision
+					D3DXVECTOR2 zombieFVelocity = zombie[i].GetVelocity() * (zombie[i].GetMass() - F1->GetMass()) + 2 * F1->GetMass() * F1->GetVelocity() / (F1->GetMass() + zombie[i].GetMass());
+
+					F1->SetVelocity(f1FVelocity);
+					zombie[i].SetVelocity(zombieFVelocity);
+					zombie[i].DecreaseHP(1);
+				}
 			}
 			zombie[i].UpdatePhysics();
 			zombie[i].UpdateAnim();
@@ -370,13 +361,6 @@ void Update(int framesToUpdate) {
 	inputA->SetKeyPressed(false);
 	inputS->SetKeyPressed(false);
 	inputD->SetKeyPressed(false);
-
-	collision = false;
-}
-
-void BeingCollided()
-{
-	
 }
 
 void Render() {
@@ -394,19 +378,23 @@ void Render() {
 	
 	// Draw background
 	background1->Render(spriteBrush, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 0));
+	// parallex scrolling
 	/*background2->Render(spriteBrush, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 650));*/
 	
 	// Draw F1
 	F1->Render(spriteBrush, &mat);
-
+	
 	for (int i = 0; i < spawnNum; i++)
-	{
-		zombie[i].Render(spriteBrush, &mat);
+	{	
+		if(zombie[i].GetHP() > 0)
+		{
+			zombie[i].Render(spriteBrush, &mat);
+		}
 	}
 
 	// Draw Text
 	text->Render(spriteBrush, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(1, 1), box->GetBoxPosition(), 0.0f,
-		"Score: 1000", D3DCOLOR_XRGB(0,0,0));
+		"Score: ", D3DCOLOR_XRGB(0, 0, 0));
 	
 	//	End sprite drawing
 	spriteBrush->End();

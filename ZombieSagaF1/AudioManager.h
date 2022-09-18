@@ -10,13 +10,14 @@ public:
 	FMOD_RESULT	result;
 	void* extradriverdata = 0;
 
+	// Constructor
+	AudioManager();
+	// Destructor
+	~AudioManager();
+	
 	void InitializeAudio();
 	void PlaySound1();
 	void PlaySoundTrack();
 	void LoadSounds();
-	void GetSoundLength();
 	void UpdateSound();
-
-	AudioManager();
-	~AudioManager();
 };

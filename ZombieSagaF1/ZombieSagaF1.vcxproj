@@ -153,7 +153,7 @@
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="FrameTimer.cpp" />
-    <ClCompile Include="GameLevelManager.cpp" />
+    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Input.cpp" />

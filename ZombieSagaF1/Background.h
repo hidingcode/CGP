@@ -6,7 +6,8 @@ class Background
 public:
 	// Constructor
 	Background(int textureWidth, int textureHeight);
-
+	// Destructor
+	~Background();
 	// Create texutre for background
 	void CreateTexture(IDirect3DDevice9* d3dDevice, LPCSTR textureFilePath);
 	

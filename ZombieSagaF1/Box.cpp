@@ -5,6 +5,10 @@ Box::Box()
 
 }
 
+Box::~Box()
+{
+}
+
 void Box::Init(int boxWidth, int boxHeight, D3DXVECTOR2 boxPosition)
 {	
 	this->boxPosition = boxPosition;

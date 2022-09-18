@@ -5,10 +5,20 @@ Enemy::Enemy()
 
 }
 
+Enemy::~Enemy()
+{
+}
+
 Enemy::Enemy(int textureWidth, int textureHeight, int textureRow, int textureColumn, int maxFrame)
 	:GameObject(textureWidth, textureHeight, textureRow, textureColumn, maxFrame)
 {
+}
 
+void Enemy::Init(D3DXVECTOR2 position, float thrust, float direction, float mass,
+	D3DXVECTOR2 scaling, float rotationSpeed, float friction, int hp)
+{
+	GameObject::Init(position, thrust, direction, mass, scaling, rotationSpeed, friction);
+	this->hp = hp;
 }
 
 void Enemy::UpdateAnim()
@@ -44,15 +54,16 @@ void Enemy::Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat)
 	}
 }
 
-void Enemy::CheckBoundary(int WindowWidth, int WindowHeight)
+int Enemy::GetHP()
 {
-	if (position.x <0 || position.x > WindowWidth - spriteWidth * scaling.x) {
-		velocity.x *= -1;
-	}
-	if (position.y <0 || position.y > WindowHeight - spriteHeight * scaling.y) {
-		velocity.y *= -1;
-	}
+	return hp;
 }
+
+void Enemy::DecreaseHP(int damage)
+{
+	hp -= damage;
+}
+
 
 
 

@@ -13,6 +13,10 @@ Background::Background(int textureWidth, int textureHeight) {
 	spriteRect.bottom = textureHeight;
 }
 
+Background::~Background()
+{
+}
+
 void Background::CreateTexture(IDirect3DDevice9* d3dDevice, LPCSTR textureFilePath) {
 	// Create texture from file
 	HRESULT hr = D3DXCreateTextureFromFile(d3dDevice, textureFilePath, &texture);
