@@ -43,3 +43,16 @@ void Enemy::Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat)
 		cout << "Draw Game Object failed" << endl;
 	}
 }
+
+//Physics for zombie
+void Enemy::UpdatePhysics(float pushX, float pushY) { // Xin Nan part
+	velocity += acceleration;
+	velocity *= 1 - friction;
+
+	position.x += pushX;
+	position.y += pushY;
+
+	position += velocity;
+	acceleration = D3DXVECTOR2(0, 0);
+}
+

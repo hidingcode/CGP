@@ -36,11 +36,6 @@
 // Audio Library
 #include "AudioManager.h"
 
-// Game State
-#include "GameState.h"
-#include "MainMenu.h"
-#include "Level1.h"
-
 using namespace std;
 
 #define WindowWidth 840
@@ -88,7 +83,7 @@ Text* text = new Text();
 Box* box = new Box();
 
 // Number of zombie that will be spawn in the game
-const int spawnNum = 10;
+const int spawnNum = 1;
 
 // Game Object globals
 Player* F1 = new Player(768, 450, 3, 6, 5);
@@ -96,6 +91,9 @@ Enemy zombie[spawnNum];
 
 // Audio globals
 AudioManager* audioManager;
+
+//global stuff for checking collision
+boolean collision = false;
 
 // !! Place to implement
 bool CircleCollisionDetection(int radiusA, int radiusB, D3DXVECTOR2 positionA, D3DXVECTOR2 positionB)
@@ -306,8 +304,17 @@ void GetInput()
 void Update(int framesToUpdate) {
 	audioManager->UpdateSound();
 
+	float PushingCarX = 0;
+	float PushingCarY = 0;
+	
+
+
+
+
 	for (int i = 0; i < framesToUpdate; i++) {
 		/*counter++;*/
+		
+
 		if (inputW->GetKeyPressed()) {
 			/*if (counter % timer->getFPS() / player1SpriteFPS) {
 				player1FrameCounter++
@@ -330,22 +337,50 @@ void Update(int framesToUpdate) {
 		
 		for (int i = 0; i < spawnNum; i++)
 		{
-			if (CircleCollisionDetection(F1->GetSpriteWidth() / 2, zombie[i].GetSpriteWidth() / 2, F1->GetPosition() + F1->GetSpriteCentre(), zombie[i].GetPosition() + zombie[i].GetSpriteCentre()))
+			if (zombie[i].GetPosition().x == NULL || zombie[i].GetPosition().y == NULL)
+			{
+
+			}
+
+			else if (CircleCollisionDetection(F1->GetSpriteWidth() / 2, zombie[i].GetSpriteWidth() / 2, F1->GetPosition() + F1->GetSpriteCentre(), zombie[i].GetPosition() + zombie[i].GetSpriteCentre()))
 			{
 				cout << "Collision occurs" << endl;
+				collision = true;
+				
+				//Distance between ball centers (car and zombie)
+				float fDistance = sqrtf((F1->GetPosition().x - zombie[i].GetPosition().x) * (F1->GetPosition().x - zombie[i].GetPosition().x) + (F1->GetPosition().y - zombie[i].GetPosition().y) * (F1->GetPosition().y - zombie[i].GetPosition().y));
+
+				//Calculate displacement required
+				float fOverlap = 0.5f * (fDistance - F1->GetSpriteWidth() / 2 - zombie[i].GetSpriteWidth() / 2);
+
+				//Record how much car need to be move 
+				PushingCarX = fOverlap * (F1->GetPosition().x - zombie[i].GetPosition().x) / fDistance;
+				PushingCarX = fOverlap * (F1->GetPosition().y - zombie[i].GetPosition().y) / fDistance;
+
+
+				zombie[i].UpdatePhysics(PushingCarX, PushingCarY);
 			}
 			zombie[i].UpdateAnim();
 		}
 
 		F1->UpdateAnim();
-		F1->UpdatePhysics();
+		F1->UpdatePhysics(PushingCarX,PushingCarY);
 		F1->CheckBoundary(WindowWidth, WindowHeight);
+
+
 
 	}
 	inputW->SetKeyPressed(false);
 	inputA->SetKeyPressed(false);
 	inputS->SetKeyPressed(false);
 	inputD->SetKeyPressed(false);
+
+	collision = false;
+}
+
+void BeingCollided()
+{
+	
 }
 
 void Render() {
@@ -443,13 +478,10 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 
 	timer->Init(20);
 	while (WindowIsRunning())
-	{	
-		/*gameState.front()->GetInput();*/
-		gameState.front()->Update("test");
-		/*gameState.front()->Render();*/
-		//GetInput();
-		//Update(timer->FramesToUpdate());
-		//Render();
+	{
+		GetInput();
+		Update(timer->FramesToUpdate());
+		Render();
 	}
 
 	CleanupMyLevel();
