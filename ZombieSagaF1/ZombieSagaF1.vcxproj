@@ -142,6 +142,7 @@
     <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="GameLevelManager.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameScene.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="Player.h" />
@@ -154,6 +155,7 @@
     <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="GameLevelManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="Player.cpp" />
