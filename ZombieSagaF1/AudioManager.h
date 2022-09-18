@@ -22,6 +22,5 @@ public:
 	void UpdateSound();
 	void PlayCollision();
 
-	AudioManager();
-	~AudioManager();
+	
 };
