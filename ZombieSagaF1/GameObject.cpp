@@ -61,7 +61,7 @@ void GameObject::CheckBoundary(int WindowWidth, int WindowHeight) {
 	}
 }
 
-void GameObject::UpdatePhysics() // Xin Nan part
+void GameObject::UpdatePhysics()
 { 
 	velocity += acceleration;
 	velocity *= 1 - friction;

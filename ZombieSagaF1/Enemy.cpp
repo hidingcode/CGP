@@ -46,7 +46,12 @@ void Enemy::Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat)
 
 void Enemy::CheckBoundary(int WindowWidth, int WindowHeight)
 {
-
+	if (position.x <0 || position.x > WindowWidth - spriteWidth * scaling.x) {
+		velocity.x *= -1;
+	}
+	if (position.y <0 || position.y > WindowHeight - spriteHeight * scaling.y) {
+		velocity.y *= -1;
+	}
 }
 
 

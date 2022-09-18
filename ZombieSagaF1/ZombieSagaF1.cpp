@@ -309,15 +309,6 @@ void GetInput()
 void Update(int framesToUpdate) {
 	audioManager->UpdateSound();
 	
-	float PushingCarX = 0;
-	float PushingCarY = 0;
-<<<<<<< HEAD
-=======
-	
-
-
->>>>>>> 05738f4e05075a209c162c048d0f53edfb78ce0c
-
 	for (int i = 0; i < framesToUpdate; i++) {
 		/*counter++;*/
 		
