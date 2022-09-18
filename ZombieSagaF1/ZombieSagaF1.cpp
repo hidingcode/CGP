@@ -102,7 +102,7 @@ const int spawnNum = 10;
 Player* F1 = new Player(768, 450, 3, 6, 5);
 Enemy zombie[spawnNum];
 
-MainMenu* mainMenu = new MainMenu();
+MainMenu* mainMenu = new MainMenu(840, 650);
 
 // Audio globals
 AudioManager* audioManager;
@@ -220,13 +220,13 @@ void CreateMyDX() {
 	hr = D3DXCreateSprite(d3dDevice, &spriteBrush1);
 
 	if (FAILED(hr)) {
-		cout << "Create sprite 1 failed" << endl;
+		cout << "Create sprite brush 1 failed" << endl;
 	}
 
 	hr = D3DXCreateSprite(d3dDevice, &spriteBrush2);
 
 	if (FAILED(hr)) {
-		cout << "Create sprite 2 failed" << endl;
+		cout << "Create sprite brush 2 failed" << endl;
 	}
 
 	text->CreateFontType(d3dDevice, "Arial");
@@ -285,7 +285,7 @@ void InitialiseLevel() {
 	//	Create texture
 	background1->CreateTexture(d3dDevice, "Assets/roadBG.png");
 	F1->CreateTexture(d3dDevice, "Assets/F1.png");
-	mainMenu->CreateTexture(d3dDevice, "Assets/roadBG.png");
+	mainMenu->CreateTexture(d3dDevice, "Assets/mainMenu.png");
 
 	//  Initialisation
 	F1->Init(D3DXVECTOR2(395, 580), 1.0f, 0.0f, 2.0f, D3DXVECTOR2(0.4f,0.4f),0.05f, 0.05f);
@@ -296,12 +296,9 @@ void InitialiseLevel() {
 	{
 		zombie[i] = Enemy(3774, 241, 1, 17, 16);
 		zombie[i].CreateTexture(d3dDevice, "Assets/zombie_idle.png");
-
-		cout << WindowWidth - zombie[i].GetSpriteWidth() << endl;
 		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (WindowWidth - zombie[i].GetSpriteWidth() - 100), rand() % (WindowHeight - zombie[i].GetSpriteHeight() - 100));
 		zombie[i].Init(randomSpawn, 0.0f, 0.0f, 1.0f, D3DXVECTOR2(0.3f, 0.3f), 0.0f, 0.01f, 20);
 	}
-	
 }
 
 void GetInput()
@@ -330,7 +327,6 @@ void CarMoving()
 
 	else
 	{
-	
 		bool pause = true;
 		audioManager->ChangeState(pause);
 	}
@@ -402,8 +398,6 @@ void Update(int framesToUpdate) {
 	inputA->SetKeyPressed(false);
 	inputS->SetKeyPressed(false);
 	inputD->SetKeyPressed(false);
-	cout << "IT is :" << audioManager->DynamicSound(WindowWidth, F1->GetPosition().x) << endl;
-
 }
 
 void Render() {
@@ -421,11 +415,11 @@ void Render() {
 	D3DXMATRIX mat;
 	
 	// Draw background
-	/*background1->Render(spriteBrush1, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 0));*/
+	background1->Render(spriteBrush1, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 0));
 	// parallex scrolling
 	/*background2->Render(spriteBrush, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 650));*/
 	
-	mainMenu->Render(spriteBrush1, &mat);
+	/*mainMenu->Render(spriteBrush1, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 0));*/
 
 	// Draw F1
 	F1->Render(spriteBrush1, &mat);

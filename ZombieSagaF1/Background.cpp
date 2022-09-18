@@ -3,14 +3,19 @@
 
 using namespace std;
 
-Background::Background(int textureWidth, int textureHeight) {
-	spriteCentre = D3DXVECTOR2(textureWidth / 2, textureHeight / 2);
+Background::Background()
+{
+}
+
+Background::Background(int textureWidth, int textureHeight) 
+{
+	bgCentre = D3DXVECTOR2(textureWidth / 2, textureHeight / 2);
 
 	// Crop texture into required rectangle
-	spriteRect.left = 0;
-	spriteRect.right = textureWidth;
-	spriteRect.top = 0;
-	spriteRect.bottom = textureHeight;
+	bgRect.left = 0;
+	bgRect.right = textureWidth;
+	bgRect.top = 0;
+	bgRect.bottom = textureHeight;
 }
 
 Background::~Background()
@@ -29,13 +34,13 @@ void Background::CreateTexture(IDirect3DDevice9* d3dDevice, LPCSTR textureFilePa
 void Background::Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat, D3DXVECTOR2 scaling, D3DXVECTOR2 position) {
 	// Change the position when the scaling change
 	D3DXVECTOR2 pos = D3DXVECTOR2(position.x * scaling.x, position.y * scaling.y);
-	D3DXMatrixTransformation2D(mat, NULL, 0.0f , &scaling, &spriteCentre, 0.0f, &pos);
+	D3DXMatrixTransformation2D(mat, NULL, 0.0f , &scaling, &bgCentre, 0.0f, &pos);
 
 	// Set the transformation
 	spriteBrush->SetTransform(mat);
 
 	// Draw the sprite
-	HRESULT hr = spriteBrush->Draw(texture, &spriteRect, NULL, NULL, D3DCOLOR_XRGB(255, 255, 255));
+	HRESULT hr = spriteBrush->Draw(texture, &bgRect, NULL, NULL, D3DCOLOR_XRGB(255, 255, 255));
 	if (FAILED(hr)) {
 		cout << "Draw failed" << endl;
 	}
