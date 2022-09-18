@@ -284,6 +284,7 @@ void InitialiseLevel() {
 		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (WindowWidth - zombie[i].GetSpriteWidth() - 100), rand() % (WindowHeight - zombie[i].GetSpriteHeight() - 100));
 		zombie[i].Init(randomSpawn, 0.0f, 0.0f, 1.0f, D3DXVECTOR2(0.3f, 0.3f), 0.0f, 0.01f, 20);
 	}
+	
 }
 
 void GetInput()
