@@ -11,6 +11,6 @@ public:
 	};
 
 	GameMode current_gamemode;
-	int selector = 0;
+
 };
 
