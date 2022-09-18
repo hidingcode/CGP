@@ -10,7 +10,7 @@ void AudioManager::PlaySound1()
 {	
 	result = system->playSound(sound1, 0, false, &channel);
 
-	/*channel->setVolume(0);*/
+	channel->setVolume(0.1);
 }
 
 void AudioManager::PlaySoundTrack()
@@ -22,15 +22,13 @@ void AudioManager::PlaySoundTrack()
 void AudioManager::PlayCollision()
 {
 	result = system->playSound(sound3, 0, false, &channel);
-	/*channel->setVolume(0);*/
+	channel->setVolume(0.1);
 }
 
 void AudioManager::LoadSounds()
 {
 	result = system->createSound("Assets/carSound.mp3", FMOD_DEFAULT, 0, &sound1);
 	result = sound1->setMode(FMOD_LOOP_OFF);
-	
-	
 
 	result = system->createStream("Assets/gameMusic.wav", FMOD_DEFAULT, 0, &sound2);
 	// Allow the sound to be loopable

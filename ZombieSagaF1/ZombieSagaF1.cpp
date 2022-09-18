@@ -42,6 +42,9 @@
 // Game State
 #include "GameState.h"
 
+// Main Menu
+#include "MainMenu.h"
+
 using namespace std;
 
 #define WindowWidth 840
@@ -71,7 +74,8 @@ BYTE  diKeys[256];
 // Mouse input buffer
 DIMOUSESTATE mouseState;
 // Sprite Brush
-LPD3DXSPRITE spriteBrush = NULL;
+LPD3DXSPRITE spriteBrush1 = NULL;
+LPD3DXSPRITE spriteBrush2 = NULL;
 // Line
 LPD3DXLINE line = NULL;
 
@@ -94,6 +98,8 @@ const int spawnNum = 10;
 // Game Object globals
 Player* F1 = new Player(768, 450, 3, 6, 5);
 Enemy zombie[spawnNum];
+
+MainMenu* mainMenu = new MainMenu();
 
 // Audio globals
 AudioManager* audioManager;
@@ -208,10 +214,16 @@ void CreateMyDX() {
 		cout << "Create DX failed";
 
 	//	Create sprite. Study the documentation. 
-	hr = D3DXCreateSprite(d3dDevice, &spriteBrush);
+	hr = D3DXCreateSprite(d3dDevice, &spriteBrush1);
 
 	if (FAILED(hr)) {
-		cout << "Create sprite failed" << endl;
+		cout << "Create sprite 1 failed" << endl;
+	}
+
+	hr = D3DXCreateSprite(d3dDevice, &spriteBrush2);
+
+	if (FAILED(hr)) {
+		cout << "Create sprite 2 failed" << endl;
 	}
 
 	text->CreateFontType(d3dDevice, "Arial");
@@ -269,6 +281,7 @@ void InitialiseLevel() {
 	//	Create texture
 	background1->CreateTexture(d3dDevice, "Assets/roadBG.png");
 	F1->CreateTexture(d3dDevice, "Assets/F1.png");
+	mainMenu->CreateTexture(d3dDevice, "Assets/roadBG.png");
 
 	//  Initialisation
 	F1->Init(D3DXVECTOR2(395, 580), 1.0f, 0.0f, 2.0f, D3DXVECTOR2(0.4f,0.4f),0.05f, 0.05f);
@@ -378,32 +391,36 @@ void Render() {
 
 	//	Drawing.
 	//	Specify alpha blend will ensure that the sprite will render the background with alpha.
-	spriteBrush->Begin(D3DXSPRITE_ALPHABLEND);
+	spriteBrush1->Begin(D3DXSPRITE_ALPHABLEND);
+	spriteBrush2->Begin(D3DXSPRITE_ALPHABLEND);
 
 	D3DXMATRIX mat;
 	
 	// Draw background
-	background1->Render(spriteBrush, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 0));
+	/*background1->Render(spriteBrush1, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 0));*/
 	// parallex scrolling
 	/*background2->Render(spriteBrush, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 650));*/
 	
+	mainMenu->Render(spriteBrush1, &mat);
+
 	// Draw F1
-	F1->Render(spriteBrush, &mat);
+	F1->Render(spriteBrush1, &mat);
 	
+	// Draw Text
+	text->Render(spriteBrush1, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(1, 1), box->GetBoxPosition(), 0.0f,
+		"Score: ", D3DCOLOR_XRGB(0, 0, 0));
+	
+	// Draw Zombie
 	for (int i = 0; i < spawnNum; i++)
 	{	
 		if(zombie[i].GetHP() > 0)
 		{
-			zombie[i].Render(spriteBrush, &mat);
+			zombie[i].Render(spriteBrush2, &mat);
 		}
 	}
-
-	// Draw Text
-	text->Render(spriteBrush, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(1, 1), box->GetBoxPosition(), 0.0f,
-		"Score: ", D3DCOLOR_XRGB(0, 0, 0));
-	
 	//	End sprite drawing
-	spriteBrush->End();
+	spriteBrush1->End();
+	spriteBrush2->End();
 
 	// Draw Box
 	box->Render(line, D3DCOLOR_XRGB(255, 0, 0));
@@ -417,8 +434,10 @@ void Render() {
 
 void CleanupMyDx() {
 	//	Release and clean up everything
-	spriteBrush->Release();
-	spriteBrush = NULL;
+	spriteBrush1->Release();
+	spriteBrush1 = NULL;
+	spriteBrush2->Release();
+	spriteBrush2 = NULL;
 
 	text->CleanUp();
 
