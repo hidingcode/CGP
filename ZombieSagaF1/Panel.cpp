@@ -1,7 +1,7 @@
 #include "Panel.h"
 
-Button* startButton = new Button(400, 75);
-Button* quitButton = new Button(400, 75);
+Button* startButton = new Button(210, 75);
+Button* quitButton = new Button(168, 75);
 
 Panel::Panel(D3DXVECTOR2 position)
 {

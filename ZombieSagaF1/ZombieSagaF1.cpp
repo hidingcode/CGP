@@ -299,7 +299,6 @@ void InitialiseLevel() {
 		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (WindowWidth - zombie[i].GetSpriteWidth() - 100), rand() % (WindowHeight - zombie[i].GetSpriteHeight() - 100));
 		zombie[i].Init(randomSpawn, 0.0f, 0.0f, 1.0f, D3DXVECTOR2(0.3f, 0.3f), 0.0f, 0.01f, 20);
 	}
-	
 }
 
 void GetInput()
@@ -416,18 +415,18 @@ void Render() {
 	D3DXMATRIX mat;
 	
 	// Draw background
-	/*background1->Render(spriteBrush1, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 0));*/
+	background1->Render(spriteBrush1, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 0));
 	// parallex scrolling
 	/*background2->Render(spriteBrush, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 650));*/
 	
-	mainMenu->Render(spriteBrush1, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 0));
+	/*mainMenu->Render(spriteBrush1, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 0));*/
 
 	// Draw F1
 	F1->Render(spriteBrush1, &mat);
 	
 	// Draw Text
 	text->Render(spriteBrush1, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(1, 1), box->GetBoxPosition(), 0.0f,
-		"Score: ", D3DCOLOR_XRGB(255, 255, 255));
+		"Score: ", D3DCOLOR_XRGB(0, 0, 0));
 	
 	// Draw Zombie
 	for (int i = 0; i < spawnNum; i++)

@@ -2,7 +2,7 @@
 
 //Button* startButton = new Button(400, 75);
 //Button* quitButton = new Button(400, 75);
-Panel* panel1 = new Panel(D3DXVECTOR2(110,300));
+Panel* panel1 = new Panel(D3DXVECTOR2(310,300));
 
 MainMenu::MainMenu()
 {
