@@ -284,7 +284,6 @@ void InitialiseLevel() {
 		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (WindowWidth - zombie[i].GetSpriteWidth()), rand() % (WindowHeight - zombie[i].GetSpriteHeight()));
 		zombie[i].Init(randomSpawn, 0.0f, 0.0f, 1.0f, D3DXVECTOR2(0.4f, 0.4f), 0.0f, 0.001f);
 	}
-
 }
 
 void GetInput()
@@ -433,8 +432,6 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 	GameState mainmenu = GameState();
 	GameState level1 = GameState();
 	vector<GameState*> gameState = {&mainmenu, &level1};
-	/*gameState.push_back(&mainmenu);
-	gameState.push_back(&level1);*/
 
 	audioManager = new AudioManager();
 	audioManager->InitializeAudio();
