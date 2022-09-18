@@ -264,6 +264,7 @@ void CreateMyDirectInput()
 // !! Place to implement
 void InitialiseLevel() {
 	audioManager->PlaySoundTrack();
+	audioManager->PlayCarSound();
 	srand(time(0));
 
 	//	Create texture
@@ -303,9 +304,25 @@ void GetInput()
 	inputD->GetInput(diKeys, DIK_D);
 }
 
+void CarMoving()
+{
+	if (inputW->GetKeyPressed() == true || inputS->GetKeyPressed() == true)
+	{
+		bool pause = false;
+		audioManager->ChangeState(pause);
+	}
+
+	else
+	{
+		cout << "i am not doing anything" << endl;
+		bool pause = true;
+		audioManager->ChangeState(pause);
+	}
+}
+
 void Update(int framesToUpdate) {
 	audioManager->UpdateSound();
-	
+	CarMoving();
 	
 	for (int i = 0; i < framesToUpdate; i++) {
 		if (inputW->GetKeyPressed()) {
@@ -477,3 +494,4 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 
 	return 0;
 }
+

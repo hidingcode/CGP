@@ -6,9 +6,10 @@ class AudioManager
 public:
 	FMOD::System* system;
 	FMOD::Sound* sound1, * sound2, * sound3;
-	FMOD::Channel* channel = 0;
+	FMOD::Channel* channel = 0, * channel3 = 0;
 	FMOD_RESULT	result;
 	void* extradriverdata = 0;
+	
 
 	// Constructor
 	AudioManager();
@@ -16,11 +17,12 @@ public:
 	~AudioManager();
 	
 	void InitializeAudio();
-	void PlaySound1();
+	void PlayCarSound();
 	void PlaySoundTrack();
 	void LoadSounds();
 	void UpdateSound();
 	void PlayCollision();
-
+	void ChangeState( bool pause);
+	
 	
 };
