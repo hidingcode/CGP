@@ -15,10 +15,11 @@ public:
 	// Move the player backward
 	void MovBackward();
 	// Update Physics
-	void UpdatePhysics();
+	void UpdatePhysics(float pushX, float pushY);
 	// Update Animation
 	void UpdateAnim();
 	// Render the image
 	void Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat);
+	
 };
 
