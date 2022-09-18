@@ -5,6 +5,7 @@ class Input
 {
 public:
 	Input();
+	~Input();
 	// Get the input
 	void GetInput(BYTE* diKeys, int key);
 	// Set the key pressed state to (false or true)

@@ -9,6 +9,8 @@ class GameObject
 public:
 	// Constructor
 	GameObject();
+	// Destructor
+	~GameObject();
 	GameObject(int textureWidth,int textureHeight,int textureRow, int textureColumn,int maxFrame);
 	
 	// Initialise GameObject

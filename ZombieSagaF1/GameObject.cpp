@@ -4,6 +4,12 @@ GameObject::GameObject()
 {
 }
 
+// Destructor
+GameObject::~GameObject()
+{
+
+}
+
 // Constructor
 GameObject::GameObject(int textureWidth, int textureHeight, int textureRow, int textureColumn, int maxFrame)
 {	
