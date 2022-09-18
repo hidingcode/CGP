@@ -18,7 +18,10 @@ public:
 	// Create Texture
 	void CreateTexture(IDirect3DDevice9* d3dDevice, LPCSTR textureFilePath);
 
-	// Render Game Object
+	// Update Game Object Physics
+	void UpdatePhysics();
+
+	// Render Game Object On Screen
 	void Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat);
 
 	// Prevent the Game Object from going out the screen
@@ -36,15 +39,21 @@ public:
 	// Get Sprite Centre
 	D3DXVECTOR2 GetSpriteCentre();
 
+	// Get Velocty
+	D3DXVECTOR2 GetVelocity();
+
+	// Set Velocity
+	void SetVelocity(D3DXVECTOR2 velocity);
+	
 	// Get Sprite Width
 	int GetSpriteWidth();
 
 	// Get Sprite Height
 	int GetSpriteHeight();
 
-	// Get Sprite Height
-	D3DXVECTOR2 GetPlayerVelocity();
-	
+	// Get Mass
+	int GetMass();
+
 protected:
 	// Game Object Texture
 	LPDIRECT3DTEXTURE9 texture = NULL;

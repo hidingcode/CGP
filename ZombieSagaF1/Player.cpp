@@ -28,17 +28,6 @@ void Player::MovBackward()
 	acceleration.y = cos(direction) * thrust / mass;
 }
 
-void Player::UpdatePhysics(float pushX, float pushY) { // Xin Nan part
-	velocity += acceleration;
-	velocity *= 1 - friction;
-	
-	position.x -= pushX;
-	position.y -= pushY;
-	
-	position += velocity;
-	acceleration = D3DXVECTOR2(0, 0);
-}
-
 // Update Animation
 void Player::UpdateAnim()
 {

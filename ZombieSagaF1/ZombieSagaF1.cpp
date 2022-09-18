@@ -39,6 +39,9 @@
 // Audio Library
 #include "AudioManager.h"
 
+// Game State
+#include "GameState.h"
+
 using namespace std;
 
 #define WindowWidth 840
@@ -86,7 +89,7 @@ Text* text = new Text();
 Box* box = new Box();
 
 // Number of zombie that will be spawn in the game
-const int spawnNum = 1;
+const int spawnNum = 2;
 
 // Game Object globals
 Player* F1 = new Player(768, 450, 3, 6, 5);
@@ -106,7 +109,6 @@ bool CircleCollisionDetection(int radiusA, int radiusB, D3DXVECTOR2 positionA, D
 	{
 		return false;
 	}
-
 	else
 	{
 		return true;
@@ -283,9 +285,8 @@ void InitialiseLevel() {
 		zombie[i] = Enemy(3774, 241, 1, 17, 16);
 		zombie[i].CreateTexture(d3dDevice, "Assets/zombie_idle.png");
 		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (WindowWidth - zombie[i].GetSpriteWidth()), rand() % (WindowHeight - zombie[i].GetSpriteHeight()));
-		zombie[i].Init(randomSpawn, 0.0f, 0.0f, 1.0f, D3DXVECTOR2(0.4f, 0.4f), 0.0f, 0.001f);
+		zombie[i].Init(randomSpawn, 0.0f, 0.0f, 1.0f, D3DXVECTOR2(0.3f, 0.3f), 0.0f, 0.01f);
 	}
-
 }
 
 void GetInput()
@@ -307,13 +308,7 @@ void GetInput()
 // !! Place to implement
 void Update(int framesToUpdate) {
 	audioManager->UpdateSound();
-
-	float PushingCarX = 0;
-	float PushingCarY = 0;
 	
-
-
-
 	for (int i = 0; i < framesToUpdate; i++) {
 		/*counter++;*/
 		
@@ -338,40 +333,38 @@ void Update(int framesToUpdate) {
 			F1->TurnRight();
 		}
 		
+		F1->SetVelocity(F1->GetVelocity());
+
 		for (int i = 0; i < spawnNum; i++)
 		{
-			if (zombie[i].GetPosition().x == NULL || zombie[i].GetPosition().y == NULL)
-			{
+			//if (zombie[i].GetPosition().x == NULL || zombie[i].GetPosition().y == NULL)
+			//{
 
-			}
+			//}
+			cout << "Velocity: " << zombie[i].GetVelocity().x << endl;
 
-			else if (CircleCollisionDetection(F1->GetSpriteWidth() / 2, zombie[i].GetSpriteWidth() / 2, F1->GetPosition() + F1->GetSpriteCentre(), zombie[i].GetPosition() + zombie[i].GetSpriteCentre()))
-			{
+			if (CircleCollisionDetection(F1->GetSpriteWidth() / 2, zombie[i].GetSpriteWidth() / 2, F1->GetPosition() + F1->GetSpriteCentre(), zombie[i].GetPosition() + zombie[i].GetSpriteCentre()))
+			{	
+				F1->SetVelocity(F1->GetVelocity() / 2);
 				cout << "Collision occurs" << endl;
-				collision = true;
 				
-				//Distance between ball centers (car and zombie)
-				float fDistance = sqrtf((F1->GetPosition().x - zombie[i].GetPosition().x) * (F1->GetPosition().x - zombie[i].GetPosition().x) + (F1->GetPosition().y - zombie[i].GetPosition().y) * (F1->GetPosition().y - zombie[i].GetPosition().y));
+				// Final Velocity of F1 after collision
+				D3DXVECTOR2 f1FVelocity = F1->GetVelocity() * (F1->GetMass() - zombie[i].GetMass()) + 2 * zombie[i].GetMass() * zombie[i].GetVelocity() / (F1->GetMass() + zombie[i].GetMass());
+				
+				// Final Velocity of zombie after collision
+				D3DXVECTOR2 zombieFVelocity = zombie[i].GetVelocity() * (zombie[i].GetMass() - F1->GetMass()) + 2 * F1->GetMass() * F1->GetVelocity() / (F1->GetMass() + zombie[i].GetMass());
 
-				//Calculate displacement required
-				float fOverlap = 0.5f * (fDistance - F1->GetSpriteWidth() / 2 - zombie[i].GetSpriteWidth() / 2);
-
-				//Record how much car need to be move 
-				PushingCarX = fOverlap * (F1->GetPosition().x - zombie[i].GetPosition().x) / fDistance;
-				PushingCarX = fOverlap * (F1->GetPosition().y - zombie[i].GetPosition().y) / fDistance;
-
-
-				zombie[i].UpdatePhysics(PushingCarX, PushingCarY);
+				F1->SetVelocity(f1FVelocity);
+				zombie[i].SetVelocity(zombieFVelocity);
 			}
+			zombie[i].UpdatePhysics();
 			zombie[i].UpdateAnim();
+			zombie[i].CheckBoundary(WindowWidth, WindowHeight);
 		}
 
 		F1->UpdateAnim();
-		F1->UpdatePhysics(PushingCarX,PushingCarY);
+		F1->UpdatePhysics();
 		F1->CheckBoundary(WindowWidth, WindowHeight);
-
-
-
 	}
 	inputW->SetKeyPressed(false);
 	inputA->SetKeyPressed(false);
@@ -466,6 +459,10 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 	CreateMyWindow();
 	CreateMyDX();
 	CreateMyDirectInput();
+
+	GameState mainmenu = GameState();
+	GameState level1 = GameState();
+	vector<GameState*> gameState = {&mainmenu, &level1};
 
 	audioManager = new AudioManager();
 	audioManager->InitializeAudio();

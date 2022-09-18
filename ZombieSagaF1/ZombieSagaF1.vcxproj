@@ -140,7 +140,7 @@
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Background.h" />
     <ClInclude Include="FrameTimer.h" />
-    <ClInclude Include="GameLevelManager.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Input.h" />

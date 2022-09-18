@@ -44,15 +44,15 @@ void Enemy::Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat)
 	}
 }
 
-//Physics for zombie
-void Enemy::UpdatePhysics(float pushX, float pushY) { // Xin Nan part
-	velocity += acceleration;
-	velocity *= 1 - friction;
-
-	position.x += pushX;
-	position.y += pushY;
-
-	position += velocity;
-	acceleration = D3DXVECTOR2(0, 0);
+void Enemy::CheckBoundary(int WindowWidth, int WindowHeight)
+{
+	if (position.x <0 || position.x > WindowWidth - spriteWidth * scaling.x) {
+		velocity.x *= -1;
+	}
+	if (position.y <0 || position.y > WindowHeight - spriteHeight * scaling.y) {
+		velocity.y *= -1;
+	}
 }
+
+
 
