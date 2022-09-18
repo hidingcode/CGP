@@ -220,13 +220,13 @@ void CreateMyDX() {
 	hr = D3DXCreateSprite(d3dDevice, &spriteBrush1);
 
 	if (FAILED(hr)) {
-		cout << "Create sprite 1 failed" << endl;
+		cout << "Create sprite brush 1 failed" << endl;
 	}
 
 	hr = D3DXCreateSprite(d3dDevice, &spriteBrush2);
 
 	if (FAILED(hr)) {
-		cout << "Create sprite 2 failed" << endl;
+		cout << "Create sprite brush 2 failed" << endl;
 	}
 
 	text->CreateFontType(d3dDevice, "Arial");
@@ -399,8 +399,6 @@ void Update(int framesToUpdate) {
 	inputA->SetKeyPressed(false);
 	inputS->SetKeyPressed(false);
 	inputD->SetKeyPressed(false);
-	cout << "IT is :" << audioManager->DynamicSound(WindowWidth, F1->GetPosition().x) << endl;
-
 }
 
 void Render() {
@@ -429,7 +427,7 @@ void Render() {
 	
 	// Draw Text
 	text->Render(spriteBrush1, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(1, 1), box->GetBoxPosition(), 0.0f,
-		"Score: ", D3DCOLOR_XRGB(0, 0, 0));
+		"Score: ", D3DCOLOR_XRGB(255, 255, 255));
 	
 	// Draw Zombie
 	for (int i = 0; i < spawnNum; i++)

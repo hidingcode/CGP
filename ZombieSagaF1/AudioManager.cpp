@@ -28,15 +28,12 @@ void AudioManager::LoadSounds()
 {
 	result = system->createSound("Assets/carSound.mp3", FMOD_DEFAULT, 0, &sound1);
 	result = sound1->setMode(FMOD_LOOP_NORMAL);
-	result = sound2->setLoopCount(-1);
 	
-
 	result = system->createStream("Assets/gameMusic.wav", FMOD_DEFAULT, 0, &sound2);
 	// Allow the sound to be loopable
 	result = sound2->setMode(FMOD_LOOP_NORMAL);
 	// Set the sound to keep looping
 	result = sound2->setLoopCount(-1);
-	//FMOD_RESULT = result, sound = sound123, setLoopCount(-1)
 
 	result = system->createSound("Assets/crashSound.mp3", FMOD_DEFAULT, 0, &sound3);
 	result = sound3->setMode(FMOD_LOOP_OFF);

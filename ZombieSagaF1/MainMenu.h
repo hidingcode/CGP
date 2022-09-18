@@ -1,6 +1,6 @@
 #pragma once
 #include "Background.h"
-#include "Button.h"
+#include "Panel.h"
 #include <iostream>
 
 using namespace std;

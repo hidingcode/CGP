@@ -35,3 +35,4 @@ void Button::SetPosition(D3DXVECTOR2 position)
 }
 
 
+
