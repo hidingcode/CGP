@@ -6,10 +6,10 @@
 Background* startButton = new Background(842, 651);
 Background* quitButton = new Background(842, 651);
 
-GameScene::GameScene() 
-{
-
-}
+//GameScene::GameScene() 
+//{
+//
+//}
 
 */
 

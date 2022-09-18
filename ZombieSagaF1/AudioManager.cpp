@@ -21,7 +21,7 @@ void AudioManager::PlaySoundTrack()
 void AudioManager::PlayCollision()
 {
 	result = system->playSound(sound3, 0, false, &channel);
-	/*channel->setVolume(0);*/
+	channel->setVolume(0.1);
 }
 
 void AudioManager::LoadSounds()

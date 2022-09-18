@@ -3,7 +3,7 @@
 
 class GameScene
 {
-public: 
+public:
 	enum GameMode { GM_MENU, GM_GAMEPLAY, GM_GAMEOVER };
 
 	GameMode current_gamemode;
