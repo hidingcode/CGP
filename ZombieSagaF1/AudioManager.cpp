@@ -74,3 +74,29 @@ void AudioManager::ChangeState(bool pause)
 
 }
 
+float AudioManager::DynamicSound(int windowWidth, int carPositionX)
+{
+	float halfWidth = windowWidth / 2;
+	
+
+	if (carPositionX < halfWidth)
+	{
+		channel3->setPan(-(1 - (carPositionX/ halfWidth)));
+		return (-(1 - (carPositionX / halfWidth)));
+	}
+
+	else if (carPositionX == halfWidth)
+	{
+		channel3->setPan(0);
+		return (0);
+	}
+
+	else if (carPositionX >= halfWidth)
+	{
+		channel3->setPan((carPositionX - halfWidth) / halfWidth);
+		return ((carPositionX - halfWidth) / halfWidth);
+	}
+
+	
+}
+

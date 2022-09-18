@@ -23,6 +23,7 @@ public:
 	void UpdateSound();
 	void PlayCollision();
 	void ChangeState( bool pause);
+	float DynamicSound(int windowWidth, int carPositionX);
 	
 	
 };

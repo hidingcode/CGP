@@ -81,6 +81,9 @@ Input* inputS = new Input();
 Input* inputA = new Input();
 Input* inputD = new Input();
 
+//score Global
+int scoreValue = 0;
+
 // Background globals
 Background* background1 = new Background(840, 650);
 
@@ -314,7 +317,7 @@ void CarMoving()
 
 	else
 	{
-		cout << "i am not doing anything" << endl;
+	
 		bool pause = true;
 		audioManager->ChangeState(pause);
 	}
@@ -380,6 +383,8 @@ void Update(int framesToUpdate) {
 	inputA->SetKeyPressed(false);
 	inputS->SetKeyPressed(false);
 	inputD->SetKeyPressed(false);
+	cout << "IT is :" << audioManager->DynamicSound(WindowWidth, F1->GetPosition().x) << endl;
+
 }
 
 void Render() {
