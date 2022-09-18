@@ -30,6 +30,9 @@
 #include "Player.h"
 #include "Enemy.h"
 
+// Game Scene
+#include "GameScene.h"
+
 // Frame Timer
 #include "FrameTimer.h"
 
@@ -308,7 +311,6 @@ void Update(int framesToUpdate) {
 	float PushingCarX = 0;
 	float PushingCarY = 0;
 	
-
 
 
 
