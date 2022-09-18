@@ -16,8 +16,17 @@ public:
 	void MovBackward();
 	// Update Animation
 	void UpdateAnim();
-	// Render the image
-	void Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat);
-	
+	// Set Current Direction to Forward
+	void SetForward();
+	// Set Current Direction to Left
+	void SetLeft();
+	// Set Current Direction to Right
+	void SetRight();
+
+private:
+	// Store Moving Direction
+	int currentDirection = 0;
+	// Moving Direction
+	enum movDirection { FORWARD, LEFT, RIGHT };
 };
 

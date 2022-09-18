@@ -34,7 +34,7 @@ void Player::UpdateAnim()
 	// Crop texture into required rectangle
 	spriteRect.left = frameCounter % textureColumn * spriteWidth;
 	spriteRect.right = spriteRect.left + spriteWidth;
-	spriteRect.top = 0;
+	spriteRect.top = currentDirection * spriteHeight;
 	spriteRect.bottom = spriteRect.top + spriteHeight;
 
 	// If the frame counter exceed max frame set the frame counter back to 0
@@ -45,18 +45,18 @@ void Player::UpdateAnim()
 	}
 }
 
-// Render the image
-void Player::Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat)
+void Player::SetForward()
 {
-	D3DXMatrixTransformation2D(mat, &scalingCentre, scalingRotation, &scaling, &spriteCentre, direction, &position);
+	currentDirection = FORWARD;
+}
 
-	// Set the transformation
-	spriteBrush->SetTransform(mat);
+void Player::SetLeft()
+{
+	currentDirection = LEFT;
+}
 
-	// Draw the sprite
-	HRESULT hr = spriteBrush->Draw(texture, &spriteRect, NULL, NULL, D3DCOLOR_XRGB(255, 255, 255));
-	if (FAILED(hr)) {
-		cout << "Draw Game Object failed" << endl;
-	}
+void Player::SetRight()
+{
+	currentDirection = RIGHT;
 }
 

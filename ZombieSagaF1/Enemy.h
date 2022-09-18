@@ -14,8 +14,6 @@ public:
 	void Init(D3DXVECTOR2 position, float thrust, float direction, float mass,
 		D3DXVECTOR2 scaling, float rotationSpeed, float friction, int hp);
 	void UpdateAnim();
-	// Render the image
-	void Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat);
 	// Get the HP of zombie
 	int GetHP();
 	// Decrease HP

@@ -39,21 +39,6 @@ void Enemy::UpdateAnim()
 	}
 }
 
-// Render the image
-void Enemy::Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat)
-{
-	D3DXMatrixTransformation2D(mat, &scalingCentre, scalingRotation, &scaling, &spriteCentre, direction, &position);
-
-	// Set the transformation
-	spriteBrush->SetTransform(mat);
-
-	// Draw the sprite
-	HRESULT hr = spriteBrush->Draw(texture, &spriteRect, NULL, NULL, D3DCOLOR_XRGB(255, 255, 255));
-	if (FAILED(hr)) {
-		cout << "Draw Game Object failed" << endl;
-	}
-}
-
 int Enemy::GetHP()
 {
 	return hp;
