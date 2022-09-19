@@ -16,8 +16,9 @@
 #include <ctime>
 #include <vector>
 
-// Input
-#include "Input.h"
+// Sprite Brush and Input Manager
+#include "SpriteBrush.h"
+#include "InputManager.h"
 
 // Background
 #include "Background.h"
@@ -74,16 +75,19 @@ BYTE  diKeys[256];
 // Mouse input buffer
 DIMOUSESTATE mouseState;
 // Sprite Brush
+
+SpriteBrush* spriteBrush = new SpriteBrush();
+
 LPD3DXSPRITE spriteBrush1 = NULL;
 LPD3DXSPRITE spriteBrush2 = NULL;
 // Line
 LPD3DXLINE line = NULL;
 
 // Input
-Input* inputW = new Input();
-Input* inputS = new Input();
-Input* inputA = new Input();
-Input* inputD = new Input();
+InputManager* inputW = new InputManager();
+InputManager* inputS = new InputManager();
+InputManager* inputA = new InputManager();
+InputManager* inputD = new InputManager();
 
 //score Global
 int scoreValue = 0;
@@ -96,7 +100,7 @@ Text* text = new Text();
 Box* box = new Box();
 
 // Number of zombie that will be spawn in the game
-const int spawnNum = 10;
+const int spawnNum = 5;
 
 // Game Object globals
 Player* F1 = new Player(768, 450, 3, 6, 5);
@@ -194,7 +198,7 @@ void CleanupMyLevel() {
 	f1Texture = NULL;
 }
 
-void CreateMyDX() {
+void CreateMyDirect3D9Device() {
 	//	Define Direct3D 9.
 	IDirect3D9* direct3D9 = Direct3DCreate9(D3D_SDK_VERSION);
 	//	Define how the screen presents.
@@ -214,7 +218,7 @@ void CreateMyDX() {
 	HRESULT hr = direct3D9->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, g_hWnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dPP, &d3dDevice);
 
 	if (FAILED(hr))
-		cout << "Create DX failed";
+		cout << "Create Direct 3D 9 Device failed";
 
 	//	Create sprite. Study the documentation. 
 	hr = D3DXCreateSprite(d3dDevice, &spriteBrush1);
@@ -278,7 +282,7 @@ void CreateMyDirectInput()
 
 // !! Place to implement
 void InitialiseLevel() {
-	audioManager->PlaySoundTrack();
+	audioManager->PlayBackgroundMusic();
 	audioManager->PlayCarSound();
 	srand(time(0));
 
@@ -311,10 +315,11 @@ void GetInput()
 	// Get Mouse Data
 	dInputMouseDevice->GetDeviceState(sizeof(mouseState), &mouseState);
 
-	inputW->GetInput(diKeys, DIK_W);
-	inputS->GetInput(diKeys, DIK_S);
-	inputA->GetInput(diKeys, DIK_A);
-	inputD->GetInput(diKeys, DIK_D);
+	// Set The Input
+	inputW->SetInput(diKeys, DIK_W);
+	inputS->SetInput(diKeys, DIK_S);
+	inputA->SetInput(diKeys, DIK_A);
+	inputD->SetInput(diKeys, DIK_D);
 }
 
 void CarMoving()
@@ -340,8 +345,7 @@ void Update(int framesToUpdate) {
 		if (inputW->GetKeyPressed()) {
 			F1->SetForward();
 			F1->MovForward();
-			F1->IncreaseFrameCounter();
-			
+			F1->IncreaseFrameCounter();	
 		}
 
 		if (inputS->GetKeyPressed()) {
@@ -362,22 +366,17 @@ void Update(int framesToUpdate) {
 	;
 		for (int i = 0; i < spawnNum; i++)
 		{	
-			if (zombie[i].GetHP() <= 0)
-			{
-				zombie[i].~Enemy();
-			}
-
 			if (zombie[i].GetHP() > 0)
 			{
-				if (CircleCollisionDetection(F1->GetSpriteWidth() / 2, zombie[i].GetSpriteWidth() / 2, F1->GetPosition() + F1->GetSpriteCentre(), zombie[i].GetPosition() + zombie[i].GetSpriteCentre()))
+				if (CircleCollisionDetection(F1->GetSpriteWidth() / 2, zombie[i].GetSpriteWidth() / 2, 
+					F1->GetPosition() + F1->GetSpriteCentre(), zombie[i].GetPosition() + zombie[i].GetSpriteCentre()))
 				{
-					F1->SetVelocity(F1->GetVelocity() / 2);
 					cout << "Collision occurs" << endl;
-					audioManager->PlayCollision();
-					// Final Velocity of F1 after collision
+					audioManager->PlayCollisionSound();
+					// Calculate the bouncing vector of F1 after collision
 					D3DXVECTOR2 f1FVelocity = F1->GetVelocity() * (F1->GetMass() - zombie[i].GetMass()) + 2 * zombie[i].GetMass() * zombie[i].GetVelocity() / (F1->GetMass() + zombie[i].GetMass());
 
-					// Final Velocity of zombie after collision
+					// Calculate the bouncing vector of zombie after collision
 					D3DXVECTOR2 zombieFVelocity = zombie[i].GetVelocity() * (zombie[i].GetMass() - F1->GetMass()) + 2 * F1->GetMass() * F1->GetVelocity() / (F1->GetMass() + zombie[i].GetMass());
 
 					F1->SetVelocity(f1FVelocity);
@@ -389,7 +388,6 @@ void Update(int framesToUpdate) {
 			zombie[i].UpdateAnim();
 			zombie[i].CheckBoundary(WindowWidth, WindowHeight);
 		}
-
 		F1->UpdateAnim();
 		F1->UpdatePhysics();
 		F1->CheckBoundary(WindowWidth, WindowHeight);
@@ -416,14 +414,11 @@ void Render() {
 	
 	// Draw background
 	background1->Render(spriteBrush1, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 0));
-	// parallex scrolling
-	/*background2->Render(spriteBrush, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 650));*/
-	
 	/*mainMenu->Render(spriteBrush1, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 0));*/
 
 	// Draw F1
 	F1->Render(spriteBrush1, &mat);
-	
+
 	// Draw Text
 	text->Render(spriteBrush1, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(1, 1), box->GetBoxPosition(), 0.0f,
 		"Score: ", D3DCOLOR_XRGB(0, 0, 0));
@@ -450,7 +445,7 @@ void Render() {
 	d3dDevice->Present(NULL, NULL, NULL, NULL);
 }
 
-void CleanupMyDx() {
+void CleanupMyDirect3D9Device() {
 	//	Release and clean up everything
 	spriteBrush1->Release();
 	spriteBrush1 = NULL;
@@ -486,17 +481,17 @@ void CleanupMyWindow() {
 
 //	use WinMain if you don't want the console
 int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) // WinMain is a function in WINAPI
-{
+{	
 	CreateMyWindow();
-	CreateMyDX();
+	CreateMyDirect3D9Device();
 	CreateMyDirectInput();
 
-	GameState mainmenu = GameState();
+	/*GameState mainmenu = GameState();
 	GameState level1 = GameState();
-	vector<GameState*> gameState = {&mainmenu, &level1};
+	vector<GameState*> gameState = {&mainmenu, &level1};*/
 
 	audioManager = new AudioManager();
-	audioManager->InitializeAudio();
+	audioManager->InitialiseAudio();
 	audioManager->LoadSounds();
 
 	InitialiseLevel();
@@ -513,7 +508,7 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 
 	CleanupMyLevel();
 	CleanupMyDirectInput();
-	CleanupMyDx();
+	CleanupMyDirect3D9Device();
 	CleanupMyWindow();
 
 	return 0;

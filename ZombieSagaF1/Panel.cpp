@@ -32,3 +32,16 @@ void Panel::Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat)
 	startButton->Render(spriteBrush, mat, D3DXVECTOR2(1,1), startButton->GetPosition());
 	quitButton->Render(spriteBrush, mat, D3DXVECTOR2(1, 1), quitButton->GetPosition());
 }
+
+void Panel::OnCollide(RECT rect)
+{
+	if (startButton->IsCollide(rect))
+	{
+		// Start The Game
+	}
+	
+	if (quitButton->IsCollide(rect))
+	{
+		// Quit the game
+	}
+}

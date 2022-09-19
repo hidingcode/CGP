@@ -10,8 +10,25 @@ Button::~Button()
 {
 }
 
-void Button::CheckCollision()
+bool Button::IsCollide(RECT rect1)
 {
+	if (rect.left > rect1.right)
+	{
+		return false;
+	}
+	if (rect.right < rect1.left)
+	{
+		return false;
+	}
+	if (rect.top > rect1.bottom)
+	{
+		return false;
+	}
+	if (rect.bottom < rect1.top)
+	{
+		return false;
+	}
+	return true;
 }
 
 D3DXVECTOR2 Button::GetPosition()
@@ -27,6 +44,11 @@ int Button::GetTextureWidth()
 int Button::GetTextureHeight()
 {
 	return textureHeight;
+}
+
+RECT Button::GetRect()
+{
+	return rect;
 }
 
 void Button::SetPosition(D3DXVECTOR2 position)

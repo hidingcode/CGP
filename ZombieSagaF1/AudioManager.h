@@ -5,7 +5,7 @@ class AudioManager
 {
 public:
 	FMOD::System* system;
-	FMOD::Sound* sound1, * sound2, * sound3;
+	FMOD::Sound* engineSound, * backgroundMusic, * crashSound;
 	FMOD::Channel* channel = 0, * channel3 = 0;
 	FMOD_RESULT	result;
 	void* extradriverdata = 0;
@@ -16,12 +16,12 @@ public:
 	// Destructor
 	~AudioManager();
 	
-	void InitializeAudio();
+	void InitialiseAudio();
 	void PlayCarSound();
-	void PlaySoundTrack();
+	void PlayBackgroundMusic();
 	void LoadSounds();
 	void UpdateSound();
-	void PlayCollision();
+	void PlayCollisionSound();
 	void ChangeState( bool pause);
 	float DynamicSound(int windowWidth, int carPositionX);
 	

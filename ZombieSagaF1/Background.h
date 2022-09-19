@@ -17,8 +17,8 @@ public:
 protected:
 	// Texture
 	LPDIRECT3DTEXTURE9 texture = NULL;
-	RECT bgRect;
-	D3DXVECTOR2 bgCentre;
+	RECT rect;
+	D3DXVECTOR2 centre;
 	D3DXVECTOR2 position;
 	D3DXVECTOR2 scaling;
 };

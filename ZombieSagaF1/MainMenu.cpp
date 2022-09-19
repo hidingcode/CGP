@@ -21,8 +21,6 @@ void MainMenu::CreateTexture(IDirect3DDevice9* d3dDevice, LPCSTR textureFilePath
 
 	panel1->Begin();
 	panel1->CreateTexture(d3dDevice);
-	//startButton->CreateTexture(d3dDevice, "Assets/startButton.png");
-	//quitButton->CreateTexture(d3dDevice, "Assets/quitButton.png");
 }
 
 // Render the image
@@ -31,6 +29,9 @@ void MainMenu::Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat, D3DXVECTOR2 sca
 	Background::Render(spriteBrush, mat, scaling, position);
 
 	panel1->Render(spriteBrush, mat);
-	//startButton->Render(spriteBrush, mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(300, 300));
-	//quitButton->Render(spriteBrush, mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(300, 300));
+}
+
+void MainMenu::OnCollide(RECT rect)
+{
+	panel1->OnCollide(rect);
 }

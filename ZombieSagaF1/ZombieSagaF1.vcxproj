@@ -144,11 +144,12 @@
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScene.h" />
-    <ClInclude Include="Input.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Panel.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="SpriteBrush.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Enemy.h" />
   </ItemGroup>
@@ -160,11 +161,12 @@
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScene.cpp" />
-    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Panel.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SpriteBrush.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="ZombieSagaF1.cpp" />

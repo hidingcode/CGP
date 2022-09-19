@@ -6,7 +6,7 @@ Player::Player(int textureWidth, int textureHeight, int textureRow, int textureC
 {
 }
 
-void Player::MovForward() // ! (Bug)--> Velocity does not decrease
+void Player::MovForward()
 {
 	acceleration.x = sin(direction) * thrust / mass;
 	acceleration.y = -cos(direction) * thrust / mass;
