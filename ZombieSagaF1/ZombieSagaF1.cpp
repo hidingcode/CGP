@@ -302,7 +302,7 @@ void InitialiseLevel() {
 		zombie[i] = Enemy(3774, 241, 1, 17, 16);
 		zombie[i].CreateTexture(d3dDevice, "Assets/zombie_idle.png");
 		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (WindowWidth - zombie[i].GetSpriteWidth() - 100), rand() % (WindowHeight - zombie[i].GetSpriteHeight() - 100));
-		zombie[i].Init(randomSpawn, 0.0f, 0.0f, 1.0f, D3DXVECTOR2(0.3f, 0.3f), 0.0f, 0.01f, 20);
+		zombie[i].Init(randomSpawn, 0.0f, 0.0f, 1.0f, D3DXVECTOR2(0.3f, 0.3f), 0.0f, 0.01f, 1000);
 	}
 }
 
@@ -339,8 +339,15 @@ void CarMoving()
 }
 
 void Update(int framesToUpdate) {
+	float bounceDistanceX = 0;
+	float bounceDistanceY = 0;
+
+	
 	audioManager->UpdateSound();
 	CarMoving();
+
+	//test
+	//cout << "spriteX_width: " << F1->GetSpriteWidth() / 2 << " spriteX_Height: " << F1->GetSpriteHeight() / 2 << endl;
 	
 	for (int i = 0; i < framesToUpdate; i++) {
 		if (inputManager->GetKeyPress(DIK_W)) {
@@ -369,12 +376,21 @@ void Update(int framesToUpdate) {
 		{	
 			if (zombie[i].GetHP() > 0)
 			{
-				if (CircleCollisionDetection(F1->GetSpriteWidth() / 2, zombie[i].GetSpriteWidth() / 2, 
-					F1->GetPosition() + F1->GetSpriteCentre(), zombie[i].GetPosition() + zombie[i].GetSpriteCentre()))
+				if (CircleCollisionDetection(F1->GetSpriteWidth() / 2, zombie[i].GetSpriteWidth() / 2, F1->GetPosition() /* + F1->GetSpriteCentre()*/, zombie[i].GetPosition()/* + zombie[i].GetSpriteCentre()*/))
 				{
 					cout << "Collision occurs" << endl;
-					audioManager->PlayCollisionSound();
-					// Calculate the bouncing vector of F1 after collision
+					audioManager->PlayCollision();
+					// testing stuff:
+					float fDistance = sqrtf((F1->GetPosition().x - zombie[i].GetPosition().x) * (F1->GetPosition().x - zombie[i].GetPosition().x) + (F1->GetPosition().y - zombie[i].GetPosition().y) * (F1->GetPosition().y - zombie[i].GetPosition().y));
+					float fOverlap = 0.5f * (fDistance - (F1->GetSpriteWidth() / 2) - (zombie[i].GetSpriteWidth() / 2));
+
+					//bounce distance to prevent overlapping
+					 bounceDistanceX = fOverlap * (F1->GetPosition().x - zombie[i].GetPosition().x) / fDistance;
+					 bounceDistanceY = fOverlap * (F1->GetPosition().y - zombie[i].GetPosition().y) / fDistance;
+
+
+
+					// Final Velocity of F1 after collision
 					D3DXVECTOR2 f1FVelocity = F1->GetVelocity() * (F1->GetMass() - zombie[i].GetMass()) + 2 * zombie[i].GetMass() * zombie[i].GetVelocity() / (F1->GetMass() + zombie[i].GetMass());
 
 					// Calculate the bouncing vector of zombie after collision
@@ -385,12 +401,12 @@ void Update(int framesToUpdate) {
 					zombie[i].DecreaseHP(1);
 				}
 			}
-			zombie[i].UpdatePhysics();
+			zombie[i].UpdatePhysics(bounceDistanceX, bounceDistanceY);
 			zombie[i].UpdateAnim();
 			zombie[i].CheckBoundary(WindowWidth, WindowHeight);
 		}
 		F1->UpdateAnim();
-		F1->UpdatePhysics();
+		F1->UpdatePhysics(-bounceDistanceX, -bounceDistanceY);
 		F1->CheckBoundary(WindowWidth, WindowHeight);
 	}
 	inputManager->SetAllKeyPressToFalse();
