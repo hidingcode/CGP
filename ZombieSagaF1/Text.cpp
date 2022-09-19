@@ -1,4 +1,5 @@
 #include "Text.h"
+#include<string>  
 
 Text::Text()
 {
@@ -40,4 +41,31 @@ void Text::CleanUp()
 {
 	font->Release();
 	font = NULL;
+}
+
+//default word like "score :"
+void Text::DefaultText(string text)
+{
+	this->text1 = text;
+}
+
+//MergeTexts
+void Text::MergedText()
+{
+	this->text3 = this->text1 + this->text2;
+	
+}
+//Converter
+void Text::IntConvertToString(int score)
+{
+	string convertedNumber = to_string(score);
+	this->text2 = convertedNumber;
+}
+
+
+
+void Text::StrConvertToLPCSTR()
+{
+	LPCSTR finalMergetText = this->text3.c_str();
+	this->text4 = finalMergetText;
 }

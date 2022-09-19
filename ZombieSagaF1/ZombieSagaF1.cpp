@@ -9,6 +9,7 @@
 #include <Windows.h>
 #include <d3d9.h>
 #include <iostream>
+#include<string>  
 //	include the D3DX9 library
 #include <d3dx9.h>
 // include the Direct Input library
@@ -326,9 +327,7 @@ void GetInput()
 
 
 void Update(int framesToUpdate) {
-	float bounceDistanceX = 0;
-	float bounceDistanceY = 0;
-
+	cout << "scoreValue :" << scoreValue << endl;
 	
 	audioManager->UpdateSound();
 	audioManager->DynamicCarEngineSound(inputManager->GetKeyPress(DIK_W), inputManager->GetKeyPress(DIK_S));
@@ -386,6 +385,11 @@ void Update(int framesToUpdate) {
 					F1->SetVelocity(-f1FVelocity);
 					zombie[i].SetVelocity(zombieFVelocity);
 					zombie[i].DecreaseHP(1);
+					if (zombie[i].GetHP() == 0)
+					{
+						scoreValue++;
+						text->IntConvertToString(scoreValue);
+					}
 				}
 			}
 			zombie[i].UpdatePhysics();
@@ -420,9 +424,17 @@ void Render() {
 	// Draw F1
 	F1->Render(spriteBrush1, &mat);
 
-	// Draw Text
-	text->Render(spriteBrush1, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(1, 1), box->GetBoxPosition(), 0.0f,
-		"Score: ", D3DCOLOR_XRGB(0, 0, 0));
+
+
+	
+	//scoreBoard
+	text->DefaultText("Score :");
+	text->IntConvertToString(scoreValue);
+	text->MergedText();
+	text->StrConvertToLPCSTR();
+	
+
+	text->Render(spriteBrush1, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(1, 1), box->GetBoxPosition(), 0.0f, text->text4, D3DCOLOR_XRGB(0, 0, 0));
 	
 	// Draw Zombie
 	for (int i = 0; i < spawnNum; i++)
