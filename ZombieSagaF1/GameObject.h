@@ -21,7 +21,7 @@ public:
 	void CreateTexture(IDirect3DDevice9* d3dDevice, LPCSTR textureFilePath);
 
 	// Update Game Object Physics
-	void UpdatePhysics();
+	void UpdatePhysics(float bounceDistanceX , float bounceDistanceY);
 
 	// Render Game Object On Screen
 	void Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat);

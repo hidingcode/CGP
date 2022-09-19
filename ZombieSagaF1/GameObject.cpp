@@ -67,8 +67,19 @@ void GameObject::CheckBoundary(int WindowWidth, int WindowHeight) {
 	}
 }
 
-void GameObject::UpdatePhysics()
+void GameObject::UpdatePhysics(float bounceDistanceX, float bounceDistanceY)
 { 
+	//step1: bounce back to prevent overlapping
+	position.x += bounceDistanceX;
+	position.y += bounceDistanceY;
+
+	//step2: bounce force applied
+
+
+
+	//step3: velocity of object bla bla bla
+
+	//friction stuff
 	velocity += acceleration;
 	velocity *= 1 - friction;
 
