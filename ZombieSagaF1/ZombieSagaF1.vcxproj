@@ -147,6 +147,7 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="MyWindowManager.h" />
     <ClInclude Include="Panel.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SpriteBrush.h" />
@@ -164,6 +165,7 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="MyWindowManager.cpp" />
     <ClCompile Include="Panel.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SpriteBrush.cpp" />

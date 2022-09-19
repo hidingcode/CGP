@@ -83,11 +83,8 @@ LPD3DXSPRITE spriteBrush2 = NULL;
 // Line
 LPD3DXLINE line = NULL;
 
-// Input
-InputManager* inputW = new InputManager();
-InputManager* inputS = new InputManager();
-InputManager* inputA = new InputManager();
-InputManager* inputD = new InputManager();
+// Input Manager
+InputManager* inputManager = new InputManager();
 
 //score Global
 int scoreValue = 0;
@@ -280,11 +277,15 @@ void CreateMyDirectInput()
 	dInputKeyboardDevice->SetCooperativeLevel(g_hWnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
 }
 
-// !! Place to implement
 void InitialiseLevel() {
 	audioManager->PlayBackgroundMusic();
 	audioManager->PlayCarSound();
 	srand(time(0));
+
+	inputManager->AddKeyCodes(DIK_W);
+	inputManager->AddKeyCodes(DIK_S);
+	inputManager->AddKeyCodes(DIK_A);
+	inputManager->AddKeyCodes(DIK_D);
 
 	//	Create texture
 	background1->CreateTexture(d3dDevice, "Assets/roadBG.png");
@@ -316,15 +317,15 @@ void GetInput()
 	dInputMouseDevice->GetDeviceState(sizeof(mouseState), &mouseState);
 
 	// Set The Input
-	inputW->SetInput(diKeys, DIK_W);
-	inputS->SetInput(diKeys, DIK_S);
-	inputA->SetInput(diKeys, DIK_A);
-	inputD->SetInput(diKeys, DIK_D);
+	//inputW->SetInput(diKeys, DIK_W);
+	//inputS->SetInput(diKeys, DIK_S);
+	//inputA->SetInput(diKeys, DIK_A);
+	//inputD->SetInput(diKeys, DIK_D);
 }
 
 void CarMoving()
 {
-	if (inputW->GetKeyPressed() == true || inputS->GetKeyPressed() == true)
+	if (inputManager->GetKeyPress(DIK_W) || inputManager->GetKeyPress(DIK_S))
 	{
 		bool pause = false;
 		audioManager->ChangeState(pause);
@@ -342,24 +343,24 @@ void Update(int framesToUpdate) {
 	CarMoving();
 	
 	for (int i = 0; i < framesToUpdate; i++) {
-		if (inputW->GetKeyPressed()) {
+		if (inputManager->GetKeyPress(DIK_W)) {
 			F1->SetForward();
 			F1->MovForward();
 			F1->IncreaseFrameCounter();	
 		}
 
-		if (inputS->GetKeyPressed()) {
+		if (inputManager->GetKeyPress(DIK_S)) {
 			F1->SetForward();
 			F1->MovBackward();
 			F1->IncreaseFrameCounter();
 		}
 
-		if (inputA->GetKeyPressed()) {
+		if (inputManager->GetKeyPress(DIK_A)) {
 			F1->SetLeft();
 			F1->TurnLeft();
 		}
 
-		if (inputD->GetKeyPressed()) {
+		if (inputManager->GetKeyPress(DIK_D)) {
 			F1->SetRight();
 			F1->TurnRight();
 		}
@@ -392,10 +393,7 @@ void Update(int framesToUpdate) {
 		F1->UpdatePhysics();
 		F1->CheckBoundary(WindowWidth, WindowHeight);
 	}
-	inputW->SetKeyPressed(false);
-	inputA->SetKeyPressed(false);
-	inputS->SetKeyPressed(false);
-	inputD->SetKeyPressed(false);
+	inputManager->SetAllKeyPressToFalse();
 }
 
 void Render() {
@@ -484,7 +482,7 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 {	
 	CreateMyWindow();
 	CreateMyDirect3D9Device();
-	CreateMyDirectInput();
+	inputManager->CreateMyDirectInput(g_hWnd);
 
 	/*GameState mainmenu = GameState();
 	GameState level1 = GameState();
@@ -501,13 +499,13 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 	timer->Init(20);
 	while (WindowIsRunning())
 	{
-		GetInput();
+		inputManager->GetInput();
 		Update(timer->FramesToUpdate());
 		Render();
 	}
 
 	CleanupMyLevel();
-	CleanupMyDirectInput();
+	inputManager->CleanupMyDirectInput();
 	CleanupMyDirect3D9Device();
 	CleanupMyWindow();
 
