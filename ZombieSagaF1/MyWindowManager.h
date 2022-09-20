@@ -6,9 +6,10 @@ class MyWindowManager
 public:
 	MyWindowManager();
 	~MyWindowManager();
-	LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	void CreateMyWindow();
 	bool IsWindowRunnig();
+	HWND GetWindowHandle();
 private:
 	
 	//	Window handle
