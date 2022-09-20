@@ -20,6 +20,9 @@
 #include "SpriteBrush.h"
 #include "InputManager.h"
 
+//include windowClass
+#include "MyWindowManager.h"
+
 // ScoreBoard
 #include "ScoreBoard.h"
 
@@ -68,6 +71,9 @@ WNDCLASS wndClass;
 
 // DX globals
 IDirect3DDevice9* d3dDevice;
+
+//WindowManagerClass
+MyWindowManager* Window = new MyWindowManager;
 
 // Sprite Brush
 SpriteBrush* spriteBrush = new SpriteBrush();
@@ -205,7 +211,7 @@ void CreateMyDirect3D9Device() {
 	d3dPP.BackBufferCount = 1;
 	d3dPP.BackBufferWidth = WindowWidth;
 	d3dPP.BackBufferHeight = WindowHeight;
-	d3dPP.hDeviceWindow = g_hWnd;
+	d3dPP.hDeviceWindow = Window->GetWindowHandle();
 
 	//	Create a Direct3D 9 device.
 	HRESULT hr = direct3D9->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, g_hWnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dPP, &d3dDevice);
@@ -409,7 +415,8 @@ void CleanupMyWindow() {
 //	use WinMain if you don't want the console
 int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) // WinMain is a function in WINAPI
 {	
-	CreateMyWindow();
+	Window->CreateMyWindow();
+	/*CreateMyWindow();*/
 	CreateMyDirect3D9Device();
 	inputManager->CreateMyDirectInput(g_hWnd);
 
@@ -436,7 +443,7 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 	CleanupMyLevel();
 	inputManager->CleanUpMyDirectInput();
 	CleanupMyDirect3D9Device();
-	CleanupMyWindow();
+	/*CleanupMyWindow();*/
 
 	return 0;
 }
