@@ -10,7 +10,11 @@ public:
 	~ScoreBoard();
 
 	void IncreaseScore(int score);
-	LPCSTR DisplayScore();
+	void UpdateScore();
+	int GetScore();
+	string DisplayScore();
+
 private:
 	int score = 0;
+	LPCSTR scoreInLPCSTR;
 };

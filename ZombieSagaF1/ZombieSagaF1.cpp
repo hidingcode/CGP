@@ -323,7 +323,6 @@ void Update(int framesToUpdate) {
 					F1->SetVelocity(-f1FVelocity);
 					zombie[i].SetVelocity(zombieFVelocity);
 					zombie[i].DecreaseHP(1);
-
 					scoreBoard->IncreaseScore(10);
 				}
 			}
@@ -360,7 +359,8 @@ void Render() {
 	F1->RenderSprite(spriteBrush1, &mat);
 
 	// Draw Text
-	text->RenderText(spriteBrush1, &mat, scoreBoard->DisplayScore());
+	// .c_str() is to change the score to LPCSTR
+	text->RenderText(spriteBrush1, &mat, scoreBoard->DisplayScore().c_str());
 	
 	// Draw Zombie
 	for (int i = 0; i < spawnNum; i++)
