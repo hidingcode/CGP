@@ -24,9 +24,9 @@ void RenderComponent::InitSprite(D3DXVECTOR2 scalingCentre, float scalingRotatio
 	this->colorFilter = colorFilter;
 }
 
-void RenderComponent::InitText(D3DXVECTOR2 scalingCentre, float scalingRotation, D3DXVECTOR2 scaling, 
-	D3DXVECTOR2 rotationCentre, float rotation, D3DXVECTOR2 position, LPCSTR textContent, int textLength, 
-	UINT format, D3DXCOLOR colorFilter)
+void RenderComponent::InitText(D3DXVECTOR2 scalingCentre, float scalingRotation, D3DXVECTOR2 scaling,
+	D3DXVECTOR2 rotationCentre, float rotation, D3DXVECTOR2 position,
+	int textLength, UINT format, D3DXCOLOR colorFilter)
 {
 	this->scalingCentre = scalingCentre;
 	this->scalingRotation = scalingRotation;
@@ -34,7 +34,6 @@ void RenderComponent::InitText(D3DXVECTOR2 scalingCentre, float scalingRotation,
 	this->rotationCentre = rotationCentre;
 	this->rotation = rotation;
 	this->position = position;
-	this->textContent = textContent;
 	this->textLength = textLength;
 	this->format = format;
 	this->colorFilter = colorFilter;
@@ -76,7 +75,7 @@ void RenderComponent::RenderSprite(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat)
 	}
 }
 
-void RenderComponent::RenderText(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat)
+void RenderComponent::RenderText(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat, LPCSTR textContent)
 {
 	D3DXMatrixTransformation2D(mat, &scalingCentre, scalingRotation, &scaling, &rotationCentre, rotation, &position);
 	spriteBrush->SetTransform(mat);

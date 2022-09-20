@@ -20,6 +20,9 @@
 #include "SpriteBrush.h"
 #include "InputManager.h"
 
+// ScoreBoard
+#include "ScoreBoard.h"
+
 // Image
 #include "Image.h"
 
@@ -77,8 +80,8 @@ LPD3DXLINE line = NULL;
 // Input Manager
 InputManager* inputManager = new InputManager();
 
-//score Global
-int scoreValue = 0;
+//ScoreBoard Global
+ScoreBoard* scoreBoard = new ScoreBoard();
 
 // Image globals
 Image* background = new Image();
@@ -255,7 +258,7 @@ void InitialiseLevel() {
 	box->Init(120, 30, D3DXVECTOR2(10,10));
 
 	text->Init(200,200, D3DXVECTOR2(1,1), 0.0f ,D3DXVECTOR2(1, 1), text->GetPosition(), 0.0f, 
-		box->GetBoxPosition(), "Score: ",-1, 0 ,D3DCOLOR_XRGB(255, 255, 255));
+		box->GetBoxPosition(), -1, 0 ,D3DCOLOR_XRGB(0, 0, 0));
 
 	background->Init(840, 650, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(1, 1), D3DCOLOR_XRGB(255,255,255));
 	
@@ -263,11 +266,6 @@ void InitialiseLevel() {
 	{
 		zombie[i] = Enemy();
 		zombie[i].CreateTexture(d3dDevice, "Assets/zombie_idle.png");
-		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (WindowWidth - zombie[i].GetSpriteWidth() - 100), rand() % (WindowHeight - zombie[i].GetSpriteHeight() - 100));
-		zombie[i].Init(randomSpawn, 0.0f, 0.0f, 1.0f, D3DXVECTOR2(0.3f, 0.3f), 0.0f, 0.01f, 1000);
-	}
-}
-
 		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (WindowWidth - zombie[i].GetSpriteWidth() - 100),
 			rand() % (WindowHeight - zombie[i].GetSpriteHeight() - 100));
 
@@ -276,11 +274,7 @@ void InitialiseLevel() {
 	}
 }
 
-
-
 void Update(int framesToUpdate) {
-	cout << "scoreValue :" << scoreValue << endl;
-	
 	audioManager->UpdateSound();
 	audioManager->DynamicCarEngineSound(inputManager->GetKeyPress(DIK_W), inputManager->GetKeyPress(DIK_S));
 
@@ -329,11 +323,8 @@ void Update(int framesToUpdate) {
 					F1->SetVelocity(-f1FVelocity);
 					zombie[i].SetVelocity(zombieFVelocity);
 					zombie[i].DecreaseHP(1);
-					if (zombie[i].GetHP() == 0)
-					{
-						scoreValue++;
-						text->IntConvertToString(scoreValue);
-					}
+
+					scoreBoard->IncreaseScore(10);
 				}
 			}
 			zombie[i].UpdatePhysics();
@@ -369,8 +360,7 @@ void Render() {
 	F1->RenderSprite(spriteBrush1, &mat);
 
 	// Draw Text
-	text->Render(spriteBrush1, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(1, 1), box->GetBoxPosition(), 0.0f,
-		"Score: ", D3DCOLOR_XRGB(0, 0, 0));
+	text->RenderText(spriteBrush1, &mat, scoreBoard->DisplayScore());
 	
 	// Draw Zombie
 	for (int i = 0; i < spawnNum; i++)
@@ -435,7 +425,7 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 
 	FrameTimer* timer = new FrameTimer();
 
-	timer->Init(60);
+	timer->Init(20);
 	while (WindowIsRunning())
 	{
 		inputManager->GetInput();

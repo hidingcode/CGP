@@ -13,7 +13,7 @@ public:
 		D3DXVECTOR2 rotationCentre, float rotation, D3DXVECTOR2 position, D3DXCOLOR colorFilter);
 	// Intialise Text Data
 	void InitText(D3DXVECTOR2 scalingCentre, float scalingRotation, D3DXVECTOR2 scaling, 
-		D3DXVECTOR2 rotationCentre, float rotation, D3DXVECTOR2 position, LPCSTR textContent, 
+		D3DXVECTOR2 rotationCentre, float rotation, D3DXVECTOR2 position, 
 		int textLength, UINT format, D3DXCOLOR colorFilter);
 	// Create Texture
 	void CreateTexture(IDirect3DDevice9* d3dDevice, LPCSTR textureFilePath);
@@ -22,7 +22,7 @@ public:
 	// Render Sprite
 	void RenderSprite(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat);
 	// Render Text
-	void RenderText(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat);
+	void RenderText(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat, LPCSTR textContent);
 	// Clean up sprite
 	void CleanUpSprite();
 	// Clean up text
@@ -46,7 +46,6 @@ protected:
 	D3DXVECTOR2 position;
 	D3DCOLOR colorFilter;
 	LPD3DXFONT font = NULL;
-	LPCSTR textContent;
 	int textLength = -1;
 	UINT format = 0;
 };

@@ -152,6 +152,7 @@
     <ClInclude Include="Panel.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RenderComponent.h" />
+    <ClInclude Include="ScoreBoard.h" />
     <ClInclude Include="SpriteBrush.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Enemy.h" />
@@ -172,6 +173,7 @@
     <ClCompile Include="Panel.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
+    <ClCompile Include="ScoreBoard.cpp" />
     <ClCompile Include="SpriteBrush.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Enemy.cpp" />
