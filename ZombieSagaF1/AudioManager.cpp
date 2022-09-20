@@ -1,12 +1,20 @@
 #include "AudioManager.h"
 
+AudioManager::AudioManager()
+{
+}
+
+AudioManager::~AudioManager()
+{
+}
+
 void AudioManager::InitialiseAudio()
 {
 	result = FMOD::System_Create(&system);
 	result = system->init(32, FMOD_INIT_NORMAL, extradriverdata);
 }
 
-void AudioManager::StartCarEngineSound()
+void AudioManager::PlayCarEngineSound()
 {	
 	result = system->playSound(engineSound, 0, false, &channel3);
 	channel->setVolume(0.5);
@@ -37,7 +45,6 @@ void AudioManager::LoadSounds()
 
 	result = system->createSound("Assets/crashSound.mp3", FMOD_DEFAULT, 0, &crashSound);
 	result = crashSound->setMode(FMOD_LOOP_OFF);
-	
 }
 
 void AudioManager::UpdateSound()
@@ -45,68 +52,47 @@ void AudioManager::UpdateSound()
 	result = system->update();
 }
 
-AudioManager::AudioManager()
+void AudioManager::ChangeSoundState(bool state)
 {
+	//pause the music
+	result = channel3->setPaused(state);
 
+	//resume the music
+	result = channel3->setPaused(state);
 }
 
-AudioManager::~AudioManager()
-{
-}
-
-void AudioManager::ChangeState(bool pause)
-{
-	if (pause == true)
+void AudioManager::ManageCarEngineSound(bool moveForward, bool moveBackward)
+{	
+	if (moveForward == true || moveBackward == true)
 	{
-		//pause the music
-		result = channel3->setPaused(true);
-	}
-	else
-	{
-		//resume the music
-		result = channel3->setPaused(false);
-	}
-
-}
-
-void AudioManager::DynamicCarEngineSound(bool MoveForward, bool moveBackward)
-{
-	if (MoveForward == true || moveBackward == true)
-	{
-		this->ChangeState(false);
+		this->ChangeSoundState(false);
 	}
 
 	else
 	{
-		this->ChangeState(true);
+		this->ChangeSoundState(true);
 	}
 }
 
-
-
-float AudioManager::DynamicSound(int windowWidth, int carPositionX)
+void AudioManager::DynamicCarEngineSound(int windowWidth, int carPositionX)
 {
 	float halfWidth = windowWidth / 2;
 	
-
+	// If the car position is lower than half width
 	if (carPositionX < halfWidth)
-	{
+	{	
+		// Pan the sound to left
 		channel3->setPan(-(1 - (carPositionX/ halfWidth)));
-		return (-(1 - (carPositionX / halfWidth)));
 	}
 
 	else if (carPositionX == halfWidth)
 	{
 		channel3->setPan(0);
-		return (0);
 	}
 
 	else if (carPositionX >= halfWidth)
 	{
 		channel3->setPan((carPositionX - halfWidth) / halfWidth);
-		return ((carPositionX - halfWidth) / halfWidth);
-	}
-
-	
+	}	
 }
 

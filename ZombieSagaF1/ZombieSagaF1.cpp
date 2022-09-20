@@ -73,7 +73,7 @@ WNDCLASS wndClass;
 IDirect3DDevice9* d3dDevice;
 
 //WindowManagerClass
-MyWindowManager* Window = new MyWindowManager;
+MyWindowManager* Window = new MyWindowManager();
 
 // Sprite Brush
 SpriteBrush* spriteBrush = new SpriteBrush();
@@ -106,6 +106,8 @@ MainMenu* mainMenu = new MainMenu();
 // Audio globals
 AudioManager* audioManager;
 
+Button* test = new Button();
+
 bool CircleCollisionDetection(int radiusA, int radiusB, D3DXVECTOR2 positionA, D3DXVECTOR2 positionB)
 {
 	D3DXVECTOR2 distance = positionA - positionB;
@@ -119,73 +121,6 @@ bool CircleCollisionDetection(int radiusA, int radiusB, D3DXVECTOR2 positionA, D
 	}
 }
 
-//	Window Procedure, for event handling
-LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) // Get messages from the OS(mouse was move,keyboard was press)
-{
-	switch (message)
-	{
-		//	The message is post when we destroy the window.
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
-
-	case WM_KEYDOWN:
-		switch (wParam)
-		{
-		case VK_ESCAPE:
-			PostQuitMessage(0);
-			break;
-		}
-		break;
-		//	Default handling for other messages.
-	default:
-		return DefWindowProc(hWnd, message, wParam, lParam); // Return messages back to the OS
-	}
-
-	return 0;
-}
-//--------------------------------------------------------------------
-
-//	use int main if you want to have a console to print out message
-//int main()
-
-void CreateMyWindow() {
-	//	Set all members in wndClass to 0.
-	ZeroMemory(&wndClass, sizeof(wndClass));
-	//	Filling wndClass. You are to refer to MSDN for each of the members details.
-	//	These are the fundamental structure members to be specify, in order to create your window.
-	wndClass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-	wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wndClass.hInstance = GetModuleHandle(NULL);
-	wndClass.lpfnWndProc = WindowProcedure; // Long Pointer to a window procedure function
-	wndClass.lpszClassName = "Zombie Saga F1";
-	wndClass.style = CS_HREDRAW | CS_VREDRAW;
-
-	//	Register the window.
-	RegisterClass(&wndClass);
-
-	//	You are to refer to MSDN for each of the parameters details.
-	//  Create instance of window
-	g_hWnd = CreateWindowEx(0, wndClass.lpszClassName, "Zombie Sage F1", WS_OVERLAPPEDWINDOW, 0, 0, WindowWidth, WindowHeight, NULL, NULL, GetModuleHandle(NULL), NULL);
-	ShowWindow(g_hWnd, 1);
-}
-
-bool WindowIsRunning() {
-	MSG msg;
-	ZeroMemory(&msg, sizeof(msg)); // Set memory to zero (To clear the memory)
-
-	while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-	{
-		//	Receive a quit message
-		if (msg.message == WM_QUIT)
-			return false;
-		//	Translate the message 
-		TranslateMessage(&msg);
-		//	Send message to your window procedure
-		DispatchMessage(&msg);
-	}
-	return true;
-}
 
 void CleanupMyLevel() {
 	F1->CleanUpSprite();
@@ -237,18 +172,19 @@ void CreateMyDirect3D9Device() {
 
 void InitialiseLevel() {
 	audioManager->PlayBackgroundMusic();
-	audioManager->StartCarEngineSound();
+	audioManager->PlayCarEngineSound();
 	srand(time(0));
 
 	// Add Key Codes to Input Manager
-	inputManager->AddKeyCodes(DIK_W);
-	inputManager->AddKeyCodes(DIK_S);
-	inputManager->AddKeyCodes(DIK_A);
-	inputManager->AddKeyCodes(DIK_D);
+	inputManager->AddKey(DIK_W);
+	inputManager->AddKey(DIK_S);
+	inputManager->AddKey(DIK_A);
+	inputManager->AddKey(DIK_D);
 
 	//	Create texture
 	mainMenu->CreateTexture(d3dDevice, "Assets/roadBG.png");
 	background->CreateTexture(d3dDevice, "Assets/roadBG.png");
+
 	F1->CreateTexture(d3dDevice, "Assets/F1.png");
 	mainMenu->CreateTexture(d3dDevice, "Assets/mainMenu.png");
 	mainMenu->Init(840, 650, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(1, 1), D3DCOLOR_XRGB(255, 255, 255));
@@ -278,12 +214,12 @@ void InitialiseLevel() {
 
 void Update(int framesToUpdate) {
 	audioManager->UpdateSound();
-	audioManager->DynamicCarEngineSound(inputManager->GetKeyPress(DIK_W), inputManager->GetKeyPress(DIK_S));
+	audioManager->ManageCarEngineSound(inputManager->GetKeyPress(DIK_W), inputManager->GetKeyPress(DIK_S));
+	audioManager->DynamicCarEngineSound(WindowWidth, F1->GetPosition().x);
 
-	//test
-	//cout << "spriteX_width: " << F1->GetSpriteWidth() / 2 << " spriteX_Height: " << F1->GetSpriteHeight() / 2 << endl;
-	
 	for (int i = 0; i < framesToUpdate; i++) {
+		mainMenu->OnCollide(F1->GetRectangle());
+
 		if (inputManager->GetKeyPress(DIK_W)) {
 			F1->MovForward();
 		}
@@ -308,13 +244,6 @@ void Update(int framesToUpdate) {
 				{
 					cout << "Collision occurs" << endl;
 					audioManager->PlayCollisionSound();
-					// testing stuff:
-					/*float fDistance = sqrtf((F1->GetPosition().x - zombie[i].GetPosition().x) * (F1->GetPosition().x - zombie[i].GetPosition().x) + (F1->GetPosition().y - zombie[i].GetPosition().y) * (F1->GetPosition().y - zombie[i].GetPosition().y));
-					float fOverlap = 0.5f * (fDistance - (F1->GetSpriteWidth() / 2) - (zombie[i].GetSpriteWidth() / 2));
-
-					//bounce distance to prevent overlapping
-					 bounceDistanceX = fOverlap * (F1->GetPosition().x - zombie[i].GetPosition().x) / fDistance;
-					 bounceDistanceY = fOverlap * (F1->GetPosition().y - zombie[i].GetPosition().y) / fDistance;*/
 
 					// Final Velocity of F1 after collision
 					D3DXVECTOR2 f1FVelocity = F1->GetVelocity() * (F1->GetMass() - zombie[i].GetMass()) + 2 * zombie[i].GetMass() * zombie[i].GetVelocity() / (F1->GetMass() + zombie[i].GetMass());
@@ -394,7 +323,6 @@ void CleanupMyDirect3D9Device() {
 	spriteBrush2 = NULL;
 
 	text->CleanUpText();
-
 	box->CleanUpLine();
 
 	//	Release the device when exiting.
@@ -411,7 +339,6 @@ void CleanupMyWindow() {
 int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) // WinMain is a function in WINAPI
 {	
 	Window->CreateMyWindow();
-	/*CreateMyWindow();*/
 	CreateMyDirect3D9Device();
 	inputManager->CreateMyDirectInput(g_hWnd);
 
@@ -428,7 +355,7 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 	FrameTimer* timer = new FrameTimer();
 
 	timer->Init(20);
-	while (WindowIsRunning())
+	while (Window->IsWindowRunning())
 	{
 		inputManager->GetInput();
 		Update(timer->FramesToUpdate());
@@ -438,7 +365,7 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 	CleanupMyLevel();
 	inputManager->CleanUpMyDirectInput();
 	CleanupMyDirect3D9Device();
-	/*CleanupMyWindow();*/
+	Window->CleanUpMyWindow();
 
 	return 0;
 }

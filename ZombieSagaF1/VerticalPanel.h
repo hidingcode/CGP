@@ -2,11 +2,11 @@
 #include <d3dx9.h>
 #include "Button.h"
 
-class Panel
+class VerticalPanel
 {
 public:
-	Panel(D3DXVECTOR2 position);
-	~Panel();
+	VerticalPanel(D3DXVECTOR2 position);
+	~VerticalPanel();
 	// Set the position of widget according to the panel position
 	void Init();
 	void CreateTexture(IDirect3DDevice9* d3dDevice);

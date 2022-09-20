@@ -57,9 +57,7 @@ void MyWindowManager::CreateMyWindow()
 	ShowWindow(g_hWnd, 1);
 }
 
-
-
-bool MyWindowManager::IsWindowRunnig()
+bool MyWindowManager::IsWindowRunning()
 {
 	MSG msg;
 	ZeroMemory(&msg, sizeof(msg)); // Set memory to zero (To clear the memory)
@@ -75,6 +73,11 @@ bool MyWindowManager::IsWindowRunnig()
 		DispatchMessage(&msg);
 	}
 	return true;
+}
+
+void MyWindowManager::CleanUpMyWindow()
+{
+	UnregisterClass(wndClass.lpszClassName, GetModuleHandle(NULL));
 }
 
 HWND MyWindowManager::GetWindowHandle()

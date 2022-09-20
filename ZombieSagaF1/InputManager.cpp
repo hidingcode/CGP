@@ -8,7 +8,7 @@ InputManager::~InputManager()
 {
 }
 
-void InputManager::AddKeyCodes(int keyCode)
+void InputManager::AddKey(int keyCode)
 {	
 	// Push the key code into the key code vector
 	keyCodes[numberOfEntries] = keyCode;
@@ -77,8 +77,9 @@ void InputManager::GetInput()
 	//  Get Mouse Data
 	dInputMouseDevice->GetDeviceState(sizeof(mouseState), &mouseState);
 
-	/* Loop through the key codes and check if there is any input
-	 If certain key in the key code array is pressed, set the boolean of the key press to true;*/
+	/* Loop through the key and check if there is any input
+	 If certain key with key codes avaliable in the key code array is pressed, 
+	 set the state of the key press to true;*/
 	for (int i = 0; i <= numberOfEntries; i++)
 	{
 		if (diKeys[keyCodes[i]] & 0x80)

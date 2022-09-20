@@ -27,14 +27,37 @@ public:
 	void CleanUpSprite();
 	// Clean up text
 	void CleanUpText();
-	// Get Position
-	D3DXVECTOR2 GetPosition();
+	// Get Rectangle
+	RECT GetRectangle();
+	// Set Scaling Centre
+	void SetScalingCentre(D3DXVECTOR2 scalingCentre);
+	// Get Scaling Centre
+	D3DXVECTOR2 GetScalingCentre();
+	// Set Scaling Rotation
+	void SetScalingRotation(float scalingRotation);
+	// Get Scaling Rotation
+	float GetScalingRotation();
+	// Set Scaling
+	void SetScaling(D3DXVECTOR2 scaling);
 	// Get Scaling
 	D3DXVECTOR2 GetScaling();
-	// Get ScalingCentre
-	D3DXVECTOR2 GetScalingCentre();
-	// Get RotationCentre
+	// Set Rotation Centre
+	void SetRotationCentre(D3DXVECTOR2 position);
+	// Get Rotation Centre
 	D3DXVECTOR2 GetRotationCentre();
+	// Set Rotation
+	void SetRotation(float rotation);
+	// Get Rotation
+	float GetRotation();
+	// Set Position
+	void SetPosition(D3DXVECTOR2 position);
+	// Get Position
+	D3DXVECTOR2 GetPosition();
+	// Set Color Filter
+	void SetColorFilter(D3DCOLOR colorFilter);
+	// Get Color Filter
+	D3DCOLOR GetColorFilter();
+
 protected:
 	LPDIRECT3DTEXTURE9 texture = NULL;
 	RECT rect;

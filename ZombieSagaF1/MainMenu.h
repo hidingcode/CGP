@@ -1,6 +1,6 @@
 #pragma once
 #include "Image.h"
-#include "Panel.h"
+#include "VerticalPanel.h"
 #include <iostream>
 
 using namespace std;
@@ -16,6 +16,6 @@ public:
 	void OnCollide(RECT rect);
 
 private:
-	Panel* panel1 = new Panel(D3DXVECTOR2(310, 300));
+	VerticalPanel* panel1 = new VerticalPanel(D3DXVECTOR2(310, 300));
 };
 

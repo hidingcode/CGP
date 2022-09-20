@@ -149,7 +149,7 @@
     <ClInclude Include="Box.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="MyWindowManager.h" />
-    <ClInclude Include="Panel.h" />
+    <ClInclude Include="VerticalPanel.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="ScoreBoard.h" />
@@ -170,7 +170,7 @@
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="MyWindowManager.cpp" />
-    <ClCompile Include="Panel.cpp" />
+    <ClCompile Include="VerticalPanel.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="ScoreBoard.cpp" />

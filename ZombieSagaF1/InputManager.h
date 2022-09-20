@@ -2,7 +2,6 @@
 #include <dinput.h>
 #include <vector>
 #include <iostream>
-
 using namespace std;
 
 class InputManager
@@ -13,7 +12,7 @@ public:
 	
 	// Add Key into the Input Manager. Example: AddKey(DIK_W)
 	// For more information of keycodes please look at direct input key codes
-	void AddKeyCodes(int keyCode);
+	void AddKey(int keyCode);
 	// Create Direct Input Object, Keyboard Device and Mouse Device
 	void CreateMyDirectInput(HWND g_hWnd);
 	// Release Input Device
@@ -44,6 +43,5 @@ private:
 	//// Boolean to check if the key is pressed or not
 	//vector<bool> isKeyPressed;
 	bool isKeyPressed[256];
-	
 };
 
