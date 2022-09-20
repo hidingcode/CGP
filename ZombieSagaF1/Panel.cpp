@@ -10,11 +10,12 @@ Panel::~Panel()
 }
 
 
-void Panel::Begin()
-{
-	// Set the position of widget according to the panel position
-	startButton->SetPosition(position);
-	quitButton->SetPosition(D3DXVECTOR2(position.x, 420));
+void Panel::Init()
+{	
+	startButton->Init(210,75, D3DXVECTOR2(0, 0), 0.0f, position, 0.0f,
+		D3DXVECTOR2(1, 1), D3DCOLOR_XRGB(255, 255, 255));
+	quitButton->Init(170, 75, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(position.x, position.y / 2 + startButton->GetPosition().y),
+		0.0f, D3DXVECTOR2(1, 1), D3DCOLOR_XRGB(255, 255, 255));
 }
 
 void Panel::CreateTexture(IDirect3DDevice9* d3dDevice)

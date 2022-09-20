@@ -1,17 +1,19 @@
 #include "MainMenu.h"
 
-
-
 MainMenu::MainMenu()
 {
+}
 
+MainMenu::~MainMenu()
+{
 }
 
 void MainMenu::CreateTexture(IDirect3DDevice9* d3dDevice, LPCSTR textureFilePath)
 {	
 	Image::CreateTexture(d3dDevice, textureFilePath);
 
-	panel1->Begin();
+	// Initialise Panel
+	panel1->Init();
 	panel1->CreateTexture(d3dDevice);
 }
 

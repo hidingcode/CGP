@@ -7,7 +7,8 @@ class Panel
 public:
 	Panel(D3DXVECTOR2 position);
 	~Panel();
-	void Begin();
+	// Set the position of widget according to the panel position
+	void Init();
 	void CreateTexture(IDirect3DDevice9* d3dDevice);
 	void Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat);
 	void OnCollide(RECT rect);

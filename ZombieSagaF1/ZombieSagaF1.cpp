@@ -74,8 +74,6 @@ SpriteBrush* spriteBrush = new SpriteBrush();
 
 LPD3DXSPRITE spriteBrush1 = NULL;
 LPD3DXSPRITE spriteBrush2 = NULL;
-// Line
-LPD3DXLINE line = NULL;
 
 // Input Manager
 InputManager* inputManager = new InputManager();
@@ -228,11 +226,7 @@ void CreateMyDirect3D9Device() {
 
 	text->CreateFontType(d3dDevice, "Arial");
 
-	hr = D3DXCreateLine(d3dDevice, &line);
-
-	if (FAILED(hr)) {
-		cout << "Create line failed" << endl;
-	}
+	box->CreateLine(d3dDevice);
 }
 
 void InitialiseLevel() {
@@ -247,9 +241,11 @@ void InitialiseLevel() {
 	inputManager->AddKeyCodes(DIK_D);
 
 	//	Create texture
+	mainMenu->CreateTexture(d3dDevice, "Assets/roadBG.png");
 	background->CreateTexture(d3dDevice, "Assets/roadBG.png");
 	F1->CreateTexture(d3dDevice, "Assets/F1.png");
 	mainMenu->CreateTexture(d3dDevice, "Assets/mainMenu.png");
+	mainMenu->Init(840, 650, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(1, 1), D3DCOLOR_XRGB(255, 255, 255));
 
 	//  Initialisation
 	F1->Init(768, 450, 3, 6, 5, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(395, 580), 1.0f, 0.0f, 2.0f,
@@ -297,7 +293,7 @@ void Update(int framesToUpdate) {
 		if (inputManager->GetKeyPress(DIK_D)) {
 			F1->TurnRight();
 		}
-	;
+
 		for (int i = 0; i < spawnNum; i++)
 		{	
 			if (zombie[i].GetHP() > 0)
@@ -352,8 +348,8 @@ void Render() {
 	D3DXMATRIX mat;
 	
 	// Draw background
-	background->RenderSprite(spriteBrush1, &mat);
-	/*mainMenu->Render(spriteBrush1, &mat);*/
+	/*background->RenderSprite(spriteBrush1, &mat);*/
+	mainMenu->Render(spriteBrush1, &mat);
 
 	// Draw F1
 	F1->RenderSprite(spriteBrush1, &mat);
@@ -375,7 +371,7 @@ void Render() {
 	spriteBrush2->End();
 
 	// Draw Box
-	box->Render(line, D3DCOLOR_XRGB(255, 0, 0));
+	box->RenderLine(D3DCOLOR_XRGB(255, 0, 0));
 
 	//	End the scene
 	d3dDevice->EndScene();
@@ -393,8 +389,7 @@ void CleanupMyDirect3D9Device() {
 
 	text->CleanUpText();
 
-	line->Release();
-	line = NULL;
+	box->CleanUpLine();
 
 	//	Release the device when exiting.
 	d3dDevice->Release();

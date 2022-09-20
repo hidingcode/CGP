@@ -31,7 +31,7 @@ bool Button::OnCollide(RECT rect)
 
 D3DXVECTOR2 Button::GetPosition()
 {
-	return position;
+	return Image::GetPosition();
 }
 
 int Button::GetTextureWidth()
