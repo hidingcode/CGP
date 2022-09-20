@@ -6,7 +6,7 @@ void AudioManager::InitialiseAudio()
 	result = system->init(32, FMOD_INIT_NORMAL, extradriverdata);
 }
 
-void AudioManager::PlayCarSound()
+void AudioManager::StartCarEngineSound()
 {	
 	result = system->playSound(engineSound, 0, false, &channel3);
 	channel->setVolume(0.5);
@@ -68,6 +68,21 @@ void AudioManager::ChangeState(bool pause)
 	}
 
 }
+
+void AudioManager::DynamicCarEngineSound(bool MoveForward, bool moveBackward)
+{
+	if (MoveForward == true || moveBackward == true)
+	{
+		this->ChangeState(false);
+	}
+
+	else
+	{
+		this->ChangeState(true);
+	}
+}
+
+
 
 float AudioManager::DynamicSound(int windowWidth, int carPositionX)
 {

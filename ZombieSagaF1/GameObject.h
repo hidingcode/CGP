@@ -17,7 +17,7 @@ public:
 		float rotation, float mass, D3DXVECTOR2 scaling, float rotationSpeed, float friction, D3DXCOLOR colorFilter);
 
 	// Update Game Object Physics
-	void UpdatePhysics(float bounceDistanceX , float bounceDistanceY);
+	void UpdatePhysics();
 
 	// Prevent the Game Object from going out the screen
 	void CheckBoundary(int WindowWidth, int WindowHeight);

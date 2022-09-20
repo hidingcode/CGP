@@ -9,6 +9,7 @@
 #include <Windows.h>
 #include <d3d9.h>
 #include <iostream>
+#include<string>  
 //	include the D3DX9 library
 #include <d3dx9.h>
 
@@ -233,7 +234,7 @@ void CreateMyDirect3D9Device() {
 
 void InitialiseLevel() {
 	audioManager->PlayBackgroundMusic();
-	audioManager->PlayCarSound();
+	audioManager->StartCarEngineSound();
 	srand(time(0));
 
 	// Add Key Codes to Input Manager
@@ -262,6 +263,10 @@ void InitialiseLevel() {
 	{
 		zombie[i] = Enemy();
 		zombie[i].CreateTexture(d3dDevice, "Assets/zombie_idle.png");
+		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (WindowWidth - zombie[i].GetSpriteWidth() - 100), rand() % (WindowHeight - zombie[i].GetSpriteHeight() - 100));
+		zombie[i].Init(randomSpawn, 0.0f, 0.0f, 1.0f, D3DXVECTOR2(0.3f, 0.3f), 0.0f, 0.01f, 1000);
+	}
+}
 
 		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (WindowWidth - zombie[i].GetSpriteWidth() - 100),
 			rand() % (WindowHeight - zombie[i].GetSpriteHeight() - 100));
@@ -271,28 +276,13 @@ void InitialiseLevel() {
 	}
 }
 
-void CarMoving()
-{
-	if (inputManager->GetKeyPress(DIK_W) || inputManager->GetKeyPress(DIK_S))
-	{
-		bool pause = false;
-		audioManager->ChangeState(pause);
-	}
 
-	else
-	{
-		bool pause = true;
-		audioManager->ChangeState(pause);
-	}
-}
 
 void Update(int framesToUpdate) {
-	float bounceDistanceX = 0;
-	float bounceDistanceY = 0;
-
+	cout << "scoreValue :" << scoreValue << endl;
 	
 	audioManager->UpdateSound();
-	CarMoving();
+	audioManager->DynamicCarEngineSound(inputManager->GetKeyPress(DIK_W), inputManager->GetKeyPress(DIK_S));
 
 	//test
 	//cout << "spriteX_width: " << F1->GetSpriteWidth() / 2 << " spriteX_Height: " << F1->GetSpriteHeight() / 2 << endl;
@@ -323,12 +313,12 @@ void Update(int framesToUpdate) {
 					cout << "Collision occurs" << endl;
 					audioManager->PlayCollisionSound();
 					// testing stuff:
-					float fDistance = sqrtf((F1->GetPosition().x - zombie[i].GetPosition().x) * (F1->GetPosition().x - zombie[i].GetPosition().x) + (F1->GetPosition().y - zombie[i].GetPosition().y) * (F1->GetPosition().y - zombie[i].GetPosition().y));
+					/*float fDistance = sqrtf((F1->GetPosition().x - zombie[i].GetPosition().x) * (F1->GetPosition().x - zombie[i].GetPosition().x) + (F1->GetPosition().y - zombie[i].GetPosition().y) * (F1->GetPosition().y - zombie[i].GetPosition().y));
 					float fOverlap = 0.5f * (fDistance - (F1->GetSpriteWidth() / 2) - (zombie[i].GetSpriteWidth() / 2));
 
 					//bounce distance to prevent overlapping
 					 bounceDistanceX = fOverlap * (F1->GetPosition().x - zombie[i].GetPosition().x) / fDistance;
-					 bounceDistanceY = fOverlap * (F1->GetPosition().y - zombie[i].GetPosition().y) / fDistance;
+					 bounceDistanceY = fOverlap * (F1->GetPosition().y - zombie[i].GetPosition().y) / fDistance;*/
 
 					// Final Velocity of F1 after collision
 					D3DXVECTOR2 f1FVelocity = F1->GetVelocity() * (F1->GetMass() - zombie[i].GetMass()) + 2 * zombie[i].GetMass() * zombie[i].GetVelocity() / (F1->GetMass() + zombie[i].GetMass());
@@ -336,17 +326,22 @@ void Update(int framesToUpdate) {
 					// Calculate the bouncing vector of zombie after collision
 					D3DXVECTOR2 zombieFVelocity = zombie[i].GetVelocity() * (zombie[i].GetMass() - F1->GetMass()) + 2 * F1->GetMass() * F1->GetVelocity() / (F1->GetMass() + zombie[i].GetMass());
 
-					F1->SetVelocity(f1FVelocity);
+					F1->SetVelocity(-f1FVelocity);
 					zombie[i].SetVelocity(zombieFVelocity);
 					zombie[i].DecreaseHP(1);
+					if (zombie[i].GetHP() == 0)
+					{
+						scoreValue++;
+						text->IntConvertToString(scoreValue);
+					}
 				}
 			}
-			zombie[i].UpdatePhysics(bounceDistanceX, bounceDistanceY);
+			zombie[i].UpdatePhysics();
 			zombie[i].UpdateAnim();
 			zombie[i].CheckBoundary(WindowWidth, WindowHeight);
 		}
 		F1->UpdateAnim();
-		F1->UpdatePhysics(-bounceDistanceX, -bounceDistanceY);
+		F1->UpdatePhysics();
 		F1->CheckBoundary(WindowWidth, WindowHeight);
 	}
 	inputManager->SetAllKeyPressToFalse();
@@ -374,7 +369,8 @@ void Render() {
 	F1->RenderSprite(spriteBrush1, &mat);
 
 	// Draw Text
-	text->RenderText(spriteBrush1, &mat);
+	text->Render(spriteBrush1, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(1, 1), box->GetBoxPosition(), 0.0f,
+		"Score: ", D3DCOLOR_XRGB(0, 0, 0));
 	
 	// Draw Zombie
 	for (int i = 0; i < spawnNum; i++)
@@ -439,7 +435,7 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 
 	FrameTimer* timer = new FrameTimer();
 
-	timer->Init(20);
+	timer->Init(60);
 	while (WindowIsRunning())
 	{
 		inputManager->GetInput();
