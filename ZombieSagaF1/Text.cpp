@@ -9,35 +9,16 @@ Text::~Text()
 
 }
 
-void Text::CreateFontType(IDirect3DDevice9* d3dDevice, LPCSTR fontType)
-{
-	HRESULT hr = D3DXCreateFont(d3dDevice, 25, 0, 0, 1, false, DEFAULT_CHARSET, OUT_TT_ONLY_PRECIS, DEFAULT_QUALITY,
-		DEFAULT_PITCH | FF_DONTCARE, fontType, &font);
-
-
-	if (FAILED(hr)) {
-		cout << "Create font failed" << endl;
-	}
-}
-
-void Text::Init(int textRectLeft, int textRectTop, int textRectRight, int textRectBottom)
-{
-	textRect.left = textRectLeft;
-	textRect.top = textRectTop;
-	textRect.right = textRectRight;
-	textRect.bottom = textRectBottom;
-}
-
-void Text::Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat, D3DXVECTOR2 scaling, D3DXVECTOR2 textCentre, 
-	D3DXVECTOR2 fontPosition, float rotation,LPCSTR text, D3DXCOLOR textColor)
+void Text::Init(int rectWidth, int rectHeight, D3DXVECTOR2 scalingCentre, float scalingRotation, 
+	D3DXVECTOR2 scaling, D3DXVECTOR2 rotationCentre, float rotation, D3DXVECTOR2 position, 
+	LPCSTR textContent, int textLength, UINT format, D3DXCOLOR colorFilter)
 {	
-	D3DXMatrixTransformation2D(mat, NULL, 0.0, &scaling, &textCentre, rotation, &fontPosition);
-	spriteBrush->SetTransform(mat);
-	font->DrawText(spriteBrush, text, -1, &textRect, 0, textColor);
-}
 
-void Text::CleanUp()
-{
-	font->Release();
-	font = NULL;
+	rect.left = 0;
+	rect.right = rectWidth;
+	rect.top = 0;
+	rect.bottom = rectHeight;
+	
+	RenderComponent::InitText(scalingCentre, scalingRotation, scaling, rotationCentre, rotation, position, textContent,
+		textLength, format, colorFilter);
 }

@@ -1,13 +1,13 @@
 #pragma once
-#include "Background.h"
+#include "Image.h"
 
-class Button : public Background
+class Button : public Image
 {
 public:
-	Button(int textureWidth, int textureHeight);
+	Button();
 	~Button();
 	// Check If There is Any Collision With The Button
-	bool IsCollide(RECT rect1);
+	bool OnCollide(RECT rect);
 	// Set Position of Panel
 	void SetPosition(D3DXVECTOR2 position);
 	// Get Position of Panel

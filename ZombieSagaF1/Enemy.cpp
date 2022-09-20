@@ -9,27 +9,26 @@ Enemy::~Enemy()
 {
 }
 
-Enemy::Enemy(int textureWidth, int textureHeight, int textureRow, int textureColumn, int maxFrame)
-	:GameObject(textureWidth, textureHeight, textureRow, textureColumn, maxFrame)
+void Enemy::Init(int textureWidth, int textureHeight, int textureRow, int textureColumn,
+	int maxFrame, D3DXVECTOR2 scalingCentre, float scalingRotation, D3DXVECTOR2 position, float thrust,
+	float rotation, float mass, D3DXVECTOR2 scaling, float rotationSpeed, float friction, D3DXCOLOR colorFilter, 
+	int hp)
 {
-}
-
-void Enemy::Init(D3DXVECTOR2 position, float thrust, float direction, float mass,
-	D3DXVECTOR2 scaling, float rotationSpeed, float friction, int hp)
-{
-	GameObject::Init(position, thrust, direction, mass, scaling, rotationSpeed, friction);
+	GameObject::Init(textureWidth, textureHeight, textureRow, textureColumn,
+		maxFrame, scalingCentre, scalingRotation, position, thrust,
+		rotation, mass, scaling, rotationSpeed, friction, colorFilter);
 	this->hp = hp;
 }
 
 void Enemy::UpdateAnim()
 {	
-	IncreaseFrameCounter();
+	frameCounter++;
 
 	// Crop texture into required rectangle
-	spriteRect.left = frameCounter % textureColumn * spriteWidth;
-	spriteRect.right = spriteRect.left + spriteWidth;
-	spriteRect.top = 0;
-	spriteRect.bottom = spriteRect.top + spriteHeight;
+	rect.left = frameCounter % textureColumn * spriteWidth;
+	rect.right = rect.left + spriteWidth;
+	rect.top = 0;
+	rect.bottom = rect.top + spriteHeight;
 
 	// If the frame counter exceed max frame set the frame counter back to 0
 	// to loop the animation

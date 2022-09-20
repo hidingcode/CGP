@@ -1,41 +1,55 @@
 #include "Player.h"
 using namespace std;
 
-Player::Player(int textureWidth, int textureHeight, int textureRow, int textureColumn, int maxFrame)
-	:GameObject(textureWidth, textureHeight, textureRow, textureColumn, maxFrame)
+Player::Player()
 {
+}
+
+Player::~Player()
+{
+
 }
 
 void Player::MovForward()
-{
-	acceleration.x = sin(direction) * thrust / mass;
-	acceleration.y = -cos(direction) * thrust / mass;
+{	
+	// Set the current direction to change to the move forward animation
+	currentDirection = FORWARD;
+	frameCounter++;
+	acceleration.x = sin(rotation) * thrust / mass;
+	acceleration.y = -cos(rotation) * thrust / mass;
 }
 
 void Player::TurnLeft()
-{
-	direction -= rotationSpeed;
+{	
+	// Set the current direction to change to the move left animation
+	currentDirection = LEFT;
+	rotation -= rotationSpeed;
 }
 
 void Player::TurnRight()
-{
-	direction += rotationSpeed;
+{	
+	// Set the current direction to change to the move right animation
+	currentDirection = RIGHT;
+	rotation += rotationSpeed;
 }
 
 void Player::MovBackward()
-{
-	acceleration.x = -sin(direction) * thrust / mass;
-	acceleration.y = cos(direction) * thrust / mass;
+{	
+	// Set the current direction to change to the move forward animation
+	currentDirection = FORWARD;
+	frameCounter++;
+	acceleration.x = -sin(rotation) * thrust / mass;
+	acceleration.y = cos(rotation) * thrust / mass;
 }
 
 // Update Animation
 void Player::UpdateAnim()
 {
 	// Crop texture into required rectangle
-	spriteRect.left = frameCounter % textureColumn * spriteWidth;
-	spriteRect.right = spriteRect.left + spriteWidth;
-	spriteRect.top = currentDirection * spriteHeight;
-	spriteRect.bottom = spriteRect.top + spriteHeight;
+	rect.left = frameCounter % textureColumn * spriteWidth;
+	rect.right = rect.left + spriteWidth;
+	rect.top = currentDirection * spriteHeight;
+	rect.bottom = rect.top + spriteHeight;
 
 	// If the frame counter exceed max frame set the frame counter back to 0
 	// to loop the animation
@@ -45,18 +59,4 @@ void Player::UpdateAnim()
 	}
 }
 
-void Player::SetForward()
-{
-	currentDirection = FORWARD;
-}
-
-void Player::SetLeft()
-{
-	currentDirection = LEFT;
-}
-
-void Player::SetRight()
-{
-	currentDirection = RIGHT;
-}
 

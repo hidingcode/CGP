@@ -5,7 +5,8 @@ class Player: public GameObject
 {
 public:
 	// Constructor
-	Player(int textureWidth, int textureHeight, int textureRow, int textureColumn, int maxFrame);
+	Player();
+	~Player();
 	// Move the player forward
 	void MovForward();
 	// Move the player left
@@ -16,12 +17,6 @@ public:
 	void MovBackward();
 	// Update Animation
 	void UpdateAnim();
-	// Set Current Direction to Forward
-	void SetForward();
-	// Set Current Direction to Left
-	void SetLeft();
-	// Set Current Direction to Right
-	void SetRight();
 
 private:
 	// Store Moving Direction

@@ -1,8 +1,5 @@
 #include "Panel.h"
 
-Button* startButton = new Button(210, 75);
-Button* quitButton = new Button(168, 75);
-
 Panel::Panel(D3DXVECTOR2 position)
 {
 	this->position = position;
@@ -29,18 +26,18 @@ void Panel::CreateTexture(IDirect3DDevice9* d3dDevice)
 // Render the image
 void Panel::Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat)
 {
-	startButton->Render(spriteBrush, mat, D3DXVECTOR2(1,1), startButton->GetPosition());
-	quitButton->Render(spriteBrush, mat, D3DXVECTOR2(1, 1), quitButton->GetPosition());
+	startButton->RenderSprite(spriteBrush, mat);
+	quitButton->RenderSprite(spriteBrush, mat);
 }
 
 void Panel::OnCollide(RECT rect)
 {
-	if (startButton->IsCollide(rect))
+	if (startButton->OnCollide(rect))
 	{
 		// Start The Game
 	}
 	
-	if (quitButton->IsCollide(rect))
+	if (quitButton->OnCollide(rect))
 	{
 		// Quit the game
 	}

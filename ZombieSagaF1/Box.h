@@ -32,7 +32,7 @@ private:
 
 	// Use to determine the X value for point 2 and point 3
 	int pointX;
-	// Use to determine the X value for point 4 and point 3
+	// Use to determine the Y value for point 4 and point 3
 	int pointY;
 	// Line Vertices 
 	D3DXVECTOR2 lineVertices[];

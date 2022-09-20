@@ -17,7 +17,7 @@ public:
 	// Create Direct Input Object, Keyboard Device and Mouse Device
 	void CreateMyDirectInput(HWND g_hWnd);
 	// Release Input Device
-	void CleanupMyDirectInput();
+	void CleanUpMyDirectInput();
 	// Accquire Input
 	void GetInput();
 	// Set all of the key press to false

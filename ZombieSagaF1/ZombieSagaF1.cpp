@@ -11,8 +11,7 @@
 #include <iostream>
 //	include the D3DX9 library
 #include <d3dx9.h>
-// include the Direct Input library
-#include <dinput.h>
+
 #include <ctime>
 #include <vector>
 
@@ -20,8 +19,8 @@
 #include "SpriteBrush.h"
 #include "InputManager.h"
 
-// Background
-#include "Background.h"
+// Image
+#include "Image.h"
 
 // Text and Box
 #include "Text.h"
@@ -65,17 +64,8 @@ WNDCLASS wndClass;
 
 // DX globals
 IDirect3DDevice9* d3dDevice;
-//	Direct Input globals.
-LPDIRECTINPUT8 dInput;
-LPDIRECTINPUTDEVICE8  dInputKeyboardDevice;
-LPDIRECTINPUTDEVICE8 dInputMouseDevice;
 
-//	Key input buffer
-BYTE  diKeys[256];
-// Mouse input buffer
-DIMOUSESTATE mouseState;
 // Sprite Brush
-
 SpriteBrush* spriteBrush = new SpriteBrush();
 
 LPD3DXSPRITE spriteBrush1 = NULL;
@@ -89,8 +79,8 @@ InputManager* inputManager = new InputManager();
 //score Global
 int scoreValue = 0;
 
-// Background globals
-Background* background1 = new Background(840, 650);
+// Image globals
+Image* background = new Image();
 
 // Text and Box globals
 Text* text = new Text();
@@ -100,10 +90,10 @@ Box* box = new Box();
 const int spawnNum = 5;
 
 // Game Object globals
-Player* F1 = new Player(768, 450, 3, 6, 5);
+Player* F1 = new Player();
 Enemy zombie[spawnNum];
 
-MainMenu* mainMenu = new MainMenu(840, 650);
+MainMenu* mainMenu = new MainMenu();
 
 // Audio globals
 AudioManager* audioManager;
@@ -190,9 +180,11 @@ bool WindowIsRunning() {
 }
 
 void CleanupMyLevel() {
-	LPDIRECT3DTEXTURE9 f1Texture = F1->GetTexture();
-	f1Texture->Release();
-	f1Texture = NULL;
+	F1->CleanUpSprite();
+	for (int i = 0; i < spawnNum; i++)
+	{
+		zombie[i].CleanUpSprite();
+	}
 }
 
 void CreateMyDirect3D9Device() {
@@ -239,88 +231,44 @@ void CreateMyDirect3D9Device() {
 	}
 }
 
-void CreateMyDirectInput()
-{
-	//	Create the Direct Input object.
-	HRESULT hr = DirectInput8Create(GetModuleHandle(NULL), 0x0800, IID_IDirectInput8, (void**)&dInput, NULL);
-
-	if FAILED(hr)
-	{
-		cout << "Create Direct Input Failed" << endl;
-	}
-
-
-	//	Create the keyboard device.
-	hr = dInput->CreateDevice(GUID_SysKeyboard, &dInputKeyboardDevice, NULL);
-
-	if FAILED(hr)
-	{
-		cout << "Create Keyboard Input Device Failed" << endl;
-	}
-
-	hr = dInput->CreateDevice(GUID_SysMouse, &dInputMouseDevice, NULL);
-
-	if FAILED(hr)
-	{
-		cout << "Create Mouse Input Device Failed" << endl;
-	}
-
-	//	Set the input data format.
-	hr = dInputKeyboardDevice->SetDataFormat(&c_dfDIKeyboard);
-
-	//	Set the input data format.
-	hr = dInputMouseDevice->SetDataFormat(&c_dfDIMouse);
-
-	//	Set the cooperative level.
-	//	To Do:
-	//	Try with different combination.
-	dInputKeyboardDevice->SetCooperativeLevel(g_hWnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
-}
-
 void InitialiseLevel() {
 	audioManager->PlayBackgroundMusic();
 	audioManager->PlayCarSound();
 	srand(time(0));
 
+	// Add Key Codes to Input Manager
 	inputManager->AddKeyCodes(DIK_W);
 	inputManager->AddKeyCodes(DIK_S);
 	inputManager->AddKeyCodes(DIK_A);
 	inputManager->AddKeyCodes(DIK_D);
 
 	//	Create texture
-	background1->CreateTexture(d3dDevice, "Assets/roadBG.png");
+	background->CreateTexture(d3dDevice, "Assets/roadBG.png");
 	F1->CreateTexture(d3dDevice, "Assets/F1.png");
 	mainMenu->CreateTexture(d3dDevice, "Assets/mainMenu.png");
 
 	//  Initialisation
-	F1->Init(D3DXVECTOR2(395, 580), 1.0f, 0.0f, 2.0f, D3DXVECTOR2(0.4f,0.4f),0.05f, 0.05f);
+	F1->Init(768, 450, 3, 6, 5, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(395, 580), 1.0f, 0.0f, 2.0f,
+		D3DXVECTOR2(0.4f,0.4f),0.05f, 0.05f, D3DCOLOR_XRGB(255, 255, 255));
+
 	box->Init(120, 30, D3DXVECTOR2(10,10));
-	text->Init(0,0,200,200);
+
+	text->Init(200,200, D3DXVECTOR2(1,1), 0.0f ,D3DXVECTOR2(1, 1), text->GetPosition(), 0.0f, 
+		box->GetBoxPosition(), "Score: ",-1, 0 ,D3DCOLOR_XRGB(255, 255, 255));
+
+	background->Init(840, 650, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(1, 1), D3DCOLOR_XRGB(255,255,255));
 	
 	for (int i = 0; i < spawnNum; i++)
 	{
-		zombie[i] = Enemy(3774, 241, 1, 17, 16);
+		zombie[i] = Enemy();
 		zombie[i].CreateTexture(d3dDevice, "Assets/zombie_idle.png");
-		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (WindowWidth - zombie[i].GetSpriteWidth() - 100), rand() % (WindowHeight - zombie[i].GetSpriteHeight() - 100));
-		zombie[i].Init(randomSpawn, 0.0f, 0.0f, 1.0f, D3DXVECTOR2(0.3f, 0.3f), 0.0f, 0.01f, 1000);
+
+		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (WindowWidth - zombie[i].GetSpriteWidth() - 100),
+			rand() % (WindowHeight - zombie[i].GetSpriteHeight() - 100));
+
+		zombie[i].Init(3774, 241, 1, 17, 16, D3DXVECTOR2(0, 0), 0.0f, randomSpawn, 0.0f, 0.0f, 1.0f,
+			D3DXVECTOR2(0.3f, 0.3f), 0.0f, 0.01f, D3DCOLOR_XRGB(255, 255, 255), 2);
 	}
-}
-
-void GetInput()
-{	
-	//	Acquire the device.
-	dInputKeyboardDevice->Acquire();
-	dInputMouseDevice->Acquire();
-	//	Get immediate Keyboard Data.
-	dInputKeyboardDevice->GetDeviceState(256, diKeys);
-	// Get Mouse Data
-	dInputMouseDevice->GetDeviceState(sizeof(mouseState), &mouseState);
-
-	// Set The Input
-	//inputW->SetInput(diKeys, DIK_W);
-	//inputS->SetInput(diKeys, DIK_S);
-	//inputA->SetInput(diKeys, DIK_A);
-	//inputD->SetInput(diKeys, DIK_D);
 }
 
 void CarMoving()
@@ -351,24 +299,18 @@ void Update(int framesToUpdate) {
 	
 	for (int i = 0; i < framesToUpdate; i++) {
 		if (inputManager->GetKeyPress(DIK_W)) {
-			F1->SetForward();
 			F1->MovForward();
-			F1->IncreaseFrameCounter();	
 		}
 
 		if (inputManager->GetKeyPress(DIK_S)) {
-			F1->SetForward();
 			F1->MovBackward();
-			F1->IncreaseFrameCounter();
 		}
 
 		if (inputManager->GetKeyPress(DIK_A)) {
-			F1->SetLeft();
 			F1->TurnLeft();
 		}
 
 		if (inputManager->GetKeyPress(DIK_D)) {
-			F1->SetRight();
 			F1->TurnRight();
 		}
 	;
@@ -379,7 +321,7 @@ void Update(int framesToUpdate) {
 				if (CircleCollisionDetection(F1->GetSpriteWidth() / 2, zombie[i].GetSpriteWidth() / 2, F1->GetPosition() /* + F1->GetSpriteCentre()*/, zombie[i].GetPosition()/* + zombie[i].GetSpriteCentre()*/))
 				{
 					cout << "Collision occurs" << endl;
-					audioManager->PlayCollision();
+					audioManager->PlayCollisionSound();
 					// testing stuff:
 					float fDistance = sqrtf((F1->GetPosition().x - zombie[i].GetPosition().x) * (F1->GetPosition().x - zombie[i].GetPosition().x) + (F1->GetPosition().y - zombie[i].GetPosition().y) * (F1->GetPosition().y - zombie[i].GetPosition().y));
 					float fOverlap = 0.5f * (fDistance - (F1->GetSpriteWidth() / 2) - (zombie[i].GetSpriteWidth() / 2));
@@ -387,8 +329,6 @@ void Update(int framesToUpdate) {
 					//bounce distance to prevent overlapping
 					 bounceDistanceX = fOverlap * (F1->GetPosition().x - zombie[i].GetPosition().x) / fDistance;
 					 bounceDistanceY = fOverlap * (F1->GetPosition().y - zombie[i].GetPosition().y) / fDistance;
-
-
 
 					// Final Velocity of F1 after collision
 					D3DXVECTOR2 f1FVelocity = F1->GetVelocity() * (F1->GetMass() - zombie[i].GetMass()) + 2 * zombie[i].GetMass() * zombie[i].GetVelocity() / (F1->GetMass() + zombie[i].GetMass());
@@ -427,22 +367,21 @@ void Render() {
 	D3DXMATRIX mat;
 	
 	// Draw background
-	background1->Render(spriteBrush1, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 0));
-	/*mainMenu->Render(spriteBrush1, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 0));*/
+	background->RenderSprite(spriteBrush1, &mat);
+	/*mainMenu->Render(spriteBrush1, &mat);*/
 
 	// Draw F1
-	F1->Render(spriteBrush1, &mat);
+	F1->RenderSprite(spriteBrush1, &mat);
 
 	// Draw Text
-	text->Render(spriteBrush1, &mat, D3DXVECTOR2(1, 1), D3DXVECTOR2(1, 1), box->GetBoxPosition(), 0.0f,
-		"Score: ", D3DCOLOR_XRGB(0, 0, 0));
+	text->RenderText(spriteBrush1, &mat);
 	
 	// Draw Zombie
 	for (int i = 0; i < spawnNum; i++)
 	{	
 		if(zombie[i].GetHP() > 0)
 		{
-			zombie[i].Render(spriteBrush2, &mat);
+			zombie[i].RenderSprite(spriteBrush2, &mat);
 		}
 	}
 	//	End sprite drawing
@@ -466,7 +405,7 @@ void CleanupMyDirect3D9Device() {
 	spriteBrush2->Release();
 	spriteBrush2 = NULL;
 
-	text->CleanUp();
+	text->CleanUpText();
 
 	line->Release();
 	line = NULL;
@@ -475,18 +414,6 @@ void CleanupMyDirect3D9Device() {
 	d3dDevice->Release();
 	//	Reset pointer to NULL, a good practice.
 	d3dDevice = NULL;
-}
-
-void CleanupMyDirectInput()
-{
-	//	Release keyboard device.
-	dInputKeyboardDevice->Unacquire();
-	dInputKeyboardDevice->Release();
-	dInputKeyboardDevice = NULL;
-
-	//	Release DirectInput.
-	dInput->Release();
-	dInput = NULL;
 }
 
 void CleanupMyWindow() {
@@ -521,7 +448,7 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 	}
 
 	CleanupMyLevel();
-	inputManager->CleanupMyDirectInput();
+	inputManager->CleanUpMyDirectInput();
 	CleanupMyDirect3D9Device();
 	CleanupMyWindow();
 

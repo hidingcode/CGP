@@ -10,11 +10,12 @@ InputManager::~InputManager()
 
 void InputManager::AddKeyCodes(int keyCode)
 {	
-	//// Push the key code into the key code vector
+	// Push the key code into the key code vector
 	keyCodes[numberOfEntries] = keyCode;
-	//// Add initial key press into the isKeyPressed vector 
-	//// after a key code is push into key code vector
+	// Add initial key press into the isKeyPressed vector 
+	// after a key code is push into key code vector
 	isKeyPressed[numberOfEntries] = false;
+	// Increase the number of entries to keep track of the number of key code in the arrays
 	numberOfEntries++;
 }
 
@@ -54,7 +55,7 @@ void InputManager::CreateMyDirectInput(HWND g_hWnd)
 	dInputKeyboardDevice->SetCooperativeLevel(g_hWnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
 }
 
-void InputManager::CleanupMyDirectInput()
+void InputManager::CleanUpMyDirectInput()
 {
 	//	Release keyboard device.
 	dInputKeyboardDevice->Unacquire();
@@ -73,11 +74,11 @@ void InputManager::GetInput()
 	dInputMouseDevice->Acquire();
 	//	Get immediate Keyboard Data.
 	dInputKeyboardDevice->GetDeviceState(256, diKeys);
-	// Get Mouse Data
+	//  Get Mouse Data
 	dInputMouseDevice->GetDeviceState(sizeof(mouseState), &mouseState);
 
-	// Loop through the key codes and check if there is any input
-	// If certain key in the key code array is pressed, set the boolean of the key press to true;
+	/* Loop through the key codes and check if there is any input
+	 If certain key in the key code array is pressed, set the boolean of the key press to true;*/
 	for (int i = 0; i <= numberOfEntries; i++)
 	{
 		if (diKeys[keyCodes[i]] & 0x80)

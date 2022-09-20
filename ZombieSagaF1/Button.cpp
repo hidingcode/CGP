@@ -1,30 +1,28 @@
 #include "Button.h"
 
-Button::Button(int textureWidth, int textureHeight)
-	:Background(textureWidth, textureHeight)
+Button::Button()
 {
-	this->position = position;
 }
 
 Button::~Button()
 {
 }
 
-bool Button::IsCollide(RECT rect1)
+bool Button::OnCollide(RECT rect)
 {
-	if (rect.left > rect1.right)
+	if (this->rect.left > rect.right)
 	{
 		return false;
 	}
-	if (rect.right < rect1.left)
+	if (this->rect.right < rect.left)
 	{
 		return false;
 	}
-	if (rect.top > rect1.bottom)
+	if (this->rect.top > rect.bottom)
 	{
 		return false;
 	}
-	if (rect.bottom < rect1.top)
+	if (this->rect.bottom < rect.top)
 	{
 		return false;
 	}

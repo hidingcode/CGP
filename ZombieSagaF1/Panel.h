@@ -13,5 +13,7 @@ public:
 	void OnCollide(RECT rect);
 private:
 	D3DXVECTOR2 position = D3DXVECTOR2(0, 0);
+	Button* startButton = new Button();
+	Button* quitButton = new Button();
 };
 

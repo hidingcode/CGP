@@ -58,7 +58,20 @@
 //
 //bool MyWindowManager::IsWindowRunnig()
 //{
-//	return false;
+//	MSG msg;
+//	ZeroMemory(&msg, sizeof(msg)); // Set memory to zero (To clear the memory)
+//
+//	while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+//	{
+//		//	Receive a quit message
+//		if (msg.message == WM_QUIT)
+//			return false;
+//		//	Translate the message 
+//		TranslateMessage(&msg);
+//		//	Send message to your window procedure
+//		DispatchMessage(&msg);
+//	}
+//	return true;
 //}
 
 

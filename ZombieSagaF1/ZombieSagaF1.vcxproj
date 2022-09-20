@@ -138,8 +138,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AudioManager.h" />
-    <ClInclude Include="Background.h" />
+    <ClInclude Include="Image.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="D3D9DeviceManager.h" />
     <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameObject.h" />
@@ -150,14 +151,16 @@
     <ClInclude Include="MyWindowManager.h" />
     <ClInclude Include="Panel.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="SpriteBrush.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Enemy.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioManager.cpp" />
-    <ClCompile Include="Background.cpp" />
+    <ClCompile Include="Image.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="D3D9DeviceManager.cpp" />
     <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -168,6 +171,7 @@
     <ClCompile Include="MyWindowManager.cpp" />
     <ClCompile Include="Panel.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="SpriteBrush.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Enemy.cpp" />

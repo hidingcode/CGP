@@ -10,9 +10,10 @@ public:
 	Enemy();
 	// Destructor
 	~Enemy();
-	Enemy(int textureWidth, int textureHeight, int textureRow, int textureColumn, int maxFrame);
-	void Init(D3DXVECTOR2 position, float thrust, float direction, float mass,
-		D3DXVECTOR2 scaling, float rotationSpeed, float friction, int hp);
+	void Init(int textureWidth, int textureHeight, int textureRow, int textureColumn,
+		int maxFrame, D3DXVECTOR2 scalingCentre, float scalingRotation, D3DXVECTOR2 position, float thrust,
+		float rotation, float mass, D3DXVECTOR2 scaling, float rotationSpeed, float friction, 
+		D3DXCOLOR colorFilter, int hp);
 	void UpdateAnim();
 	// Get the HP of zombie
 	int GetHP();
