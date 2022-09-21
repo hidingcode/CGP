@@ -23,6 +23,9 @@
 //include windowClass
 #include "MyWindowManager.h"
 
+//DeviceManagerClass
+#include "D3D9DeviceManager.h"
+
 // ScoreBoard
 #include "ScoreBoard.h"
 
@@ -65,21 +68,23 @@ using namespace std;
 //--------------------------------------------------------------------
 
 //	Window handle
-HWND g_hWnd = NULL;
+//HWND g_hWnd = NULL;
 // Window's Structure  /DESIGN PATTERN SINGLETON
 WNDCLASS wndClass;
 
 // DX globals
-IDirect3DDevice9* d3dDevice;
+//IDirect3DDevice9* d3dDevice;
 
 //WindowManagerClass
 MyWindowManager* Window = new MyWindowManager;
 
+
+
 // Sprite Brush
 SpriteBrush* spriteBrush = new SpriteBrush();
 
-LPD3DXSPRITE spriteBrush1 = NULL;
-LPD3DXSPRITE spriteBrush2 = NULL;
+/*LPD3DXSPRITE spriteBrush1 = NULL;
+LPD3DXSPRITE spriteBrush2 = NULL;*/
 
 // Input Manager
 InputManager* inputManager = new InputManager();
@@ -91,8 +96,10 @@ ScoreBoard* scoreBoard = new ScoreBoard();
 Image* background = new Image();
 
 // Text and Box globals
-Text* text = new Text();
-Box* box = new Box();
+//Text* text = new Text();
+//Box* box = new Box();
+
+D3D9DeviceManager* DeviceManager = new D3D9DeviceManager();
 
 // Number of zombie that will be spawn in the game
 const int spawnNum = 5;
@@ -149,6 +156,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 //	use int main if you want to have a console to print out message
 //int main()
 
+/*
 void CreateMyWindow() {
 	//	Set all members in wndClass to 0.
 	ZeroMemory(&wndClass, sizeof(wndClass));
@@ -169,7 +177,7 @@ void CreateMyWindow() {
 	g_hWnd = CreateWindowEx(0, wndClass.lpszClassName, "Zombie Sage F1", WS_OVERLAPPEDWINDOW, 0, 0, WindowWidth, WindowHeight, NULL, NULL, GetModuleHandle(NULL), NULL);
 	ShowWindow(g_hWnd, 1);
 }
-
+*/
 bool WindowIsRunning() {
 	MSG msg;
 	ZeroMemory(&msg, sizeof(msg)); // Set memory to zero (To clear the memory)
@@ -195,6 +203,7 @@ void CleanupMyLevel() {
 	}
 }
 
+/*
 void CreateMyDirect3D9Device() {
 	//	Define Direct3D 9.
 	IDirect3D9* direct3D9 = Direct3DCreate9(D3D_SDK_VERSION);
@@ -212,28 +221,29 @@ void CreateMyDirect3D9Device() {
 	d3dPP.hDeviceWindow = Window->GetWindowHandle();
 
 	//	Create a Direct3D 9 device.
-	HRESULT hr = direct3D9->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, g_hWnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dPP, &d3dDevice);
+	HRESULT hr = direct3D9->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, g_hWnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dPP, DeviceManager->GetD3D9Dreference());
 
 	if (FAILED(hr))
 		cout << "Create Direct 3D 9 Device failed";
 
 	//	Create sprite. Study the documentation. 
-	hr = D3DXCreateSprite(d3dDevice, &spriteBrush1);
+	hr = D3DXCreateSprite(DeviceManager->GetD3D9D(), DeviceManager->GetspriteBrush1reference());
 
 	if (FAILED(hr)) {
 		cout << "Create sprite brush 1 failed" << endl;
 	}
 
-	hr = D3DXCreateSprite(d3dDevice, &spriteBrush2);
+	hr = D3DXCreateSprite(DeviceManager->GetD3D9D(), DeviceManager->GetspriteBrush2reference());
 
 	if (FAILED(hr)) {
 		cout << "Create sprite brush 2 failed" << endl;
 	}
 
-	text->CreateFontType(d3dDevice, "Arial");
+	DeviceManager->GetTextReference()->CreateFontType(DeviceManager->GetD3D9D(), "Arial");
 
-	box->CreateLine(d3dDevice);
+	DeviceManager->GetBoxReference()->CreateLine(DeviceManager->GetD3D9D());
 }
+*/
 
 void InitialiseLevel() {
 	audioManager->PlayBackgroundMusic();
@@ -247,27 +257,27 @@ void InitialiseLevel() {
 	inputManager->AddKeyCodes(DIK_D);
 
 	//	Create texture
-	mainMenu->CreateTexture(d3dDevice, "Assets/roadBG.png");
-	background->CreateTexture(d3dDevice, "Assets/roadBG.png");
-	F1->CreateTexture(d3dDevice, "Assets/F1.png");
-	mainMenu->CreateTexture(d3dDevice, "Assets/mainMenu.png");
+	mainMenu->CreateTexture(DeviceManager->GetD3D9D(), "Assets/roadBG.png");
+	background->CreateTexture(DeviceManager->GetD3D9D(), "Assets/roadBG.png");
+	F1->CreateTexture(DeviceManager->GetD3D9D(), "Assets/F1.png");
+	mainMenu->CreateTexture(DeviceManager->GetD3D9D(), "Assets/mainMenu.png");
 	mainMenu->Init(840, 650, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(1, 1), D3DCOLOR_XRGB(255, 255, 255));
 
 	//  Initialisation
 	F1->Init(768, 450, 3, 6, 5, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(395, 580), 1.0f, 0.0f, 2.0f,
 		D3DXVECTOR2(0.4f,0.4f),0.05f, 0.05f, D3DCOLOR_XRGB(255, 255, 255));
 
-	box->Init(120, 30, D3DXVECTOR2(10,10));
+	DeviceManager->GetBoxReference()->Init(120, 30, D3DXVECTOR2(10,10));
 
-	text->Init(200,200, D3DXVECTOR2(1,1), 0.0f ,D3DXVECTOR2(1, 1), text->GetPosition(), 0.0f, 
-		box->GetBoxPosition(), -1, 0 ,D3DCOLOR_XRGB(0, 0, 0));
+	DeviceManager->GetTextReference()->Init(200,200, D3DXVECTOR2(1,1), 0.0f ,D3DXVECTOR2(1, 1), DeviceManager->GetTextReference()->GetPosition(), 0.0f,
+		DeviceManager->GetBoxReference()->GetBoxPosition(), -1, 0 ,D3DCOLOR_XRGB(0, 0, 0));
 
 	background->Init(840, 650, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(1, 1), D3DCOLOR_XRGB(255,255,255));
 	
 	for (int i = 0; i < spawnNum; i++)
 	{
 		zombie[i] = Enemy();
-		zombie[i].CreateTexture(d3dDevice, "Assets/zombie_idle.png");
+		zombie[i].CreateTexture(DeviceManager->GetD3D9D(), "Assets/zombie_idle.png");
 		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (WindowWidth - zombie[i].GetSpriteWidth() - 100),
 			rand() % (WindowHeight - zombie[i].GetSpriteHeight() - 100));
 
@@ -341,66 +351,67 @@ void Update(int framesToUpdate) {
 
 void Render() {
 	//	Clear the back buffer.
-	d3dDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
+
+	DeviceManager->GetD3D9D()->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 
 	//	Begin the scene
-	d3dDevice->BeginScene();
+	DeviceManager->GetD3D9D()->BeginScene();
 
 	//	Drawing.
 	//	Specify alpha blend will ensure that the sprite will render the background with alpha.
-	spriteBrush1->Begin(D3DXSPRITE_ALPHABLEND);
-	spriteBrush2->Begin(D3DXSPRITE_ALPHABLEND);
+	DeviceManager->GetspriteBrush1()->Begin(D3DXSPRITE_ALPHABLEND);
+	DeviceManager->GetspriteBrush2()->Begin(D3DXSPRITE_ALPHABLEND);
 
 	D3DXMATRIX mat;
 	
 	// Draw background
 	/*background->RenderSprite(spriteBrush1, &mat);*/
-	mainMenu->Render(spriteBrush1, &mat);
+	mainMenu->Render(DeviceManager->GetspriteBrush1(), &mat);
 
 	// Draw F1
-	F1->RenderSprite(spriteBrush1, &mat);
+	F1->RenderSprite(DeviceManager->GetspriteBrush1(), &mat);
 
 	// Draw Text
 	// .c_str() is to change the score to LPCSTR
-	text->RenderText(spriteBrush1, &mat, scoreBoard->DisplayScore().c_str());
+	DeviceManager->GetTextReference()->RenderText(DeviceManager->GetspriteBrush1(), &mat, scoreBoard->DisplayScore().c_str());
 	
 	// Draw Zombie
 	for (int i = 0; i < spawnNum; i++)
 	{	
 		if(zombie[i].GetHP() > 0)
 		{
-			zombie[i].RenderSprite(spriteBrush2, &mat);
+			zombie[i].RenderSprite(DeviceManager->GetspriteBrush2(), &mat);
 		}
 	}
 	//	End sprite drawing
-	spriteBrush1->End();
-	spriteBrush2->End();
+	DeviceManager->GetspriteBrush1()->End();
+	DeviceManager->GetspriteBrush2()->End();
 
 	// Draw Box
-	box->RenderLine(D3DCOLOR_XRGB(255, 0, 0));
+	DeviceManager->GetBoxReference()->RenderLine(D3DCOLOR_XRGB(255, 0, 0));
 
 	//	End the scene
-	d3dDevice->EndScene();
+	DeviceManager->GetD3D9D()->EndScene();
 
 	//	Present the back buffer to screen
-	d3dDevice->Present(NULL, NULL, NULL, NULL);
+	DeviceManager->GetD3D9D()->Present(NULL, NULL, NULL, NULL);
 }
 
 void CleanupMyDirect3D9Device() {
 	//	Release and clean up everything
-	spriteBrush1->Release();
-	spriteBrush1 = NULL;
-	spriteBrush2->Release();
-	spriteBrush2 = NULL;
+	DeviceManager->GetspriteBrush1()->Release();
+	/*DeviceManager->GetspriteBrush1() = NULL;*/
+	DeviceManager->GetspriteBrush2()->Release();
+	/*DeviceManager->GetspriteBrush1() = NULL;*/
 
-	text->CleanUpText();
+	DeviceManager->GetTextReference()->CleanUpText();
 
-	box->CleanUpLine();
+	DeviceManager->GetBoxReference()->CleanUpLine();
 
 	//	Release the device when exiting.
-	d3dDevice->Release();
+	DeviceManager->GetD3D9D()->Release();
 	//	Reset pointer to NULL, a good practice.
-	d3dDevice = NULL;
+	/*DeviceManager->GetD3D9D() = NULL;*/
 }
 
 void CleanupMyWindow() {
@@ -411,9 +422,15 @@ void CleanupMyWindow() {
 int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) // WinMain is a function in WINAPI
 {	
 	Window->CreateMyWindow();
+	//CreateDeviceManager
+	
+	DeviceManager->CreateMyD3D9Device(Window->GetWindowHandle(), WindowWidth, WindowHeight);
 	/*CreateMyWindow();*/
-	CreateMyDirect3D9Device();
-	inputManager->CreateMyDirectInput(g_hWnd);
+	//CreateMyDirect3D9Device
+
+	
+	//CreateMyDirect3D9Device();
+	inputManager->CreateMyDirectInput(Window->GetWindowHandle());
 
 	/*GameState mainmenu = GameState();
 	GameState level1 = GameState();
@@ -437,7 +454,8 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 
 	CleanupMyLevel();
 	inputManager->CleanUpMyDirectInput();
-	CleanupMyDirect3D9Device();
+	DeviceManager->CleanUpMyD3D9Device(DeviceManager->GetD3D9D());
+	Window->CleanupMyWindow();
 	/*CleanupMyWindow();*/
 
 	return 0;

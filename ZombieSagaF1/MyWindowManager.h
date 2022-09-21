@@ -10,6 +10,8 @@ public:
 	void CreateMyWindow();
 	bool IsWindowRunnig();
 	HWND GetWindowHandle();
+	void CleanupMyWindow();
+
 private:
 	
 	//	Window handle

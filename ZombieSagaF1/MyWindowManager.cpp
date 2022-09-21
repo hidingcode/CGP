@@ -81,3 +81,8 @@ HWND MyWindowManager::GetWindowHandle()
 {
 	return this->g_hWnd;
 }
+
+void MyWindowManager::CleanupMyWindow()
+{
+	UnregisterClass(wndClass.lpszClassName, GetModuleHandle(NULL)); // Delete window class
+}
