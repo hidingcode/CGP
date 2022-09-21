@@ -83,6 +83,7 @@ void RenderComponent::RenderText(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat, LPCS
 	if (FAILED(hr)) {
 		cout << "Draw Text failed" << endl;
 	}
+	cout << "RenderText" << endl;
 }
 
 void RenderComponent::CleanUpSprite()

@@ -23,9 +23,6 @@
 //include windowClass
 #include "MyWindowManager.h"
 
-// ScoreBoard
-#include "ScoreBoard.h"
-
 // Image
 #include "Image.h"
 
@@ -75,7 +72,7 @@ IDirect3DDevice9* d3dDevice;
 MyWindowManager* Window = new MyWindowManager();
 
 // Sprite Brush
-SpriteBrush* spriteBrush = new SpriteBrush();
+//SpriteBrush* spriteBrush = new SpriteBrush();
 
 LPD3DXSPRITE spriteBrush1 = NULL;
 LPD3DXSPRITE spriteBrush2 = NULL;
@@ -83,24 +80,8 @@ LPD3DXSPRITE spriteBrush2 = NULL;
 // Input Manager
 InputManager* inputManager = new InputManager();
 
-//ScoreBoard Global
-ScoreBoard* scoreBoard = new ScoreBoard();
-
-// Image globals
-Image* background = new Image();
-
-// Text and Box globals
-Text* text = new Text();
-Box* box = new Box();
-
-//Level1 level1 = Level1();
-//vector<GameLevel*> gameLevel;
-
-// Game Object globals
-Player* F1 = new Player();
-// Number of zombie that will be spawn in the game
-const int spawnNum = 5;
-Enemy zombie[spawnNum];
+Level1 level1 =  Level1();
+vector<GameLevel*> gameLevel;
 
 UI* mainmenuUI = new UI();
 
@@ -109,26 +90,6 @@ AudioManager* audioManager;
 
 Button* test = new Button();
 
-bool CircleCollisionDetection(int radiusA, int radiusB, D3DXVECTOR2 positionA, D3DXVECTOR2 positionB)
-{
-	D3DXVECTOR2 distance = positionA - positionB;
-	if (radiusA + radiusB < D3DXVec2Length(&distance))
-	{
-		return false;
-	}
-	else
-	{
-		return true;
-	}
-}
-
-void CleanupMyLevel() {
-	F1->CleanUpSprite();
-	for (int i = 0; i < spawnNum; i++)
-	{
-		zombie[i].CleanUpSprite();
-	}
-}
 
 void CreateMyDirect3D9Device() {
 	//	Define Direct3D 9.
@@ -165,9 +126,6 @@ void CreateMyDirect3D9Device() {
 		cout << "Create sprite brush 2 failed" << endl;
 	}
 
-	text->CreateFontType(d3dDevice, "Arial");
-
-	box->CreateLine(d3dDevice);
 }
 
 void SetInput()
@@ -182,91 +140,12 @@ void SetInput()
 void InitialiseLevel() {
 	audioManager->PlayBackgroundMusic();
 	audioManager->PlayCarEngineSound();
-	srand(time(0));
-
-	// Create Texture and Initialise Game Object, UI and Images
-	background->CreateTexture(d3dDevice, "Assets/roadBG.png");
-	background->Init(840, 650, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(1, 1), D3DCOLOR_XRGB(255, 255, 255));
 	
-	mainmenuUI->CreateTexture(d3dDevice, "Assets/mainMenu.png");
-	mainmenuUI->Init(840, 650, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(1, 1), D3DCOLOR_XRGB(255, 255, 255));
-
-
-	F1->CreateTexture(d3dDevice, "Assets/F1.png");
-	F1->Init(768, 450, 3, 6, 5, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(395, 580), 1.0f, 0.0f, 2.0f,
-		D3DXVECTOR2(0.4f,0.4f),0.05f, 0.05f, D3DCOLOR_XRGB(255, 255, 255));
-
-	box->Init(120, 30, D3DXVECTOR2(10,10));
-
-	text->Init(200,200, D3DXVECTOR2(1,1), 0.0f ,D3DXVECTOR2(1, 1), text->GetPosition(), 0.0f, 
-		box->GetBoxPosition(), -1, 0 ,D3DCOLOR_XRGB(0, 0, 0));
-	
-	for (int i = 0; i < spawnNum; i++)
-	{
-		zombie[i] = Enemy();
-		zombie[i].CreateTexture(d3dDevice, "Assets/zombie_idle.png");
-		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (WindowWidth - zombie[i].GetSpriteWidth() - 100),
-			rand() % (WindowHeight - zombie[i].GetSpriteHeight() - 100));
-
-		zombie[i].Init(3774, 241, 1, 17, 16, D3DXVECTOR2(0, 0), 0.0f, randomSpawn, 0.0f, 0.0f, 1.0f,
-			D3DXVECTOR2(0.3f, 0.3f), 0.0f, 0.01f, D3DCOLOR_XRGB(255, 255, 255), 2);
-	}
+	gameLevel.front()->InitLevel(d3dDevice);
 }
 
 void Update(int framesToUpdate) {
-	audioManager->UpdateSound();
-	audioManager->ManageCarEngineSound(inputManager->GetKeyPress(DIK_W), inputManager->GetKeyPress(DIK_S));
-	audioManager->DynamicCarEngineSound(WindowWidth, F1->GetPosition().x);
 
-	for (int i = 0; i < framesToUpdate; i++) {
-		mainmenuUI->OnCollide(F1->GetRectangle());
-
-		if (inputManager->GetKeyPress(DIK_W)) {
-			F1->MovForward();
-		}
-
-		if (inputManager->GetKeyPress(DIK_S)) {
-			F1->MovBackward();
-		}
-
-		if (inputManager->GetKeyPress(DIK_A)) {
-			F1->TurnLeft();
-		}
-
-		if (inputManager->GetKeyPress(DIK_D)) {
-			F1->TurnRight();
-		}
-
-		for (int i = 0; i < spawnNum; i++)
-		{	
-			if (zombie[i].GetHP() > 0)
-			{
-				if (CircleCollisionDetection(F1->GetSpriteWidth() / 2, zombie[i].GetSpriteWidth() / 2, F1->GetPosition() /* + F1->GetSpriteCentre()*/, zombie[i].GetPosition()/* + zombie[i].GetSpriteCentre()*/))
-				{
-					cout << "Collision occurs" << endl;
-					audioManager->PlayCollisionSound();
-
-					// Calculate the bouncing vector of zombie after collision
-					D3DXVECTOR2 f1FVelocity = F1->GetVelocity() * (F1->GetMass() - zombie[i].GetMass()) + 2 * zombie[i].GetMass() * zombie[i].GetVelocity() / (F1->GetMass() + zombie[i].GetMass());
-
-					// Calculate the bouncing vector of zombie after collision
-					D3DXVECTOR2 zombieFVelocity = zombie[i].GetVelocity() * (zombie[i].GetMass() - F1->GetMass()) + 2 * F1->GetMass() * F1->GetVelocity() / (F1->GetMass() + zombie[i].GetMass());
-
-					F1->SetVelocity(-f1FVelocity);
-					zombie[i].SetVelocity(zombieFVelocity);
-					zombie[i].DecreaseHP(1);
-					scoreBoard->IncreaseScore(10);
-				}
-			}
-			zombie[i].UpdatePhysics();
-			zombie[i].UpdateAnim();
-			zombie[i].CheckBoundary(WindowWidth, WindowHeight);
-		}
-		F1->UpdateAnim();
-		F1->UpdatePhysics();
-		F1->CheckBoundary(WindowWidth, WindowHeight);
-	}
-	inputManager->SetAllKeyPressToFalse();
 }
 
 void Render() {
@@ -280,34 +159,6 @@ void Render() {
 	//	Specify alpha blend will ensure that the sprite will render the background with alpha.
 	spriteBrush1->Begin(D3DXSPRITE_ALPHABLEND);
 	spriteBrush2->Begin(D3DXSPRITE_ALPHABLEND);
-
-	D3DXMATRIX mat;
-	
-	// Draw background
-	/*background->RenderSprite(spriteBrush1, &mat);*/
-	mainmenuUI->Render(spriteBrush1, &mat);
-
-	// Draw F1
-	F1->RenderSprite(spriteBrush1, &mat);
-
-	// Draw Text
-	// .c_str() is to change the score to LPCSTR
-	text->RenderText(spriteBrush1, &mat, scoreBoard->DisplayScore().c_str());
-	
-	// Draw Zombie
-	for (int i = 0; i < spawnNum; i++)
-	{	
-		if(zombie[i].GetHP() > 0)
-		{
-			zombie[i].RenderSprite(spriteBrush2, &mat);
-		}
-	}
-	//	End sprite drawing
-	spriteBrush1->End();
-	spriteBrush2->End();
-
-	// Draw Box
-	box->RenderLine(D3DCOLOR_XRGB(255, 0, 0));
 
 	//	End the scene
 	d3dDevice->EndScene();
@@ -323,17 +174,10 @@ void CleanupMyDirect3D9Device() {
 	spriteBrush2->Release();
 	spriteBrush2 = NULL;
 
-	text->CleanUpText();
-	box->CleanUpLine();
-
 	//	Release the device when exiting.
 	d3dDevice->Release();
 	//	Reset pointer to NULL, a good practice.
 	d3dDevice = NULL;
-}
-
-void CleanupMyWindow() {
-	UnregisterClass(wndClass.lpszClassName, GetModuleHandle(NULL)); // Delete window class
 }
 
 //	use WinMain if you don't want the console
@@ -345,22 +189,22 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 
 	audioManager = new AudioManager();
 	audioManager->InitialiseAudio();
-	audioManager->LoadSounds();
-	
+	audioManager->LoadSounds();	
 	SetInput();
+	gameLevel.push_back(&level1);
 	InitialiseLevel();
 
 	FrameTimer* timer = new FrameTimer();
-
 	timer->Init(20);
 	while (Window->IsWindowRunning())
 	{
 		inputManager->GetInput();
-		Update(timer->FramesToUpdate());
-		Render();
-	}
+		/*Update(timer->FramesToUpdate());*/
+		gameLevel.front()->Update(timer->FramesToUpdate(), inputManager, audioManager);
+		gameLevel.front()->Render(spriteBrush1, spriteBrush2, d3dDevice);
 
-	CleanupMyLevel();
+	}
+	gameLevel.front()->CleanUpLevel();
 	inputManager->CleanUpMyDirectInput();
 	CleanupMyDirect3D9Device();
 	Window->CleanUpMyWindow();

@@ -1,7 +1,7 @@
 #pragma once
 #include "GameLevel.h"
 
-class MainMenu :GameLevel
+class MainMenu : public GameLevel
 {
 public:
 	MainMenu();
