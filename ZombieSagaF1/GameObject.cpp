@@ -46,8 +46,14 @@ void GameObject::Init(int textureWidth, int textureHeight, int textureRow, int t
 	this->friction = friction;
 }
 
-// Check the boundary to prevent the game object from going out oute the screen
-void GameObject::CheckBoundary(int WindowWidth, int WindowHeight) {
+void GameObject::Update(int WindowWidth, int WindowHeight)
+{ 
+	velocity += acceleration;
+	velocity *= 1 - friction;
+
+	position += velocity;
+	acceleration = D3DXVECTOR2(0, 0);
+
 	if (position.x <0 || position.x > WindowWidth - spriteWidth * scaling.x) {
 		velocity.x *= -1;
 	}
@@ -56,24 +62,8 @@ void GameObject::CheckBoundary(int WindowWidth, int WindowHeight) {
 	}
 }
 
-void GameObject::UpdatePhysics()
-{ 
-	//step1: bounce back to prevent overlapping
-	/*position.x += bounceDistanceX;
-	position.y += bounceDistanceY;*/
-
-	//step2: bounce force applied
-
-
-
-	//step3: velocity of object bla bla bla
-
-	//friction stuff
-	velocity += acceleration;
-	velocity *= 1 - friction;
-
-	position += velocity;
-	acceleration = D3DXVECTOR2(0, 0);
+void GameObject::UpdateAnim()
+{
 }
 
 D3DXVECTOR2 GameObject::GetVelocity()

@@ -20,11 +20,11 @@ public:
 	Level1();
 	~Level1();
 	
+	bool CircleCollisionDetection(int radiusA, int radiusB, D3DXVECTOR2 positionA, D3DXVECTOR2 positionB);
 	void InitLevel(IDirect3DDevice9* d3dDevice);
 	void Update(int framesToUpdate, InputManager* inputManager, AudioManager* audioManager);
 	void Render(LPD3DXSPRITE spriteBrush1, LPD3DXSPRITE spriteBrush2, IDirect3DDevice9* d3dDevice);
 	void CleanUpLevel();
-	bool CircleCollisionDetection(int radiusA, int radiusB, D3DXVECTOR2 positionA, D3DXVECTOR2 positionB);
 
 private:
 	// Image 

@@ -99,13 +99,9 @@ void Level1::Update(int framesToUpdate, InputManager* inputManager, AudioManager
 					scoreBoard->IncreaseScore(10);
 				}
 			}
-			zombie[i].UpdatePhysics();
-			zombie[i].UpdateAnim();
-			zombie[i].CheckBoundary(WindowWidth, WindowHeight);
+			zombie[i].Update(WindowWidth, WindowHeight);
 		}
-		F1->UpdateAnim();
-		F1->UpdatePhysics();
-		F1->CheckBoundary(WindowWidth, WindowHeight);
+		F1->Update(WindowWidth, WindowHeight);
 	}
 	inputManager->SetAllKeyPressToFalse();
 }

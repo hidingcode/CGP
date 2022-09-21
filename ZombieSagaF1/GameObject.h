@@ -17,10 +17,10 @@ public:
 		float rotation, float mass, D3DXVECTOR2 scaling, float rotationSpeed, float friction, D3DXCOLOR colorFilter);
 
 	// Update Game Object Physics
-	void UpdatePhysics();
+	void Update(int WindowWidth, int WindowHeight);
 
-	// Prevent the Game Object from going out the screen
-	void CheckBoundary(int WindowWidth, int WindowHeight);
+	// Update Animation
+	void UpdateAnim();
 
 	// Get Velocty
 	D3DXVECTOR2 GetVelocity();

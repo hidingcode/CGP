@@ -15,6 +15,8 @@ public:
 	void TurnRight();
 	// Move the player backward
 	void MovBackward();
+	// Update
+	void Update(int WindowWidth, int WindowHeight);
 	// Update Animation
 	void UpdateAnim();
 

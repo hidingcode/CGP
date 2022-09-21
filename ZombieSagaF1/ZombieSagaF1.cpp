@@ -141,7 +141,7 @@ void InitialiseLevel() {
 	audioManager->PlayBackgroundMusic();
 	audioManager->PlayCarEngineSound();
 	
-	gameLevel.front()->InitLevel(d3dDevice);
+	level1.InitLevel(d3dDevice);
 }
 
 void Update(int framesToUpdate) {
@@ -199,10 +199,8 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 	while (Window->IsWindowRunning())
 	{
 		inputManager->GetInput();
-		/*Update(timer->FramesToUpdate());*/
 		gameLevel.front()->Update(timer->FramesToUpdate(), inputManager, audioManager);
 		gameLevel.front()->Render(spriteBrush1, spriteBrush2, d3dDevice);
-
 	}
 	gameLevel.front()->CleanUpLevel();
 	inputManager->CleanUpMyDirectInput();

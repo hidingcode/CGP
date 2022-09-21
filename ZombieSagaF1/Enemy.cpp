@@ -20,6 +20,12 @@ void Enemy::Init(int textureWidth, int textureHeight, int textureRow, int textur
 	this->hp = hp;
 }
 
+void Enemy::Update(int WindowWidth, int WindowHeight)
+{
+	GameObject::Update(WindowWidth, WindowHeight);
+	UpdateAnim();
+}
+
 void Enemy::UpdateAnim()
 {	
 	frameCounter++;
