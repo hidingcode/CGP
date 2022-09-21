@@ -98,7 +98,9 @@ void RenderComponent::CleanUpText()
 }
 
 RECT RenderComponent::GetRectangle()
-{
+{	
+	rect.right *= scaling.x;
+	rect.bottom *= scaling.y;
 	return rect;
 }
 

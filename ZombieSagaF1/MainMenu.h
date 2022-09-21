@@ -1,21 +1,13 @@
 #pragma once
-#include "Image.h"
-#include "VerticalPanel.h"
-#include <iostream>
+#include "GameLevel.h"
 
-using namespace std;
-
-class MainMenu : public Image
+class MainMenu :GameLevel
 {
 public:
 	MainMenu();
 	~MainMenu();
-	
-	void CreateTexture(IDirect3DDevice9* d3dDevice, LPCSTR textureFilePath);
-	void Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat);
-	void OnCollide(RECT rect);
 
-private:
-	VerticalPanel* panel1 = new VerticalPanel(D3DXVECTOR2(310, 300));
+	void InitLevel();
+	void Update(int framesToUpdate, InputManager inputManager, AudioManager audioManager);
+	void Render();
 };
-

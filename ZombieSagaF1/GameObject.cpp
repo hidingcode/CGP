@@ -30,7 +30,7 @@ void GameObject::Init(int textureWidth, int textureHeight, int textureRow, int t
 	rect.right = rect.left + spriteWidth;
 	rect.top = 0;
 	rect.bottom = rect.top + spriteHeight;
-	
+
 	RenderComponent::InitSprite(scalingCentre, scalingRotation, scaling, D3DXVECTOR2(spriteWidth * scaling.x / 2, spriteHeight * scaling.y / 2),
 		rotation, position, colorFilter);
 

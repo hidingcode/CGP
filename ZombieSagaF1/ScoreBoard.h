@@ -10,8 +10,6 @@ public:
 	~ScoreBoard();
 
 	void IncreaseScore(int score);
-	void UpdateScore();
-	int GetScore();
 	string DisplayScore();
 
 private:

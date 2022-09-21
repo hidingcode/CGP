@@ -9,7 +9,7 @@
 #include <Windows.h>
 #include <d3d9.h>
 #include <iostream>
-#include<string>  
+#include <string>  
 //	include the D3DX9 library
 #include <d3dx9.h>
 
@@ -37,20 +37,19 @@
 #include "Player.h"
 #include "Enemy.h"
 
-// Game Scene
-#include "GameScene.h"
-
 // Frame Timer
 #include "FrameTimer.h"
 
 // Audio Library
 #include "AudioManager.h"
 
-// Game State
-#include "GameState.h"
+// Game State (Level control)
+#include "GameLevel.h"
+#include "MainMenu.h"
+#include "Level1.h"
 
 // Main Menu
-#include "MainMenu.h"
+#include "UI.h"
 
 using namespace std;
 
@@ -94,14 +93,16 @@ Image* background = new Image();
 Text* text = new Text();
 Box* box = new Box();
 
-// Number of zombie that will be spawn in the game
-const int spawnNum = 5;
+//Level1 level1 = Level1();
+//vector<GameLevel*> gameLevel;
 
 // Game Object globals
 Player* F1 = new Player();
+// Number of zombie that will be spawn in the game
+const int spawnNum = 5;
 Enemy zombie[spawnNum];
 
-MainMenu* mainMenu = new MainMenu();
+UI* mainmenuUI = new UI();
 
 // Audio globals
 AudioManager* audioManager;
@@ -120,7 +121,6 @@ bool CircleCollisionDetection(int radiusA, int radiusB, D3DXVECTOR2 positionA, D
 		return true;
 	}
 }
-
 
 void CleanupMyLevel() {
 	F1->CleanUpSprite();
@@ -170,26 +170,29 @@ void CreateMyDirect3D9Device() {
 	box->CreateLine(d3dDevice);
 }
 
-void InitialiseLevel() {
-	audioManager->PlayBackgroundMusic();
-	audioManager->PlayCarEngineSound();
-	srand(time(0));
-
+void SetInput()
+{
 	// Add Key Codes to Input Manager
 	inputManager->AddKey(DIK_W);
 	inputManager->AddKey(DIK_S);
 	inputManager->AddKey(DIK_A);
 	inputManager->AddKey(DIK_D);
+}
 
-	//	Create texture
-	mainMenu->CreateTexture(d3dDevice, "Assets/roadBG.png");
+void InitialiseLevel() {
+	audioManager->PlayBackgroundMusic();
+	audioManager->PlayCarEngineSound();
+	srand(time(0));
+
+	// Create Texture and Initialise Game Object, UI and Images
 	background->CreateTexture(d3dDevice, "Assets/roadBG.png");
+	background->Init(840, 650, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(1, 1), D3DCOLOR_XRGB(255, 255, 255));
+	
+	mainmenuUI->CreateTexture(d3dDevice, "Assets/mainMenu.png");
+	mainmenuUI->Init(840, 650, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(1, 1), D3DCOLOR_XRGB(255, 255, 255));
+
 
 	F1->CreateTexture(d3dDevice, "Assets/F1.png");
-	mainMenu->CreateTexture(d3dDevice, "Assets/mainMenu.png");
-	mainMenu->Init(840, 650, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(1, 1), D3DCOLOR_XRGB(255, 255, 255));
-
-	//  Initialisation
 	F1->Init(768, 450, 3, 6, 5, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(395, 580), 1.0f, 0.0f, 2.0f,
 		D3DXVECTOR2(0.4f,0.4f),0.05f, 0.05f, D3DCOLOR_XRGB(255, 255, 255));
 
@@ -197,8 +200,6 @@ void InitialiseLevel() {
 
 	text->Init(200,200, D3DXVECTOR2(1,1), 0.0f ,D3DXVECTOR2(1, 1), text->GetPosition(), 0.0f, 
 		box->GetBoxPosition(), -1, 0 ,D3DCOLOR_XRGB(0, 0, 0));
-
-	background->Init(840, 650, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(1, 1), D3DCOLOR_XRGB(255,255,255));
 	
 	for (int i = 0; i < spawnNum; i++)
 	{
@@ -218,7 +219,7 @@ void Update(int framesToUpdate) {
 	audioManager->DynamicCarEngineSound(WindowWidth, F1->GetPosition().x);
 
 	for (int i = 0; i < framesToUpdate; i++) {
-		mainMenu->OnCollide(F1->GetRectangle());
+		mainmenuUI->OnCollide(F1->GetRectangle());
 
 		if (inputManager->GetKeyPress(DIK_W)) {
 			F1->MovForward();
@@ -245,7 +246,7 @@ void Update(int framesToUpdate) {
 					cout << "Collision occurs" << endl;
 					audioManager->PlayCollisionSound();
 
-					// Final Velocity of F1 after collision
+					// Calculate the bouncing vector of zombie after collision
 					D3DXVECTOR2 f1FVelocity = F1->GetVelocity() * (F1->GetMass() - zombie[i].GetMass()) + 2 * zombie[i].GetMass() * zombie[i].GetVelocity() / (F1->GetMass() + zombie[i].GetMass());
 
 					// Calculate the bouncing vector of zombie after collision
@@ -284,7 +285,7 @@ void Render() {
 	
 	// Draw background
 	/*background->RenderSprite(spriteBrush1, &mat);*/
-	mainMenu->Render(spriteBrush1, &mat);
+	mainmenuUI->Render(spriteBrush1, &mat);
 
 	// Draw F1
 	F1->RenderSprite(spriteBrush1, &mat);
@@ -342,14 +343,11 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 	CreateMyDirect3D9Device();
 	inputManager->CreateMyDirectInput(g_hWnd);
 
-	/*GameState mainmenu = GameState();
-	GameState level1 = GameState();
-	vector<GameState*> gameState = {&mainmenu, &level1};*/
-
 	audioManager = new AudioManager();
 	audioManager->InitialiseAudio();
 	audioManager->LoadSounds();
-
+	
+	SetInput();
 	InitialiseLevel();
 
 	FrameTimer* timer = new FrameTimer();
