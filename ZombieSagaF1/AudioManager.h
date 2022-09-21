@@ -10,21 +10,22 @@ public:
 	FMOD_RESULT	result;
 	void* extradriverdata = 0;
 	
-
 	// Constructor
 	AudioManager();
 	// Destructor
 	~AudioManager();
 	
 	void InitialiseAudio();
-	void DynamicCarEngineSound(bool MoveForward, bool moveBackward);
+	void PlayCarEngineSound();
 	void PlayBackgroundMusic();
 	void LoadSounds();
 	void UpdateSound();
 	void PlayCollisionSound();
-	void ChangeState( bool pause);
-	float DynamicSound(int windowWidth, int carPositionX);
-	void StartCarEngineSound();
-	
+	// Change the State of the Sound to oause or un pause
+	void ChangeSoundState(bool state);
+	// Change the state of sound when the car moving and stop
+	void ManageCarEngineSound(bool moveForward, bool moveBackward);
+	// Pan the sound according to the  car (F1) position
+	void DynamicCarEngineSound(int windowWidth, int carPositionX);
 	
 };

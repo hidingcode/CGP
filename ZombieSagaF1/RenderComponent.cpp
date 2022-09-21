@@ -83,6 +83,7 @@ void RenderComponent::RenderText(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat, LPCS
 	if (FAILED(hr)) {
 		cout << "Draw Text failed" << endl;
 	}
+	cout << "RenderText" << endl;
 }
 
 void RenderComponent::CleanUpSprite()
@@ -97,14 +98,16 @@ void RenderComponent::CleanUpText()
 	font = NULL;
 }
 
-D3DXVECTOR2 RenderComponent::GetPosition()
-{
-	return position;
+RECT RenderComponent::GetRectangle()
+{	
+	rect.right *= scaling.x;
+	rect.bottom *= scaling.y;
+	return rect;
 }
 
-D3DXVECTOR2 RenderComponent::GetScaling()
+void RenderComponent::SetScalingCentre(D3DXVECTOR2 scalingCentre)
 {
-	return scaling;
+	this->scalingCentre = scalingCentre;
 }
 
 D3DXVECTOR2 RenderComponent::GetScalingCentre()
@@ -112,7 +115,62 @@ D3DXVECTOR2 RenderComponent::GetScalingCentre()
 	return scalingCentre;
 }
 
+void RenderComponent::SetScalingRotation(float scalingRotation)
+{
+	this->scalingRotation = scalingRotation;
+}
+
+float RenderComponent::GetScalingRotation()
+{
+	return scalingRotation;
+}
+
+void RenderComponent::SetScaling(D3DXVECTOR2 scaling)
+{
+	this->scaling = scaling;
+}
+
+D3DXVECTOR2 RenderComponent::GetScaling()
+{
+	return scaling;
+}
+
+void RenderComponent::SetRotationCentre(D3DXVECTOR2 rotationCentre)
+{
+	this->rotationCentre = rotationCentre;
+}
+
 D3DXVECTOR2 RenderComponent::GetRotationCentre()
 {
 	return rotationCentre;
+}
+
+void RenderComponent::SetRotation(float rotation)
+{
+	this->rotation = rotation;
+}
+
+float RenderComponent::GetRotation()
+{
+	return rotation;
+}
+
+void RenderComponent::SetPosition(D3DXVECTOR2 position)
+{
+	this->position = position;
+}
+
+D3DXVECTOR2 RenderComponent::GetPosition()
+{
+	return position;
+}
+
+void RenderComponent::SetColorFilter(D3DCOLOR colorFilter)
+{
+	this->colorFilter = colorFilter;
+}
+
+D3DCOLOR RenderComponent::GetColorFilter()
+{
+	return colorFilter;
 }

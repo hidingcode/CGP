@@ -1,6 +1,7 @@
 #pragma once
 #include <Windows.h>
 
+
 class MyWindowManager
 {
 public:
@@ -8,12 +9,12 @@ public:
 	~MyWindowManager();
 	static LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	void CreateMyWindow();
-	bool IsWindowRunnig();
+	bool IsWindowRunning();
+	void CleanUpMyWindow();
 	HWND GetWindowHandle();
 	void CleanupMyWindow();
 
 private:
-	
 	//	Window handle
 	HWND g_hWnd = NULL;
 	// Window's Structure  /DESIGN PATTERN SINGLETON

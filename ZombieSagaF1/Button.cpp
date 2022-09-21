@@ -9,50 +9,42 @@ Button::~Button()
 }
 
 bool Button::OnCollide(RECT rect)
-{
-	if (this->rect.left > rect.right)
+{	
+	if (position.x > this->rect.right)
 	{
 		return false;
 	}
-	if (this->rect.right < rect.left)
+	if (rect.right < this->rect.left)
 	{
 		return false;
 	}
-	if (this->rect.top > rect.bottom)
+	if (rect.top > this->rect.bottom)
 	{
 		return false;
 	}
-	if (this->rect.bottom < rect.top)
+	if (rect.bottom < this->rect.top)
 	{
 		return false;
 	}
+	/*if (rect.left > this->rect.right)
+	{
+		return false;
+	}
+	if (rect.right < this->rect.left)
+	{
+		return false;
+	}
+	if (rect.top > this->rect.bottom)
+	{
+		return false;
+	}
+	if (rect.bottom < this->rect.top)
+	{
+		return false;
+	}*/
 	return true;
 }
 
-D3DXVECTOR2 Button::GetPosition()
-{
-	return Image::GetPosition();
-}
-
-int Button::GetTextureWidth()
-{
-	return textureWidth;
-}
-
-int Button::GetTextureHeight()
-{
-	return textureHeight;
-}
-
-RECT Button::GetRect()
-{
-	return rect;
-}
-
-void Button::SetPosition(D3DXVECTOR2 position)
-{
-	this->position = position;
-}
 
 
 
