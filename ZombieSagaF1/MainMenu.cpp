@@ -43,6 +43,8 @@ void MainMenu::Update(int framesToUpdate, InputManager* inputManager, AudioManag
 
 		F1->Update(WindowWidth, WindowHeight);
 		inputManager->SetAllKeyPressToFalse();
+
+		ui->OnCollide(F1->GetRectangle(), F1->GetPosition());
 	}
 }
 

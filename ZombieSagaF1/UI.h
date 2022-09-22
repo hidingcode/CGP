@@ -14,7 +14,7 @@ public:
 	
 	void CreateTexture(IDirect3DDevice9* d3dDevice, LPCSTR textureFilePath);
 	void Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat);
-	void OnCollide(RECT rect);
+	void OnCollide(RECT rect, D3DXVECTOR2 position);
 
 private:
 	Text* instruction = new Text();
