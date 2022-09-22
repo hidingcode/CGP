@@ -15,6 +15,8 @@ void VerticalPanel::Init()
 		D3DXVECTOR2(1, 1), D3DCOLOR_XRGB(255, 255, 255));
 	quitButton->Init(165, 70, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(position.x, position.y / 2 + startButton->GetPosition().y),
 		0.0f, D3DXVECTOR2(1, 1), D3DCOLOR_XRGB(255, 255, 255));
+
+	
 }
 
 void VerticalPanel::CreateTexture(IDirect3DDevice9* d3dDevice)

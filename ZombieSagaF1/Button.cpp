@@ -10,7 +10,7 @@ Button::~Button()
 
 bool Button::OnCollide(RECT rect)
 {	
-	if (position.x > this->rect.right)
+	if (rect.left > this->rect.right)
 	{
 		return false;
 	}

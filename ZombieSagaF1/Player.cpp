@@ -57,6 +57,12 @@ void Player::UpdateAnim()
 	rect.top = currentDirection * spriteHeight;
 	rect.bottom = rect.top + spriteHeight;
 
+	//collision rectangle
+	ColRect.top = this->GetPosition().y;
+	ColRect.left = this->GetPosition().x;
+	ColRect.bottom = ColRect.top + spriteWidth;
+	ColRect.right = ColRect.left + spriteHeight;
+
 	// If the frame counter exceed max frame set the frame counter back to 0
 	// to loop the animation
 	if (frameCounter > maxFrame)

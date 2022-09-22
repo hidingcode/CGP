@@ -31,6 +31,8 @@ void MainMenu::Update(int framesToUpdate, InputManager* inputManager, AudioManag
 	audioManager->ManageCarEngineSound(inputManager->GetKeyPress(DIK_W), inputManager->GetKeyPress(DIK_S));
 	audioManager->DynamicCarEngineSound(WindowWidth, F1->GetPosition().x);
 
+	if(Button::OnCollide(RECT F1))
+
 	for (int i = 0; i < framesToUpdate; i++) {
 		if (inputManager->GetKeyPress(DIK_W)) {
 			F1->MovForward();
