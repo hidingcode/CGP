@@ -125,7 +125,7 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 
 	SetInput();
 	InitAudio();
-	gameLevel.push_back(&mainMenu);
+	gameLevel.push_back(&level1);
 	InitLevel();
 
 	FrameTimer* timer = new FrameTimer();

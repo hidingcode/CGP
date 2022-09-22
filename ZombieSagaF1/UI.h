@@ -1,5 +1,6 @@
 #pragma once
 #include "Image.h"
+#include "Text.h"
 #include "VerticalPanel.h"
 #include <iostream>
 
@@ -16,6 +17,7 @@ public:
 	void OnCollide(RECT rect);
 
 private:
+	Text* instruction = new Text();
 	VerticalPanel* panel1 = new VerticalPanel(D3DXVECTOR2(310, 300));
 };
 
