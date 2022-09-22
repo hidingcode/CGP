@@ -22,8 +22,8 @@ void Button::GetColStuff()
 
 bool Button::OnCollide(RECT ColRect)
 {	
-	cout << "startButton : " << this->ColRect.left << " , " << this->ColRect.top << " , " << this->ColRect.right << " , " << this->ColRect.bottom << endl;
-	cout << "F1 :" << ColRect.left << " , " << ColRect.top << " , " << ColRect.right << " , " << ColRect.bottom << endl;
+	//cout << "startButton : " << this->ColRect.left << " , " << this->ColRect.top << " , " << this->ColRect.right << " , " << this->ColRect.bottom << endl;
+	//cout << "F1 :" << ColRect.left << " , " << ColRect.top << " , " << ColRect.right << " , " << ColRect.bottom << endl;
 
 	if (this->ColRect.left > ColRect.right)
 	{
