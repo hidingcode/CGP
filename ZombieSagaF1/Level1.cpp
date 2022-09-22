@@ -57,7 +57,8 @@ void Level1::InitLevel(IDirect3DDevice9* d3dDevice)
 
 }
 
-void Level1::Update(int framesToUpdate, InputManager* inputManager, AudioManager* audioManager)
+void Level1::Update(int framesToUpdate, InputManager* inputManager, AudioManager* audioManager,
+	vector<GameLevel*> gameLevel)
 {	
 	audioManager->UpdateSound();
 	audioManager->ManageCarEngineSound(inputManager->GetKeyPress(DIK_W), inputManager->GetKeyPress(DIK_S));
@@ -75,6 +76,12 @@ void Level1::Update(int framesToUpdate, InputManager* inputManager, AudioManager
 		}
 		if (inputManager->GetKeyPress(DIK_D)) {
 			F1->TurnRight();
+		}
+		if (inputManager->GetKeyPress(DIK_P)) {
+			gameLevel.front()->SetLevelState(2);
+		}
+		if (inputManager->GetKeyPress(DIK_U)) {
+			gameLevel.front()->SetLevelState(4);
 		}
 
 		for (int i = 0; i < spawnNum; i++)
@@ -101,6 +108,11 @@ void Level1::Update(int framesToUpdate, InputManager* inputManager, AudioManager
 			zombie[i].Update(WindowWidth, WindowHeight);
 		}
 		F1->Update(WindowWidth, WindowHeight);
+
+		if (scoreBoard->GetScore() == 100)
+		{
+			gameLevel.front()->SetLevelState(2);
+		}
 	}
 	inputManager->SetAllKeyPressToFalse();
 }

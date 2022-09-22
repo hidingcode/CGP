@@ -14,9 +14,14 @@ void ScoreBoard::IncreaseScore(int score)
 	this->score += score;
 }
 
+int ScoreBoard::GetScore()
+{
+	return score;
+}
+
 string ScoreBoard::DisplayScore()
 {	
-	string scoreInString = "Score: " + to_string(score);
+	scoreInString = "Score: " + to_string(score);
 	return scoreInString;
 }
 
