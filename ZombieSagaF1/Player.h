@@ -20,12 +20,18 @@ public:
 	void Update(int WindowWidth, int WindowHeight);
 	// Update Animation
 	void UpdateAnim();
-
+	RECT GetColRectangle();
+	
+	
+	
 private:
 	// Store Moving Direction
 	int currentDirection = 0;
 	// Moving Direction
 	enum movDirection { FORWARD, LEFT, RIGHT };
+	//Collision Rectangle
+	RECT ColRect;
+	
 };
 #endif
 

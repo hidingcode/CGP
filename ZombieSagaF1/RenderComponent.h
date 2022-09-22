@@ -30,6 +30,8 @@ public:
 	void CleanUpText();
 	// Get Rectangle
 	RECT GetRectangle();
+	// Get collision rectangle
+	RECT GetColRectangle();
 	// Set Scaling Centre
 	void SetScalingCentre(D3DXVECTOR2 scalingCentre);
 	// Get Scaling Centre
@@ -62,6 +64,7 @@ public:
 protected:
 	LPDIRECT3DTEXTURE9 texture = NULL;
 	RECT rect;
+	RECT ColRect;
 	D3DXVECTOR2 scalingCentre;
 	float scalingRotation;
 	D3DXVECTOR2 scaling;

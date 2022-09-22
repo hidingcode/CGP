@@ -14,6 +14,9 @@ Image::~Image()
 void Image::Init(int textureWidth, int textureHeight, D3DXVECTOR2 scalingCentre,
 	float scalingRotation, D3DXVECTOR2 position, float rotation, D3DXVECTOR2 scaling, D3DXCOLOR colorFilter)
 {	
+	this->textureWidth = textureWidth;
+	this->textureHeight = textureHeight;
+
 	// Crop texture into required rectangle
 	rect.left = 0;
 	rect.right = textureWidth;
@@ -22,4 +25,16 @@ void Image::Init(int textureWidth, int textureHeight, D3DXVECTOR2 scalingCentre,
 	
 	RenderComponent::InitSprite(scalingCentre, scalingRotation, scaling, D3DXVECTOR2(textureWidth * scaling.x / 2, textureHeight * scaling.y / 2),
 		rotation, position, colorFilter);
+
+	
+}
+
+int Image::GetTextureWidth()
+{
+	return this->textureWidth;
+}
+
+int Image::GetTextureHeight()
+{
+	return this->textureHeight;
 }

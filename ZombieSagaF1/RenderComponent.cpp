@@ -97,6 +97,8 @@ void RenderComponent::CleanUpText()
 	font = NULL;
 }
 
+
+
 RECT RenderComponent::GetRectangle()
 {	
 	//rect.right *= scaling.x;
@@ -173,3 +175,4 @@ D3DCOLOR RenderComponent::GetColorFilter()
 {
 	return colorFilter;
 }
+

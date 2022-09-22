@@ -12,7 +12,7 @@ public:
 	void Init();
 	void CreateTexture(IDirect3DDevice9* d3dDevice);
 	void Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat);
-	void OnCollide(RECT rect, D3DXVECTOR2 position);
+	void OnCollide(RECT Colrect);
 private:
 	D3DXVECTOR2 position = D3DXVECTOR2(0, 0);
 	Button* startButton = new Button();

@@ -8,8 +8,11 @@ public:
 	Button();
 	~Button();
 	// Check If There is Any Collision With The Button
-	bool OnCollide(RECT rect, D3DXVECTOR2 position);
+	bool OnCollide(RECT ColRect);
 	// Set Position of Panel
+
+	void GetColStuff();
+	void GetColRect();
 };
 #endif
 
