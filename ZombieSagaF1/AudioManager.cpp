@@ -17,13 +17,13 @@ void AudioManager::InitialiseAudio()
 void AudioManager::PlayCarEngineSound()
 {	
 	result = system->playSound(engineSound, 0, false, &channel3);
-	channel->setVolume(0.5);
+	channel3->setVolume(0.5);
 }
 
 void AudioManager::PlayBackgroundMusic()
 {
-	result = system->playSound(backgroundMusic, 0, false, &channel);
-	channel->setVolume(0.1);
+	result = system->playSound(backgroundMusic, 0, false, &channel2);
+	channel2->setVolume(0);
 }
 
 void AudioManager::PlayCollisionSound()

@@ -13,4 +13,10 @@ public:
 		float scalingRotation, D3DXVECTOR2 position, float rotation, D3DXVECTOR2 scaling, 
 		D3DXCOLOR colorFilter);
 
+	int GetTextureWidth();
+	int GetTextureHeight();
+
+private:
+	int textureWidth;
+	int textureHeight;
 };

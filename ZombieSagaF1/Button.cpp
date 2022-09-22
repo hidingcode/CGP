@@ -2,33 +2,58 @@
 
 Button::Button()
 {
+	this->GetColStuff();
 }
 
 Button::~Button()
 {
 }
 
-bool Button::OnCollide(RECT rect, D3DXVECTOR2 position)
+void Button::GetColStuff()
+{
+	//Image::Init();
+	this->ColRect.left = this->GetPosition().x; // x = 0 dk why, 
+	this->ColRect.top = this->GetPosition().y; // y = 0 dk why, 
+	this->ColRect.right = ColRect.left + this->GetTextureWidth();
+	this->ColRect.bottom = ColRect.top + this->GetTextureHeight();
+	
+
+}
+
+bool Button::OnCollide(RECT ColRect)
 {	
-	if (this->rect.left + this->position.x > rect.right + position.x)
+	cout << "startButton : " << this->ColRect.left << " , " << this->ColRect.top << " , " << this->ColRect.right << " , " << this->ColRect.bottom << endl;
+	cout << "F1 :" << ColRect.left << " , " << ColRect.top << " , " << ColRect.right << " , " << ColRect.bottom << endl;
+
+	if (this->ColRect.left > ColRect.right)
 	{
+		
 		return false;
 	}
-	if (this->rect.right + this->position.x < rect.left + position.x)
+	if (this->ColRect.right < ColRect.left)
 	{
+		
 		return false;
 	}
-	if (this->rect.top + this->position.x > rect.bottom + position.y)
+	if (this->ColRect.top > ColRect.bottom)
 	{
+		
 		return false;
 	}
-	if (this->rect.bottom + this->position.x < rect.top + position.y)
+	if (this->ColRect.bottom < ColRect.top )
 	{
+		
 		return false;
 	}
+
+	
+
 	return true;
 }
 
-
+void Button::GetColRect()
+{
+	cout << "LEFT :" << this->ColRect.left << "," << "TOP :" << this->ColRect.top << "," << "RIGHT :" << this->ColRect.right << "," << "BOTTOM :" << this->ColRect.bottom << endl;
+}
 
 

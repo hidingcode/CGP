@@ -19,7 +19,10 @@ public:
 	void Update(int WindowWidth, int WindowHeight);
 	// Update Animation
 	void UpdateAnim();
-
+	RECT GetColRectangle();
+	
+	
+	
 private:
 	// Store Moving Direction
 	int currentDirection = 0;

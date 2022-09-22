@@ -28,7 +28,7 @@ void UI::Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat)
 	panel1->Render(spriteBrush, mat);
 }
 
-void UI::OnCollide(RECT rect, D3DXVECTOR2 position)
+void UI::OnCollide(RECT Colrect)
 {
-	panel1->OnCollide(rect, position);
+	panel1->OnCollide(Colrect);
 }

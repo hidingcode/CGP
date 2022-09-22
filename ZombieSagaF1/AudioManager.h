@@ -6,7 +6,7 @@ class AudioManager
 public:
 	FMOD::System* system;
 	FMOD::Sound* engineSound, * backgroundMusic, * crashSound;
-	FMOD::Channel* channel = 0, * channel3 = 0;
+	FMOD::Channel* channel = 0,* channel2 = 0, * channel3 = 0;
 	FMOD_RESULT	result;
 	void* extradriverdata = 0;
 	

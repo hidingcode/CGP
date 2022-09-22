@@ -27,7 +27,7 @@ void MainMenu::Update(int framesToUpdate, InputManager* inputManager, AudioManag
 	audioManager->ManageCarEngineSound(inputManager->GetKeyPress(DIK_W), inputManager->GetKeyPress(DIK_S));
 	audioManager->DynamicCarEngineSound(WindowWidth, F1->GetPosition().x);
 
-	if(Button::OnCollide(RECT F1))
+	//if(Button::OnCollide(RECT F1))
 
 	for (int i = 0; i < framesToUpdate; i++) {
 		if (inputManager->GetKeyPress(DIK_W)) {
@@ -46,7 +46,7 @@ void MainMenu::Update(int framesToUpdate, InputManager* inputManager, AudioManag
 		F1->Update(WindowWidth, WindowHeight);
 		inputManager->SetAllKeyPressToFalse();
 
-		ui->OnCollide(F1->GetRectangle(), F1->GetPosition());
+		ui->OnCollide(F1->GetColRectangle());
 	}
 }
 

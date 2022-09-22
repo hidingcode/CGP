@@ -60,8 +60,10 @@ void Player::UpdateAnim()
 	//collision rectangle
 	ColRect.top = this->GetPosition().y;
 	ColRect.left = this->GetPosition().x;
-	ColRect.bottom = ColRect.top + spriteWidth;
-	ColRect.right = ColRect.left + spriteHeight;
+	ColRect.bottom = ColRect.top + (spriteWidth*scaling.y);
+	ColRect.right = ColRect.left + (spriteHeight*scaling.x);
+
+	
 
 	// If the frame counter exceed max frame set the frame counter back to 0
 	// to loop the animation
@@ -69,6 +71,12 @@ void Player::UpdateAnim()
 	{
 		frameCounter = 0;
 	}
+}
+
+RECT Player::GetColRectangle()
+{
+	
+	return ColRect;
 }
 
 
