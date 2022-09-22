@@ -12,6 +12,8 @@ public:
 	bool IsWindowRunning();
 	void CleanUpMyWindow();
 	HWND GetWindowHandle();
+	void CleanupMyWindow();
+
 private:
 	//	Window handle
 	HWND g_hWnd = NULL;
