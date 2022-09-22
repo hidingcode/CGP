@@ -21,7 +21,8 @@ void MainMenu::InitLevel(IDirect3DDevice9* d3dDevice)
 		D3DCOLOR_XRGB(255, 255, 255));
 }
 
-void MainMenu::Update(int framesToUpdate, InputManager* inputManager, AudioManager* audioManager)
+void MainMenu::Update(int framesToUpdate, InputManager* inputManager, AudioManager* audioManager,
+	vector<GameLevel*> gameLevel)
 {	
 	audioManager->UpdateSound();
 	audioManager->ManageCarEngineSound(inputManager->GetKeyPress(DIK_W), inputManager->GetKeyPress(DIK_S));
@@ -42,6 +43,14 @@ void MainMenu::Update(int framesToUpdate, InputManager* inputManager, AudioManag
 		if (inputManager->GetKeyPress(DIK_D)) {
 			F1->TurnRight();
 		}
+		if (inputManager->GetKeyPress(DIK_O)) {
+			gameLevel.front()->SetLevelState(1);
+			cout << gameLevel.front()->GetLevelState() << endl;
+		}
+		if (inputManager->GetKeyPress(DIK_I)) {
+			gameLevel.front()->SetLevelState(3);
+			cout << gameLevel.front()->GetLevelState() << endl;
+		}
 
 		F1->Update(WindowWidth, WindowHeight);
 		inputManager->SetAllKeyPressToFalse();
@@ -56,6 +65,15 @@ void MainMenu::Render(LPD3DXSPRITE spriteBrush)
 	ui->Render(spriteBrush, &mat);
 	// Draw F1
 	F1->RenderSprite(spriteBrush, &mat);
+}
+
+void MainMenu::CleanUpLevel()
+{
+	F1->CleanUpSprite();
+	F1 = NULL;
+	
+	ui->CleanUpSprite();
+	ui = NULL;
 }
 
 

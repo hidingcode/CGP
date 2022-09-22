@@ -54,13 +54,6 @@ void GameObject::Update(int WindowWidth, int WindowHeight)
 	position += velocity;
 	acceleration = D3DXVECTOR2(0, 0);
 
-	//if (position.x <0 || position.x > WindowWidth - spriteWidth * scaling.x) {
-	//	velocity.x *= -1;
-	//}
-	//if (position.y <0 || position.y > WindowHeight - spriteHeight * scaling.y) {
-	//	velocity.y *= -1;
-	//}
-
 	if (position.x < 0) {
 		position.x = 0;
 		velocity.x *= -1;

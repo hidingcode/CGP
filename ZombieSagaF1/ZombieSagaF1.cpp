@@ -4,9 +4,6 @@
 
 //	Ask the compiler to include minimal header files for our program.
 // #define -> Instruction to communicate with the compiler
-#define WIN32_LEAN_AND_MEAN // Only include the skinny(LEAN) and powerful(MEAN) part of Windows.h
-
-#include <Windows.h>
 #include <d3d9.h>
 #include <iostream>
 #include <string>  
@@ -17,7 +14,6 @@
 #include <vector>
 
 // Sprite Brush and Input Manager
-#include "SpriteBrush.h"
 #include "InputManager.h"
 
 //include windowClass
@@ -25,17 +21,6 @@
 
 //DeviceManagerClass
 #include "D3D9DeviceManager.h"
-
-// Image
-#include "Image.h"
-
-// Text and Box
-#include "Text.h"
-#include "Box.h"
-
-// Game Object 
-#include "Player.h"
-#include "Enemy.h"
 
 // Frame Timer
 #include "FrameTimer.h"
@@ -67,10 +52,10 @@ D3D9DeviceManager* deviceManager = new D3D9DeviceManager();
 // Input Manager
 InputManager* inputManager = new InputManager();
 
+// Game Level
+vector<GameLevel*> gameLevel;
 MainMenu mainMenu = MainMenu();
 Level1 level1 =  Level1();
-vector<GameLevel*> gameLevel;
-
 
 // Audio globals
 AudioManager* audioManager;
@@ -84,6 +69,10 @@ void SetInput()
 	inputManager->AddKey(DIK_S);
 	inputManager->AddKey(DIK_A);
 	inputManager->AddKey(DIK_D);
+	inputManager->AddKey(DIK_P);
+	inputManager->AddKey(DIK_O);
+	inputManager->AddKey(DIK_I);
+	inputManager->AddKey(DIK_U);
 }
 
 void InitAudio()
@@ -94,12 +83,43 @@ void InitAudio()
 }
 
 void InitLevel() 
-{
+{	
+	// First level 
+	gameLevel.push_back(&mainMenu);
+
 	audioManager->PlayBackgroundMusic();
 	audioManager->PlayCarEngineSound();
 
 	mainMenu.InitLevel(deviceManager->GetD3D9Device());
 	level1.InitLevel(deviceManager->GetD3D9Device());
+}
+
+// Manage which level to be unload and load
+void LevelManager()
+{
+	if (gameLevel.front()->GetLevelState() == 1)
+	{
+		gameLevel.pop_back();
+		gameLevel.push_back(&level1);
+	}
+
+	if (gameLevel.front()->GetLevelState() == 2)
+	{	
+		gameLevel.pop_back();
+		gameLevel.push_back(&mainMenu);
+	}
+
+	if (gameLevel.front()->GetLevelState() == 3)
+	{
+		gameLevel.pop_back();
+		gameLevel.push_back(&level1);
+	}
+
+	if (gameLevel.front()->GetLevelState() == 4)
+	{
+		gameLevel.pop_back();
+		gameLevel.push_back(&mainMenu);
+	}
 }
 
 void Render() 
@@ -125,15 +145,15 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 
 	SetInput();
 	InitAudio();
-	gameLevel.push_back(&mainMenu);
 	InitLevel();
 
 	FrameTimer* timer = new FrameTimer();
 	timer->Init(20);
 	while (myWindowManager->IsWindowRunning())
-	{
+	{	
+		LevelManager();
 		inputManager->GetInput();
-		gameLevel.front()->Update(timer->FramesToUpdate(), inputManager, audioManager);
+		gameLevel.front()->Update(timer->FramesToUpdate(), inputManager, audioManager, gameLevel);
 		Render();
 	}
 	gameLevel.front()->CleanUpLevel();

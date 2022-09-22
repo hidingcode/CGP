@@ -1,4 +1,5 @@
 #pragma once
+#define WIN32_LEAN_AND_MEAN // Only include the skinny(LEAN) and powerful(MEAN) part of Windows.h
 #include <Windows.h>
 
 

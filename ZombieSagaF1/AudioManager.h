@@ -1,4 +1,7 @@
 #pragma once
+#ifndef AUDIOMANAGER_H
+#define AUDIOMANAGER_H
+
 #include "fmod.hpp"
 
 class AudioManager
@@ -29,3 +32,4 @@ public:
 	void DynamicCarEngineSound(int windowWidth, int carPositionX);
 	
 };
+#endif

@@ -11,8 +11,10 @@ public:
 	~MainMenu();
 
 	void InitLevel(IDirect3DDevice9* d3dDevice);
-	void Update(int framesToUpdate, InputManager* inputManager, AudioManager* audioManager);
+	void Update(int framesToUpdate, InputManager* inputManager, AudioManager* audioManager,
+		vector<GameLevel*> gameLevel);
 	void Render(LPD3DXSPRITE spriteBrush);
+	void CleanUpLevel();
 
 private:
 	Player* F1 = new Player();

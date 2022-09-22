@@ -22,7 +22,8 @@ public:
 	
 	bool CircleCollisionDetection(int radiusA, int radiusB, D3DXVECTOR2 positionA, D3DXVECTOR2 positionB);
 	void InitLevel(IDirect3DDevice9* d3dDevice);
-	void Update(int framesToUpdate, InputManager* inputManager, AudioManager* audioManager);
+	void Update(int framesToUpdate, InputManager* inputManager, AudioManager* audioManager,
+		vector<GameLevel*> gameLevel);
 	void Render(LPD3DXSPRITE spriteBrush);
 	void RenderLine();
 	void CleanUpLevel();

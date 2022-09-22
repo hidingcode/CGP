@@ -10,9 +10,10 @@ public:
 	~ScoreBoard();
 
 	void IncreaseScore(int score);
+	int GetScore();
 	string DisplayScore();
 
 private:
 	int score = 0;
-	LPCSTR scoreInLPCSTR;
+	string scoreInString;
 };
