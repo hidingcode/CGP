@@ -8,40 +8,24 @@ Button::~Button()
 {
 }
 
-bool Button::OnCollide(RECT rect)
+bool Button::OnCollide(RECT rect, D3DXVECTOR2 position)
 {	
-	if (rect.left > this->rect.right)
+	if (this->rect.left + this->position.x > rect.right + position.x)
 	{
 		return false;
 	}
-	if (rect.right < this->rect.left)
+	if (this->rect.right + this->position.x < rect.left + position.x)
 	{
 		return false;
 	}
-	if (rect.top > this->rect.bottom)
+	if (this->rect.top + this->position.x > rect.bottom + position.y)
 	{
 		return false;
 	}
-	if (rect.bottom < this->rect.top)
+	if (this->rect.bottom + this->position.x < rect.top + position.y)
 	{
 		return false;
 	}
-	/*if (rect.left > this->rect.right)
-	{
-		return false;
-	}
-	if (rect.right < this->rect.left)
-	{
-		return false;
-	}
-	if (rect.top > this->rect.bottom)
-	{
-		return false;
-	}
-	if (rect.bottom < this->rect.top)
-	{
-		return false;
-	}*/
 	return true;
 }
 

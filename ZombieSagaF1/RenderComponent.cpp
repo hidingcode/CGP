@@ -83,7 +83,6 @@ void RenderComponent::RenderText(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat, LPCS
 	if (FAILED(hr)) {
 		cout << "Draw Text failed" << endl;
 	}
-	cout << "RenderText" << endl;
 }
 
 void RenderComponent::CleanUpSprite()
@@ -100,8 +99,8 @@ void RenderComponent::CleanUpText()
 
 RECT RenderComponent::GetRectangle()
 {	
-	rect.right *= scaling.x;
-	rect.bottom *= scaling.y;
+	//rect.right *= scaling.x;
+	//rect.bottom *= scaling.y;
 	return rect;
 }
 

@@ -32,17 +32,18 @@ void VerticalPanel::Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat)
 	quitButton->RenderSprite(spriteBrush, mat);
 }
 
-void VerticalPanel::OnCollide(RECT rect)
-{	
-	if (startButton->OnCollide(rect))
+void VerticalPanel::OnCollide(RECT rect, D3DXVECTOR2 position)
+{
+	if (startButton->OnCollide(rect, position))
 	{
 		// Start The Game
 		cout << "Start Button" << endl;
 	}
-	
-	if (quitButton->OnCollide(rect))
+
+	if (quitButton->OnCollide(rect, position))
 	{
 		// Quit the game
 		cout << "Quit Button" << endl;
 	}
 }
+
