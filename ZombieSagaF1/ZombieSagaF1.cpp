@@ -15,21 +15,19 @@
 
 // Sprite Brush and Input Manager
 #include "InputManager.h"
-
 //include windowClass
 #include "MyWindowManager.h"
-
 //DeviceManagerClass
 #include "D3D9DeviceManager.h"
+// Audio Library
+#include "AudioManager.h"
 
 // Frame Timer
 #include "FrameTimer.h"
 
-// Audio Library
-#include "AudioManager.h"
-
 // Game State (Level control)
-#include "GameLevel.h"
+#include "GameStateManager.h"
+#include "GameState.h"
 #include "MainMenu.h"
 #include "Level1.h"
 
@@ -53,14 +51,12 @@ D3D9DeviceManager* deviceManager = new D3D9DeviceManager();
 InputManager* inputManager = new InputManager();
 
 // Game Level
-vector<GameLevel*> gameLevel;
+vector<GameState*> gameState;
 MainMenu mainMenu = MainMenu();
 Level1 level1 =  Level1();
 
 // Audio globals
 AudioManager* audioManager;
-
-Button* test = new Button();
 
 void SetInput()
 {
@@ -69,6 +65,7 @@ void SetInput()
 	inputManager->AddKey(DIK_S);
 	inputManager->AddKey(DIK_A);
 	inputManager->AddKey(DIK_D);
+	// Testing
 	inputManager->AddKey(DIK_P);
 	inputManager->AddKey(DIK_O);
 	inputManager->AddKey(DIK_I);
@@ -85,41 +82,41 @@ void InitAudio()
 void InitLevel() 
 {	
 	// First level 
-	gameLevel.push_back(&mainMenu);
+	//gameState.push_back(&mainMenu);
 
 	audioManager->PlayBackgroundMusic();
 	audioManager->PlayCarEngineSound();
 
 	mainMenu.InitLevel(deviceManager->GetD3D9Device());
-	level1.InitLevel(deviceManager->GetD3D9Device());
+	//level1.InitLevel(deviceManager->GetD3D9Device());
 }
 
 // Manage which level to be unload and load
 void LevelManager()
 {
-	if (gameLevel.front()->GetLevelState() == 1)
-	{
-		gameLevel.pop_back();
-		gameLevel.push_back(&level1);
-	}
+	//if (gameState.back()->GetLevelState() == 1)
+	//{
+	//	gameState.pop_back();
+	//	gameState.push_back(&level1);
+	//}
 
-	if (gameLevel.front()->GetLevelState() == 2)
-	{	
-		gameLevel.pop_back();
-		gameLevel.push_back(&mainMenu);
-	}
+	//if (gameState.back()->GetLevelState() == 2)
+	//{	
+	//	gameState.pop_back();
+	//	gameState.push_back(&mainMenu);
+	//}
 
-	if (gameLevel.front()->GetLevelState() == 3)
-	{
-		gameLevel.pop_back();
-		gameLevel.push_back(&level1);
-	}
+	//if (gameState.front()->GetLevelState() == 3)
+	//{
+	//	gameState.pop_back();
+	//	gameState.push_back(&level1);
+	//}
 
-	if (gameLevel.front()->GetLevelState() == 4)
-	{
-		gameLevel.pop_back();
-		gameLevel.push_back(&mainMenu);
-	}
+	//if (gameState.front()->GetLevelState() == 4)
+	//{
+	//	gameState.pop_back();
+	//	gameState.push_back(&mainMenu);
+	//}
 }
 
 void Render() 
@@ -127,11 +124,11 @@ void Render()
 	deviceManager->BeginRender();
 	deviceManager->BeginSpriteBrush();
 
-	gameLevel.front()->Render(deviceManager->GetSpriteBrush());
+	gameState.back()->Render(deviceManager->GetSpriteBrush());
 
 	deviceManager->EndSpriteBrush();
 
-	gameLevel.front()->RenderLine();
+	gameState.back()->RenderLine();
 
 	deviceManager->PresentBuffer();
 }
@@ -147,16 +144,17 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 	InitAudio();
 	InitLevel();
 
+	gameState.push_back(&mainMenu);
+
 	FrameTimer* timer = new FrameTimer();
 	timer->Init(20);
 	while (myWindowManager->IsWindowRunning())
 	{	
-		LevelManager();
 		inputManager->GetInput();
-		gameLevel.front()->Update(timer->FramesToUpdate(), inputManager, audioManager, gameLevel);
+		gameState.back()->Update(timer->FramesToUpdate(), inputManager, audioManager, gameState);
 		Render();
 	}
-	gameLevel.front()->CleanUpLevel();
+	gameState.back()->CleanUpLevel();
 	inputManager->CleanUpMyDirectInput();
 	deviceManager->CleanUpMyD3D9Device();
 	myWindowManager->CleanUpMyWindow();

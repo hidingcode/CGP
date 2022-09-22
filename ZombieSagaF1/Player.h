@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PLAYER_H
+#define PLAYER_H
 #include "GameObject.h"
 
 class Player: public GameObject 
@@ -26,4 +27,5 @@ private:
 	// Moving Direction
 	enum movDirection { FORWARD, LEFT, RIGHT };
 };
+#endif
 

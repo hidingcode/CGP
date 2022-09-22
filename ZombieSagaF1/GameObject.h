@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GAMEOBJECT_H
+#define GAMEOBJECT_H
 #include "RenderComponent.h"
 #include <iostream>
 using namespace std;
@@ -59,4 +60,5 @@ protected:
 	// Frame counter for animation
 	int frameCounter = 0.0f;
 };
+#endif
 

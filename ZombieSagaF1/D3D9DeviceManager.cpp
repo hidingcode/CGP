@@ -90,7 +90,6 @@ LPD3DXSPRITE D3D9DeviceManager::GetSpriteBrush()
 	return this->spriteBrush;
 }
 
-
 void D3D9DeviceManager::CleanUpMyD3D9Device()
 {
 	//	Release and clean up everything

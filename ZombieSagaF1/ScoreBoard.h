@@ -1,3 +1,5 @@
+#ifndef SCOREBOARD_H
+#define SCOREBOARD_H
 #include <d3dx9.h>
 #include <string>
 
@@ -17,3 +19,4 @@ private:
 	int score = 0;
 	string scoreInString;
 };
+#endif

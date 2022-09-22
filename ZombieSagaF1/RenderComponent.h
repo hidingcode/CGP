@@ -1,4 +1,5 @@
-#pragma once
+#ifndef RENDERCOMPONENT_H
+#define RENDERCOMPONENT_H
 #include <d3dx9.h>
 #include <iostream>
 using namespace std;
@@ -72,4 +73,5 @@ protected:
 	int textLength = -1;
 	UINT format = 0;
 };
+#endif
 

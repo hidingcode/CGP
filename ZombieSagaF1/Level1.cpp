@@ -2,14 +2,6 @@
 #define WindowWidth 840
 #define WindowHeight 650
 
-Level1::Level1()
-{
-}
-
-Level1::~Level1()
-{
-}
-
 bool Level1::CircleCollisionDetection(int radiusA, int radiusB, D3DXVECTOR2 positionA, D3DXVECTOR2 positionB)
 {
 	D3DXVECTOR2 distance = positionA - positionB;
@@ -58,7 +50,7 @@ void Level1::InitLevel(IDirect3DDevice9* d3dDevice)
 }
 
 void Level1::Update(int framesToUpdate, InputManager* inputManager, AudioManager* audioManager,
-	vector<GameLevel*> gameLevel)
+	vector<GameState*> gameState)
 {	
 	audioManager->UpdateSound();
 	audioManager->ManageCarEngineSound(inputManager->GetKeyPress(DIK_W), inputManager->GetKeyPress(DIK_S));
@@ -78,10 +70,10 @@ void Level1::Update(int framesToUpdate, InputManager* inputManager, AudioManager
 			F1->TurnRight();
 		}
 		if (inputManager->GetKeyPress(DIK_P)) {
-			gameLevel.front()->SetLevelState(2);
+			//gameState.back()->SetLevelState(2);
 		}
 		if (inputManager->GetKeyPress(DIK_U)) {
-			gameLevel.front()->SetLevelState(4);
+			//gameState.back()->SetLevelState(4);
 		}
 
 		for (int i = 0; i < spawnNum; i++)
@@ -111,7 +103,6 @@ void Level1::Update(int framesToUpdate, InputManager* inputManager, AudioManager
 
 		if (scoreBoard->GetScore() == 100)
 		{
-			gameLevel.front()->SetLevelState(2);
 		}
 	}
 	inputManager->SetAllKeyPressToFalse();

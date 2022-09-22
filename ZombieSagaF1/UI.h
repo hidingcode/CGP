@@ -1,4 +1,6 @@
-#pragma once
+
+#ifndef UI_H
+#define UI_H
 #include "Image.h"
 #include "Text.h"
 #include "VerticalPanel.h"
@@ -20,4 +22,5 @@ private:
 	Text* instruction = new Text();
 	VerticalPanel* panel1 = new VerticalPanel(D3DXVECTOR2(310, 300));
 };
+#endif
 

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ENEMY_H
+#define ENEMY_H
 #include "GameObject.h"
 #include <d3dx9.h>
 #include <iostream>
@@ -23,4 +24,5 @@ public:
 private:
 	int hp = 0;
 };
+#endif
 

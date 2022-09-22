@@ -1,4 +1,5 @@
-#pragma onnce
+#ifndef D3D9DEVICEMANAGER_H
+#define D3D9DEVICEMANAGER_H
 #include <d3dx9.h>
 #include "Text.h"
 #include "Box.h"
@@ -36,3 +37,5 @@ private:
 	int WindowHeight = 650;
 	LPD3DXSPRITE spriteBrush = NULL;
 };
+
+#endif

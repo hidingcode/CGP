@@ -1,4 +1,5 @@
-#pragma once
+#ifndef BUTTON_H
+#define BUTTON_H
 #include "Image.h"
 
 class Button : public Image
@@ -10,4 +11,5 @@ public:
 	bool OnCollide(RECT rect, D3DXVECTOR2 position);
 	// Set Position of Panel
 };
+#endif
 

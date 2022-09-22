@@ -1,4 +1,5 @@
-#pragma once
+#ifndef INPUTMANAGER_H
+#define INPUTMANAGER_H
 #include <dinput.h>
 #include <vector>
 #include <iostream>
@@ -44,4 +45,5 @@ private:
 	//vector<bool> isKeyPressed;
 	bool isKeyPressed[256];
 };
+#endif
 
