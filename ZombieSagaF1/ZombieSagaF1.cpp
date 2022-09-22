@@ -98,6 +98,7 @@ void InitLevel()
 	audioManager->PlayBackgroundMusic();
 	audioManager->PlayCarEngineSound();
 
+	mainMenu.InitLevel(deviceManager->GetD3D9Device());
 	level1.InitLevel(deviceManager->GetD3D9Device());
 }
 
@@ -106,7 +107,7 @@ void Render()
 	deviceManager->BeginRender();
 	deviceManager->BeginSpriteBrush();
 
-	gameLevel.front()->Render(deviceManager->GetSpriteBrush(), deviceManager->GetD3D9Device());
+	gameLevel.front()->Render(deviceManager->GetSpriteBrush());
 
 	deviceManager->EndSpriteBrush();
 
@@ -124,7 +125,7 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 
 	SetInput();
 	InitAudio();
-	gameLevel.push_back(&level1);
+	gameLevel.push_back(&mainMenu);
 	InitLevel();
 
 	FrameTimer* timer = new FrameTimer();

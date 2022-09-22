@@ -9,7 +9,7 @@ class GameLevel
 public:
 	virtual void InitLevel(IDirect3DDevice9* d3dDevice);
 	virtual	void Update(int framesToUpdate, InputManager* inputManager, AudioManager* audioManager);
-	virtual void Render(LPD3DXSPRITE spriteBrush, IDirect3DDevice9* d3dDevice);
+	virtual void Render(LPD3DXSPRITE spriteBrush);
 	virtual void RenderLine();
 	virtual void CleanUpLevel();
 };

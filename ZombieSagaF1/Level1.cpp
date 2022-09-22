@@ -27,9 +27,6 @@ void Level1::InitLevel(IDirect3DDevice9* d3dDevice)
 {	
 	srand(time(0));
 
-	text->CreateFontType(d3dDevice, "Arial");
-	box->CreateLine(d3dDevice);
-
 	// Create Texture and Initialise Game Object, UI and Images
 	background->CreateTexture(d3dDevice, "Assets/roadBG.png");
 	background->Init(840, 650, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(1, 1), 
@@ -39,21 +36,25 @@ void Level1::InitLevel(IDirect3DDevice9* d3dDevice)
 	F1->Init(768, 450, 3, 6, 5, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(395, 580), 1.0f, 0.0f, 2.0f,
 		D3DXVECTOR2(0.4f, 0.4f), 0.05f, 0.05f, D3DCOLOR_XRGB(255, 255, 255));
 
-	box->Init(120, 30, D3DXVECTOR2(10, 10));
-
-	text->Init(200, 200, D3DXVECTOR2(1, 1), 0.0f, D3DXVECTOR2(1, 1), text->GetPosition(), 0.0f,
-		box->GetBoxPosition(), -1, 0, D3DCOLOR_XRGB(0, 0, 0));
-
 	for (int i = 0; i < spawnNum; i++)
 	{
 		zombie[i] = Enemy();
 		zombie[i].CreateTexture(d3dDevice, "Assets/zombie_idle.png");
+		// Spawn the zombie in random position
 		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (WindowWidth - zombie[i].GetSpriteWidth() - 100),
 			rand() % (WindowHeight - zombie[i].GetSpriteHeight() - 100));
 
 		zombie[i].Init(3774, 241, 1, 17, 16, D3DXVECTOR2(0, 0), 0.0f, randomSpawn, 0.0f, 0.0f, 1.0f,
 			D3DXVECTOR2(0.3f, 0.3f), 0.0f, 0.01f, D3DCOLOR_XRGB(255, 255, 255), 2);
 	}
+
+	box->CreateLine(d3dDevice);
+	box->Init(120, 30, D3DXVECTOR2(10, 10));
+
+	text->CreateFontType(d3dDevice, "Arial");
+	text->Init(200, 200, D3DXVECTOR2(1, 1), 0.0f, D3DXVECTOR2(1, 1), text->GetPosition(), 0.0f,
+		box->GetBoxPosition(), -1, 0, D3DCOLOR_XRGB(0, 0, 0));
+
 }
 
 void Level1::Update(int framesToUpdate, InputManager* inputManager, AudioManager* audioManager)
@@ -61,8 +62,6 @@ void Level1::Update(int framesToUpdate, InputManager* inputManager, AudioManager
 	audioManager->UpdateSound();
 	audioManager->ManageCarEngineSound(inputManager->GetKeyPress(DIK_W), inputManager->GetKeyPress(DIK_S));
 	audioManager->DynamicCarEngineSound(WindowWidth, F1->GetPosition().x);
-
-	cout << WindowWidth << endl;
 
 	for (int i = 0; i < framesToUpdate; i++) {
 		if (inputManager->GetKeyPress(DIK_W)) {
@@ -106,7 +105,7 @@ void Level1::Update(int framesToUpdate, InputManager* inputManager, AudioManager
 	inputManager->SetAllKeyPressToFalse();
 }
 
-void Level1::Render(LPD3DXSPRITE spriteBrush,IDirect3DDevice9* d3dDevice)
+void Level1::Render(LPD3DXSPRITE spriteBrush)
 {	
 	D3DXMATRIX mat;
 
