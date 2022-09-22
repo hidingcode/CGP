@@ -8,9 +8,13 @@ void GameLevel::Update(int framesToUpdate, InputManager* inputManager, AudioMana
 {
 }
 
-void GameLevel::Render(LPD3DXSPRITE spriteBrush1, LPD3DXSPRITE spriteBrush2, IDirect3DDevice9* d3dDevice)
+void GameLevel::Render(LPD3DXSPRITE spriteBrush, IDirect3DDevice9* d3dDevice)
 {
 
+}
+
+void GameLevel::RenderLine()
+{
 }
 
 void GameLevel::CleanUpLevel()

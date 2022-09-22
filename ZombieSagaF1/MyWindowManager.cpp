@@ -1,6 +1,4 @@
 #include "MyWindowManager.h"
-#define WindowWidth 840
-#define WindowHeight 650
 
 MyWindowManager::MyWindowManager()
 {
@@ -35,7 +33,7 @@ LRESULT MyWindowManager::WindowProcedure(HWND hWnd, UINT message, WPARAM wParam,
 	return 0;
 }
 
-void MyWindowManager::CreateMyWindow()
+void MyWindowManager::CreateMyWindow(int WindowWidth, int WindowHeight)
 {
 	//	set all members in wndclass to 0.
 	ZeroMemory(&wndClass, sizeof(wndClass));
@@ -83,9 +81,4 @@ void MyWindowManager::CleanUpMyWindow()
 HWND MyWindowManager::GetWindowHandle()
 {
 	return this->g_hWnd;
-}
-
-void MyWindowManager::CleanupMyWindow()
-{
-	UnregisterClass(wndClass.lpszClassName, GetModuleHandle(NULL)); // Delete window class
 }

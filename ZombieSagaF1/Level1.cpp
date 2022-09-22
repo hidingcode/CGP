@@ -106,52 +106,34 @@ void Level1::Update(int framesToUpdate, InputManager* inputManager, AudioManager
 	inputManager->SetAllKeyPressToFalse();
 }
 
-void Level1::Render(LPD3DXSPRITE spriteBrush1, LPD3DXSPRITE spriteBrush2, IDirect3DDevice9* d3dDevice)
+void Level1::Render(LPD3DXSPRITE spriteBrush,IDirect3DDevice9* d3dDevice)
 {	
-	//	Clear the back buffer.
-	d3dDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
-
-	//	Begin the scene
-	d3dDevice->BeginScene();
-
-	//	Drawing.
-	//	Specify alpha blend will ensure that the sprite will render the background with alpha.
-	spriteBrush1->Begin(D3DXSPRITE_ALPHABLEND);
-	spriteBrush2->Begin(D3DXSPRITE_ALPHABLEND);
-
 	D3DXMATRIX mat;
 
 	// Draw background
-	background->RenderSprite(spriteBrush1, &mat);
+	background->RenderSprite(spriteBrush, &mat);
 
 	// Draw F1
-	F1->RenderSprite(spriteBrush1, &mat);
+	F1->RenderSprite(spriteBrush, &mat);
 
 	// Draw Text
 	// .c_str() is to change the score to LPCSTR
-	text->RenderText(spriteBrush1, &mat, scoreBoard->DisplayScore().c_str());
+	text->RenderText(spriteBrush, &mat, scoreBoard->DisplayScore().c_str());
 
 	// Draw Zombie
 	for (int i = 0; i < spawnNum; i++)
 	{
 		if (zombie[i].GetHP() > 0)
 		{
-			zombie[i].RenderSprite(spriteBrush2, &mat);
+			zombie[i].RenderSprite(spriteBrush, &mat);
 		}
 	}
+}
 
-	//	End sprite drawing
-	spriteBrush1->End();
-	spriteBrush2->End();
-
+void Level1::RenderLine()
+{
 	// Draw Box
 	box->RenderLine(D3DCOLOR_XRGB(255, 0, 0));
-
-	//	End the scene
-	d3dDevice->EndScene();
-
-	//	Present the back buffer to screen
-	d3dDevice->Present(NULL, NULL, NULL, NULL);
 }
 
 void Level1::CleanUpLevel()

@@ -48,9 +48,6 @@
 #include "MainMenu.h"
 #include "Level1.h"
 
-// Main Menu
-#include "UI.h"
-
 using namespace std;
 
 #define WindowWidth 840
@@ -63,75 +60,22 @@ using namespace std;
 #pragma comment(lib, "fmod_vc.lib")
 //--------------------------------------------------------------------
 
-//	Window handle
-//HWND g_hWnd = NULL;
-// Window's Structure  /DESIGN PATTERN SINGLETON
-WNDCLASS wndClass;
-
-// DX globals
-//IDirect3DDevice9* d3dDevice;
-
 //WindowManagerClass
-MyWindowManager* Window = new MyWindowManager();
-D3D9DeviceManager* DeviceManager = new D3D9DeviceManager();
-
-
-// Sprite Brush
-//SpriteBrush* spriteBrush = new SpriteBrush();
-
-/*LPD3DXSPRITE spriteBrush1 = NULL;
-LPD3DXSPRITE spriteBrush2 = NULL;*/
+MyWindowManager* myWindowManager = new MyWindowManager();
+D3D9DeviceManager* deviceManager = new D3D9DeviceManager();
 
 // Input Manager
 InputManager* inputManager = new InputManager();
 
+MainMenu mainMenu = MainMenu();
 Level1 level1 =  Level1();
 vector<GameLevel*> gameLevel;
 
-UI* mainmenuUI = new UI();
 
 // Audio globals
 AudioManager* audioManager;
 
 Button* test = new Button();
-
-
-void CreateMyDirect3D9Device() {
-	//	Define Direct3D 9.
-	IDirect3D9* direct3D9 = Direct3DCreate9(D3D_SDK_VERSION);
-	//	Define how the screen presents.
-	D3DPRESENT_PARAMETERS d3dPP;
-	ZeroMemory(&d3dPP, sizeof(d3dPP));
-
-	//	Refer to Direct3D 9 documentation for the meaning of the members.
-	d3dPP.Windowed = true;
-	d3dPP.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	d3dPP.BackBufferFormat = D3DFMT_X8R8G8B8;
-	d3dPP.BackBufferCount = 1;
-	d3dPP.BackBufferWidth = WindowWidth;
-	d3dPP.BackBufferHeight = WindowHeight;
-	d3dPP.hDeviceWindow = Window->GetWindowHandle();
-
-	//	Create a Direct3D 9 device.
-	HRESULT hr = direct3D9->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, Window->GetWindowHandle(), D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dPP, DeviceManager->GetD3D9Dreference());
-
-	if (FAILED(hr))
-		cout << "Create Direct 3D 9 Device failed";
-
-	//	Create sprite. Study the documentation. 
-	hr = D3DXCreateSprite(DeviceManager->GetD3D9D(), DeviceManager->GetspriteBrush1reference());
-
-	if (FAILED(hr)) {
-		cout << "Create sprite brush 1 failed" << endl;
-	}
-
-	hr = D3DXCreateSprite(DeviceManager->GetD3D9D(), DeviceManager->GetspriteBrush2reference());
-
-	if (FAILED(hr)) {
-		cout << "Create sprite brush 2 failed" << endl;
-	}
-
-}
 
 void SetInput()
 {
@@ -142,90 +86,59 @@ void SetInput()
 	inputManager->AddKey(DIK_D);
 }
 
+void InitAudio()
+{
+	audioManager = new AudioManager();
+	audioManager->InitialiseAudio();
+	audioManager->LoadSounds();
+}
 
-void InitialiseLevel() {
+void InitLevel() 
+{
 	audioManager->PlayBackgroundMusic();
 	audioManager->PlayCarEngineSound();
-	
-	level1.InitLevel(d3dDevice);
+
+	level1.InitLevel(deviceManager->GetD3D9Device());
 }
 
-void Update(int framesToUpdate) {
+void Render() 
+{
+	deviceManager->BeginRender();
+	deviceManager->BeginSpriteBrush();
 
-}
+	gameLevel.front()->Render(deviceManager->GetSpriteBrush(), deviceManager->GetD3D9Device());
 
-void Render() {
-	//	Clear the back buffer.
+	deviceManager->EndSpriteBrush();
 
-	DeviceManager->GetD3D9D()->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
+	gameLevel.front()->RenderLine();
 
-	//	Begin the scene
-	DeviceManager->GetD3D9D()->BeginScene();
-
-	//	Drawing.
-	//	Specify alpha blend will ensure that the sprite will render the background with alpha.
-	DeviceManager->GetspriteBrush1()->Begin(D3DXSPRITE_ALPHABLEND);
-	DeviceManager->GetspriteBrush2()->Begin(D3DXSPRITE_ALPHABLEND);
-
-	//	End the scene
-	DeviceManager->GetD3D9D()->EndScene();
-
-	//	Present the back buffer to screen
-	DeviceManager->GetD3D9D()->Present(NULL, NULL, NULL, NULL);
-}
-
-void CleanupMyDirect3D9Device() {
-	//	Release and clean up everything
-	DeviceManager->GetspriteBrush1()->Release();
-	/*DeviceManager->GetspriteBrush1() = NULL;*/
-	DeviceManager->GetspriteBrush2()->Release();
-	/*DeviceManager->GetspriteBrush1() = NULL;*/
-
-	DeviceManager->GetTextReference()->CleanUpText();
-
-	DeviceManager->GetBoxReference()->CleanUpLine();
-
-	//	Release the device when exiting.
-	DeviceManager->GetD3D9D()->Release();
-	//	Reset pointer to NULL, a good practice.
-	/*DeviceManager->GetD3D9D() = NULL;*/
+	deviceManager->PresentBuffer();
 }
 
 //	use WinMain if you don't want the console
 int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) // WinMain is a function in WINAPI
 {	
-	Window->CreateMyWindow();
-	//CreateDeviceManager
-	
-	DeviceManager->CreateMyD3D9Device(Window->GetWindowHandle(), WindowWidth, WindowHeight);
-	/*CreateMyWindow();*/
-	//CreateMyDirect3D9Device
+	myWindowManager->CreateMyWindow(WindowWidth, WindowHeight);
+	deviceManager->CreateMyD3D9Device(myWindowManager->GetWindowHandle(), WindowWidth, WindowHeight);
+	inputManager->CreateMyDirectInput(myWindowManager->GetWindowHandle());
 
-	
-	//CreateMyDirect3D9Device();
-	inputManager->CreateMyDirectInput(Window->GetWindowHandle());
-
-	audioManager = new AudioManager();
-	audioManager->InitialiseAudio();
-	audioManager->LoadSounds();	
 	SetInput();
+	InitAudio();
 	gameLevel.push_back(&level1);
-	InitialiseLevel();
+	InitLevel();
 
 	FrameTimer* timer = new FrameTimer();
 	timer->Init(20);
-	while (Window->IsWindowRunning())
+	while (myWindowManager->IsWindowRunning())
 	{
 		inputManager->GetInput();
 		gameLevel.front()->Update(timer->FramesToUpdate(), inputManager, audioManager);
-		gameLevel.front()->Render(DeviceManager->GetspriteBrush1(), DeviceManager->GetspriteBrush2(), DeviceManager->GetD3D9D());
-
+		Render();
 	}
 	gameLevel.front()->CleanUpLevel();
 	inputManager->CleanUpMyDirectInput();
-	DeviceManager->CleanUpMyD3D9Device(DeviceManager->GetD3D9D());
-	Window->CleanupMyWindow();
-	/*CleanupMyWindow();*/
+	deviceManager->CleanUpMyD3D9Device();
+	myWindowManager->CleanUpMyWindow();
 
 	return 0;
 }

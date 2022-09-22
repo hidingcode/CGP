@@ -8,11 +8,10 @@ public:
 	MyWindowManager();
 	~MyWindowManager();
 	static LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-	void CreateMyWindow();
+	void CreateMyWindow(int WindowWidth, int WindowHeight);
 	bool IsWindowRunning();
 	void CleanUpMyWindow();
 	HWND GetWindowHandle();
-	void CleanupMyWindow();
 
 private:
 	//	Window handle
