@@ -62,6 +62,8 @@ public:
 	void SetColorFilter(D3DCOLOR colorFilter);
 	// Get Color Filter
 	D3DCOLOR GetColorFilter();
+	int GetTextureWidth();
+	int GetTextureHeight();
 
 protected:
 	LPDIRECT3DTEXTURE9 texture = NULL;
@@ -77,6 +79,9 @@ protected:
 	LPD3DXFONT font = NULL;
 	int textLength = -1;
 	UINT format = 0;
+	int textureWidth;
+	int textureHeight;
+
 };
 #endif
 

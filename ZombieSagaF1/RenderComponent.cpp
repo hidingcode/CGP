@@ -97,7 +97,10 @@ void RenderComponent::CleanUpText()
 	font = NULL;
 }
 
-
+RECT RenderComponent::GetColRectangle()
+{
+	return colRect;
+}
 
 RECT RenderComponent::GetRectangle()
 {	
@@ -176,3 +179,13 @@ D3DCOLOR RenderComponent::GetColorFilter()
 	return colorFilter;
 }
 
+
+int RenderComponent::GetTextureWidth()
+{
+	return this->textureWidth;
+}
+
+int RenderComponent::GetTextureHeight()
+{
+	return this->textureHeight;
+}
