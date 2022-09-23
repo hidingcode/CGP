@@ -20,6 +20,7 @@ public:
 
 private:
 	Text* instruction = new Text();
+	Text* muteGuide = new Text();
 	VerticalPanel* panel1 = new VerticalPanel(D3DXVECTOR2(310, 300));
 };
 #endif

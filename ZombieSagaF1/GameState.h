@@ -9,8 +9,7 @@
 class GameState
 {
 public:
-	//GameState();
-	//~GameState();
+	~GameState();
 
 	virtual void InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowManager);
 	virtual	void Update(int framesToUpdate, InputManager* inputManager, AudioManager* audioManager,
@@ -24,7 +23,7 @@ public:
 	void ChangeState(GameStateManager* game, GameState* state, IDirect3DDevice9* d3dDevice);
 
 protected:
-	/*GameState();*/
+	GameState();
 
 private:
 	//// Determine which level to load

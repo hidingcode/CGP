@@ -30,28 +30,34 @@ void VerticalPanel::Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat)
 	quitButton->RenderSprite(spriteBrush, mat);
 }
 
-void VerticalPanel::OnCollide(RECT Colrect)
+void VerticalPanel::OnCollide(RECT colRect)
 {
 	//update the collision rectangle of button  
 	startButton->GetColStuff();
 	quitButton->GetColStuff();
-	//cout << "F1 :" << Colrect.left << "," << Colrect.top << "," << Colrect.right << "," << Colrect.bottom << endl;
 
-	if (startButton->OnCollide(Colrect))
-	{
+	if (startButton->OnCollide(colRect))
+	{	
+		startButton->SetColorFilter(D3DCOLOR_XRGB(255, 0, 0));
 		// Start The Game
 		cout << "Start Button" << endl;
-		//cout << "F1           :" << Colrect.left << "," << Colrect.top << "," << Colrect.right << "," << Colrect.bottom << endl;
-		//cout << "start button :" << startButton-> << "," << Colrect.top << "," << Colrect.right << "," << Colrect.bottom << endl;
-		
-
+	}
+	else
+	{
+		startButton->SetColorFilter(D3DCOLOR_XRGB(255, 255, 255));
 	}
 	
-	if (quitButton->OnCollide(Colrect))
-	{
+	if (quitButton->OnCollide(colRect))
+	{	
+		quitButton->SetColorFilter(D3DCOLOR_XRGB(255, 0, 0));
 		// Quit the game
 		
 		cout << "Quit Button" << endl;
+	}
+
+	else
+	{
+		quitButton->SetColorFilter(D3DCOLOR_XRGB(255, 255, 255));
 	}
 	
 }

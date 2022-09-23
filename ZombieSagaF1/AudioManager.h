@@ -23,8 +23,10 @@ public:
 	void LoadSounds();
 	void UpdateSound();
 	void PlayCollisionSound();
-	// Change the State of the Sound to oause or un pause
-	void ChangeSoundState(bool state);
+	// Change the State of the Sound to paused or unpaused
+	void ChangePausedState(bool state);
+	// Change the State of the Sound to muted or unmuted
+	void ChangeMuteState(bool state);
 	// Change the state of sound when the car moving and stop
 	void ManageCarEngineSound(bool moveForward, bool moveBackward);
 	// Pan the sound according to the  car (F1) position

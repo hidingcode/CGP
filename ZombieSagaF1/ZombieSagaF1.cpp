@@ -65,8 +65,9 @@ void SetInput()
 	inputManager->AddKey(DIK_S);
 	inputManager->AddKey(DIK_A);
 	inputManager->AddKey(DIK_D);
+	inputManager->AddKey(DIK_0);
+	inputManager->AddKey(DIK_9);
 	// Testing
-	inputManager->AddKey(DIK_P);
 	inputManager->AddKey(DIK_O);
 	inputManager->AddKey(DIK_I);
 	inputManager->AddKey(DIK_U);
@@ -79,44 +80,29 @@ void InitAudio()
 	audioManager->LoadSounds();
 }
 
+// Change the state of background musci to muted or unmuted
+void HandleBGMusic()
+{	
+	if (inputManager->GetKeyPress(DIK_0))
+	{
+		audioManager->ChangeMuteState(true);
+	}
+
+	if (inputManager->GetKeyPress(DIK_9))
+	{
+		audioManager->ChangeMuteState(false);
+	}
+}
+
 void InitLevel() 
 {	
 	// First level 
 	//gameState.push_back(&mainMenu);
-
 	audioManager->PlayBackgroundMusic();
 	audioManager->PlayCarEngineSound();
 
 	mainMenu.InitLevel(deviceManager->GetD3D9Device(), windowManager);
 	//level1.InitLevel(deviceManager->GetD3D9Device());
-}
-
-// Manage which level to be unload and load
-void LevelManager()
-{
-	//if (gameState.back()->GetLevelState() == 1)
-	//{
-	//	gameState.pop_back();
-	//	gameState.push_back(&level1);
-	//}
-
-	//if (gameState.back()->GetLevelState() == 2)
-	//{	
-	//	gameState.pop_back();
-	//	gameState.push_back(&mainMenu);
-	//}
-
-	//if (gameState.front()->GetLevelState() == 3)
-	//{
-	//	gameState.pop_back();
-	//	gameState.push_back(&level1);
-	//}
-
-	//if (gameState.front()->GetLevelState() == 4)
-	//{
-	//	gameState.pop_back();
-	//	gameState.push_back(&mainMenu);
-	//}
 }
 
 void Render() 
@@ -150,7 +136,9 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 	while (windowManager->IsWindowRunning())
 	{	
 		inputManager->GetInput();
-		gameState.back()->Update(timer->FramesToUpdate(), inputManager, audioManager, gameState, windowManager);
+		HandleBGMusic();
+		gameState.back()->Update(timer->FramesToUpdate(), inputManager, audioManager, gameState, 
+			windowManager);
 		Render();
 	}
 	gameState.back()->CleanUpLevel();

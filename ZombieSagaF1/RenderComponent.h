@@ -66,7 +66,7 @@ public:
 protected:
 	LPDIRECT3DTEXTURE9 texture = NULL;
 	RECT rect;
-	RECT ColRect;
+	RECT colRect;
 	D3DXVECTOR2 scalingCentre;
 	float scalingRotation;
 	D3DXVECTOR2 scaling;

@@ -12,7 +12,6 @@ public:
 	// Set Position of Panel
 
 	void GetColStuff();
-	void GetColRect();
 };
 #endif
 
