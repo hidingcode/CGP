@@ -57,11 +57,7 @@ void Player::UpdateAnim()
 	rect.top = currentDirection * spriteHeight;
 	rect.bottom = rect.top + spriteHeight;
 
-	//collision rectangle
-	colRect.top = position.y;
-	colRect.left = position.x;
-	colRect.bottom = colRect.top + (spriteWidth * scaling.y);
-	colRect.right = colRect.left + (spriteHeight * scaling.x);
+	
 
 	// If the frame counter exceed max frame set the frame counter back to 0
 	// to loop the animation
@@ -69,6 +65,17 @@ void Player::UpdateAnim()
 	{
 		frameCounter = 0;
 	}
+}
+
+RECT Player::GetColRectangle()
+{	
+	//collision rectangle
+	colRect.top = position.y;
+	colRect.left = position.x;
+	colRect.bottom = colRect.top + (spriteWidth * scaling.y);
+	colRect.right = colRect.left + (spriteHeight * scaling.x);
+
+	return colRect;
 }
 
 

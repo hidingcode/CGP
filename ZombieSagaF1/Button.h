@@ -10,7 +10,6 @@ public:
 	~Button();
 	// Check If There is Any Collision With The Button
 	bool OnCollide(RECT colRect);
-	void CalColRect();
 };
 #endif
 

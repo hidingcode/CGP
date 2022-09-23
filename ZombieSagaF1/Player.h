@@ -20,6 +20,8 @@ public:
 	void Update(int WindowWidth, int WindowHeight);
 	// Update Animation
 	void UpdateAnim();
+	// Get Collision Rectangle
+	RECT GetColRectangle();
 
 private:
 	// Store Moving Direction
