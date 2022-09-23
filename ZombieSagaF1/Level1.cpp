@@ -25,6 +25,10 @@ void Level1::InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowManag
 			D3DXVECTOR2(0.3f, 0.3f), 0.0f, 0.01f, D3DCOLOR_XRGB(255, 255, 255), 2);
 	}
 
+	retryButton->CreateTexture(d3dDevice, "Assets/retryButton.png");
+	retryButton->Init(205, 75, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(310, 310), 0.0f,
+		D3DXVECTOR2(1, 1), D3DCOLOR_XRGB(255, 255, 255));
+
 	box->CreateLine(d3dDevice);
 	box->Init(120, 30, D3DXVECTOR2(0, 0));
 
@@ -93,8 +97,15 @@ void Level1::Update(int framesToUpdate, InputManager* inputManager, AudioManager
 		// Update F1
 		F1->Update(windowManager->GetWindowWidth(), windowManager->GetWindowHeight());
 
-		if (scoreBoard->GetScore() == 100)
-		{
+		if (scoreBoard->GetScore() == 40)
+		{	
+			if (retryButton->RectColDetection(retryButton->GetColRectangle(), F1->GetColRectangle()))
+			{
+				retryButton->SetColorFilter(D3DCOLOR_XRGB(255, 0, 0));
+			}
+			else {
+				retryButton->SetColorFilter(D3DCOLOR_XRGB(255, 255, 255));
+			}
 		}
 	}
 	inputManager->SetAllKeyPressToFalse();
@@ -107,14 +118,20 @@ void Level1::Render(LPD3DXSPRITE spriteBrush)
 	// Draw background
 	background->RenderSprite(spriteBrush, &mat);
 
+	// Render Retry Button when the score is equal than 40
+	if (scoreBoard->GetScore() == 40)
+	{
+		retryButton->RenderSprite(spriteBrush, &mat);
+	}
+
 	// Draw F1
 	F1->RenderSprite(spriteBrush, &mat);
+
 
 	// Draw Text
 	// .c_str() is to change the score from string to LPCSTR
 	text->RenderText(spriteBrush, &mat, scoreBoard->DisplayScore().c_str());
 
-	
 	for (int i = 0; i < spawnNum; i++)
 	{	
 		// Only Draw Zombie when the zombie hp is higher than 0
@@ -141,6 +158,9 @@ void Level1::CleanUpLevel()
 		zombie[i].CleanUpSprite();
 	}
 	
+	retryButton->CleanUpSprite();
+	retryButton = NULL;
+
 	background->CleanUpSprite();
 	background = NULL;
 	box->CleanUpLine();

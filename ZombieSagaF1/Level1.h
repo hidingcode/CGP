@@ -11,6 +11,7 @@
 #include "Image.h"
 #include "Text.h"
 #include "Box.h"
+#include "Button.h"
 
 // ScoreBoard
 #include "ScoreBoard.h"
@@ -42,13 +43,14 @@ private:
 	// Game Object 
 	Player* F1 = new Player();
 	// Number of Zombie to be spawn
-	int spawnNum = 5;
+	int spawnNum = 2;
 	// zombie[x]  x -> maximum size of zombie array
 	Enemy zombie[20];
 
 	// Text and Box (Line)
 	Text* text = new Text();
 	Box* box = new Box();
+	Button* retryButton = new Button();
 
 	//ScoreBoard 
 	ScoreBoard* scoreBoard = new ScoreBoard();
