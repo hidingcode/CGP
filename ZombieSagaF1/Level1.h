@@ -20,9 +20,9 @@ class Level1: public GameState
 public:
 	bool CircleCollisionDetection(int radiusA, int radiusB, D3DXVECTOR2 positionA, D3DXVECTOR2 positionB);
 	
-	void InitLevel(IDirect3DDevice9* d3dDevice);
+	void InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager windowManager);
 	void Update(int framesToUpdate, InputManager* inputManager, AudioManager* audioManager,
-		vector<GameState*> gameState);
+		vector<GameState*> gameState, MyWindowManager windowManager);
 	
 	void Render(LPD3DXSPRITE spriteBrush);
 	void RenderLine();
@@ -43,8 +43,10 @@ private:
 
 	// Game Object 
 	Player* F1 = new Player();
+	// Number of Zombie to be spawn
 	int spawnNum = 5;
-	Enemy zombie[5];
+	// zombie[x]  x -> maximum size of zombie array
+	Enemy zombie[20];
 
 	// Text and Box (Line)
 	Text* text = new Text();

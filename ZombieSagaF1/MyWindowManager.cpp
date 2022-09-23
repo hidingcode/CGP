@@ -20,6 +20,7 @@ LRESULT MyWindowManager::WindowProcedure(HWND hWnd, UINT message, WPARAM wParam,
 	case  WM_KEYDOWN:
 		switch (wParam)
 		{
+		// Quit the message when escape key is pressed down
 		case VK_ESCAPE:
 			PostQuitMessage(0);
 			break;
@@ -33,8 +34,12 @@ LRESULT MyWindowManager::WindowProcedure(HWND hWnd, UINT message, WPARAM wParam,
 	return 0;
 }
 
-void MyWindowManager::CreateMyWindow(int WindowWidth, int WindowHeight)
-{
+void MyWindowManager::CreateMyWindow(int windowWidth, int windowHeight)
+{	
+	// Store Window Width and Window Height data 
+	this->windowWidth = windowWidth;
+	this->windowHeight = windowHeight;
+
 	//	set all members in wndclass to 0.
 	ZeroMemory(&wndClass, sizeof(wndClass));
 	//	filling wndclass. you are to refer to msdn for each of the members details.
@@ -51,7 +56,7 @@ void MyWindowManager::CreateMyWindow(int WindowWidth, int WindowHeight)
 
 	//	you are to refer to msdn for each of the parameters details.
 	//  create instance of window
-	this->g_hWnd = CreateWindowEx(0, wndClass.lpszClassName, "Zombie Sage F1", WS_OVERLAPPEDWINDOW, 0, 0, WindowWidth, WindowHeight, NULL, NULL, GetModuleHandle(NULL), NULL);
+	this->g_hWnd = CreateWindowEx(0, wndClass.lpszClassName, "Zombie Sage F1", WS_OVERLAPPEDWINDOW, 0, 0, windowWidth, windowHeight, NULL, NULL, GetModuleHandle(NULL), NULL);
 	ShowWindow(g_hWnd, 1);
 }
 
@@ -81,4 +86,14 @@ void MyWindowManager::CleanUpMyWindow()
 HWND MyWindowManager::GetWindowHandle()
 {
 	return this->g_hWnd;
+}
+
+int MyWindowManager::GetWindowWidth()
+{
+	return windowWidth;
+}
+
+int MyWindowManager::GetWindowHeight()
+{
+	return windowHeight;
 }

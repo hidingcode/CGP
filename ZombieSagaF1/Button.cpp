@@ -11,13 +11,10 @@ Button::~Button()
 
 void Button::GetColStuff()
 {
-	//Image::Init();
-	this->ColRect.left = this->GetPosition().x; // x = 0 dk why, 
-	this->ColRect.top = this->GetPosition().y; // y = 0 dk why, 
+	this->ColRect.left = this->GetPosition().x;
+	this->ColRect.top = this->GetPosition().y; 
 	this->ColRect.right = ColRect.left + this->GetTextureWidth();
 	this->ColRect.bottom = ColRect.top + this->GetTextureHeight();
-	
-
 }
 
 bool Button::OnCollide(RECT ColRect)
@@ -45,8 +42,6 @@ bool Button::OnCollide(RECT ColRect)
 		
 		return false;
 	}
-
-	
 
 	return true;
 }

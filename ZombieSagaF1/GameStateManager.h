@@ -1,15 +1,22 @@
 #ifndef GAMESTATEMANAGER_H
 #define GAMESTATEMANAGER_H
-#include "GameState.h"
+#include <d3dx9.h>
+#include <vector>
+
+using namespace std;
+
+class GameState;
 
 class GameStateManager
 {
 public:
-	//void ChangeState(GameState* state, IDirect3DDevice9* d3dDevice);
-	//void PushState(GameState* state, IDirect3DDevice9* d3dDevice);
+	GameStateManager();
+	~GameStateManager();
+	void ChangeState(GameState* state, IDirect3DDevice9* d3dDevice);
+	void PushState(GameState* state, IDirect3DDevice9* d3dDevice);
 
 private:
-	/*vector<GameState*> states;*/
+	vector<GameState*> states;
 };
 #endif
 

@@ -9,16 +9,19 @@
 class GameState
 {
 public:
-	virtual void InitLevel(IDirect3DDevice9* d3dDevice);
-	virtual	void Update(int framesToUpdate, InputManager* inputManager, AudioManager* audioManager, 
-		vector<GameState*> gameState);
+	//GameState();
+	//~GameState();
+
+	virtual void InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowManager);
+	virtual	void Update(int framesToUpdate, InputManager* inputManager, AudioManager* audioManager,
+		vector<GameState*> gameState, MyWindowManager* windowManager);
 	virtual void Render(LPD3DXSPRITE spriteBrush);
 	virtual void RenderLine();
 	virtual void CleanUpLevel();
 	//int GetLevelState();
 	//void SetLevelState(int levelState);
 
-	/*void ChangeState(GameStateManager* game, GameState* state, IDirect3DDevice9* d3dDevice);*/
+	void ChangeState(GameStateManager* game, GameState* state, IDirect3DDevice9* d3dDevice);
 
 protected:
 	/*GameState();*/

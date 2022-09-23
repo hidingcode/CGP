@@ -2,7 +2,7 @@
 #define WindowWidth 840
 #define WindowHeight 650
 
-void MainMenu::InitLevel(IDirect3DDevice9* d3dDevice)
+void MainMenu::InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowManager)
 {	
 	F1->CreateTexture(d3dDevice, "Assets/F1.png");
 	F1->Init(768, 450, 3, 6, 5, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(600, 400), 1.0f, 0.0f, 2.0f,
@@ -14,7 +14,7 @@ void MainMenu::InitLevel(IDirect3DDevice9* d3dDevice)
 }
 
 void MainMenu::Update(int framesToUpdate, InputManager* inputManager, AudioManager* audioManager,
-	vector<GameState*> gameState)
+	vector<GameState*> gameState, MyWindowManager* windowManager)
 {	
 	audioManager->UpdateSound();
 	audioManager->ManageCarEngineSound(inputManager->GetKeyPress(DIK_W), inputManager->GetKeyPress(DIK_S));

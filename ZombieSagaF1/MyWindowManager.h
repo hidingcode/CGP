@@ -14,11 +14,15 @@ public:
 	bool IsWindowRunning();
 	void CleanUpMyWindow();
 	HWND GetWindowHandle();
+	int GetWindowWidth();
+	int GetWindowHeight();
 
 private:
 	//	Window handle
 	HWND g_hWnd = NULL;
 	// Window's Structure  /DESIGN PATTERN SINGLETON
 	WNDCLASS wndClass;
+	int windowWidth = 500;
+	int windowHeight = 500;
 };
 #endif

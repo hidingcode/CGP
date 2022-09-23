@@ -9,6 +9,8 @@ class RenderComponent
 public:
 	RenderComponent();
 	~RenderComponent();
+	// Calculate Collision Rectangle
+	void CalColRect();
 	// Initialise Sprite Data
 	void InitSprite(D3DXVECTOR2 scalingCentre, float scalingRotation, D3DXVECTOR2 scaling,
 		D3DXVECTOR2 rotationCentre, float rotation, D3DXVECTOR2 position, D3DXCOLOR colorFilter);

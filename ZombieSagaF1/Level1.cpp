@@ -1,6 +1,5 @@
 #include "Level1.h"
-#define WindowWidth 840
-#define WindowHeight 650
+
 
 bool Level1::CircleCollisionDetection(int radiusA, int radiusB, D3DXVECTOR2 positionA, D3DXVECTOR2 positionB)
 {
@@ -15,7 +14,7 @@ bool Level1::CircleCollisionDetection(int radiusA, int radiusB, D3DXVECTOR2 posi
 	}
 }
 
-void Level1::InitLevel(IDirect3DDevice9* d3dDevice)
+void Level1::InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager windowManager)
 {	
 	srand(time(0));
 
@@ -33,8 +32,8 @@ void Level1::InitLevel(IDirect3DDevice9* d3dDevice)
 		zombie[i] = Enemy();
 		zombie[i].CreateTexture(d3dDevice, "Assets/zombie_idle.png");
 		// Spawn the zombie in random position
-		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (WindowWidth - zombie[i].GetSpriteWidth() - 100),
-			rand() % (WindowHeight - zombie[i].GetSpriteHeight() - 100));
+		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (windowManager.GetWindowWidth() - zombie[i].GetSpriteWidth() - 100),
+			rand() % (windowManager.GetWindowHeight() - zombie[i].GetSpriteHeight() - 100));
 
 		zombie[i].Init(3774, 230, 1, 17, 16, D3DXVECTOR2(0, 0), 0.0f, randomSpawn, 0.0f, 0.0f, 1.0f,
 			D3DXVECTOR2(0.3f, 0.3f), 0.0f, 0.01f, D3DCOLOR_XRGB(255, 255, 255), 2);
@@ -50,11 +49,11 @@ void Level1::InitLevel(IDirect3DDevice9* d3dDevice)
 }
 
 void Level1::Update(int framesToUpdate, InputManager* inputManager, AudioManager* audioManager,
-	vector<GameState*> gameState)
+	vector<GameState*> gameState, MyWindowManager windowManager)
 {	
 	audioManager->UpdateSound();
 	audioManager->ManageCarEngineSound(inputManager->GetKeyPress(DIK_W), inputManager->GetKeyPress(DIK_S));
-	audioManager->DynamicCarEngineSound(WindowWidth, F1->GetPosition().x);
+	audioManager->DynamicCarEngineSound(windowManager.GetWindowWidth(), F1->GetPosition().x);
 
 	for (int i = 0; i < framesToUpdate; i++) {
 		if (inputManager->GetKeyPress(DIK_W)) {
@@ -97,9 +96,9 @@ void Level1::Update(int framesToUpdate, InputManager* inputManager, AudioManager
 					scoreBoard->IncreaseScore(10);
 				}
 			}
-			zombie[i].Update(WindowWidth, WindowHeight);
+			zombie[i].Update(windowManager.GetWindowWidth(), windowManager.GetWindowHeight());
 		}
-		F1->Update(WindowWidth, WindowHeight);
+		F1->Update(windowManager.GetWindowWidth(), windowManager.GetWindowHeight());
 
 		if (scoreBoard->GetScore() == 100)
 		{

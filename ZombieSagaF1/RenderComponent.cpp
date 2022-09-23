@@ -8,13 +8,14 @@ RenderComponent::~RenderComponent()
 {
 }
 
+void RenderComponent::CalColRect()
+{
+
+}
+
 void RenderComponent::InitSprite(D3DXVECTOR2 scalingCentre, float scalingRotation, D3DXVECTOR2 scaling, 
 	D3DXVECTOR2 rotationCentre, float rotation, D3DXVECTOR2 position, D3DXCOLOR colorFilter)
 {	
-	//this->rect.top = rectTop;
-	//this->rect.bottom = rectBtm;
-	//this->rect.left = rectLeft;
-	//this->rect.right = rectRight;
 	this->scalingCentre = scalingCentre;
 	this->scalingRotation = scalingRotation;
 	this->scaling = scaling;
@@ -38,7 +39,6 @@ void RenderComponent::InitText(D3DXVECTOR2 scalingCentre, float scalingRotation,
 	this->format = format;
 	this->colorFilter = colorFilter;
 }
-
 
 void RenderComponent::CreateTexture(IDirect3DDevice9* d3dDevice, LPCSTR textureFilePath)
 {

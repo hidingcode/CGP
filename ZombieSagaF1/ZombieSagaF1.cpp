@@ -44,7 +44,7 @@ using namespace std;
 //--------------------------------------------------------------------
 
 //WindowManagerClass
-MyWindowManager* myWindowManager = new MyWindowManager();
+MyWindowManager* windowManager = new MyWindowManager();
 D3D9DeviceManager* deviceManager = new D3D9DeviceManager();
 
 // Input Manager
@@ -87,7 +87,7 @@ void InitLevel()
 	audioManager->PlayBackgroundMusic();
 	audioManager->PlayCarEngineSound();
 
-	mainMenu.InitLevel(deviceManager->GetD3D9Device());
+	mainMenu.InitLevel(deviceManager->GetD3D9Device(), windowManager);
 	//level1.InitLevel(deviceManager->GetD3D9Device());
 }
 
@@ -136,10 +136,9 @@ void Render()
 //	use WinMain if you don't want the console
 int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) // WinMain is a function in WINAPI
 {	
-	myWindowManager->CreateMyWindow(WindowWidth, WindowHeight);
-	deviceManager->CreateMyD3D9Device(myWindowManager->GetWindowHandle(), WindowWidth, WindowHeight);
-	inputManager->CreateMyDirectInput(myWindowManager->GetWindowHandle());
-
+	windowManager->CreateMyWindow(WindowWidth, WindowHeight);
+	deviceManager->CreateMyD3D9Device(windowManager->GetWindowHandle(), WindowWidth, WindowHeight);
+	inputManager->CreateMyDirectInput(windowManager->GetWindowHandle());
 	SetInput();
 	InitAudio();
 	InitLevel();
@@ -148,16 +147,16 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 
 	FrameTimer* timer = new FrameTimer();
 	timer->Init(20);
-	while (myWindowManager->IsWindowRunning())
+	while (windowManager->IsWindowRunning())
 	{	
 		inputManager->GetInput();
-		gameState.back()->Update(timer->FramesToUpdate(), inputManager, audioManager, gameState);
+		gameState.back()->Update(timer->FramesToUpdate(), inputManager, audioManager, gameState, windowManager);
 		Render();
 	}
 	gameState.back()->CleanUpLevel();
 	inputManager->CleanUpMyDirectInput();
 	deviceManager->CleanUpMyD3D9Device();
-	myWindowManager->CleanUpMyWindow();
+	windowManager->CleanUpMyWindow();
 
 	return 0;
 }

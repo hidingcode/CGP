@@ -1,11 +1,11 @@
 #include "GameState.h"
 
-void GameState::InitLevel(IDirect3DDevice9* d3dDevice)
+void GameState::InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowManager)
 {
 }
 
 void GameState::Update(int framesToUpdate, InputManager* inputManager, AudioManager* audioManager,
-	vector<GameState*> GameState)
+	vector<GameState*> gameState, MyWindowManager* windowManager)
 {
 }
 
@@ -33,7 +33,7 @@ void GameState::CleanUpLevel()
 //	this->levelState = levelState;
 //}
 
-//void GameState::ChangeState(GameStateManager* game, GameState* state, IDirect3DDevice9* d3dDevice)
-//{
-//
-//}
+void GameState::ChangeState(GameStateManager* game, GameState* state, IDirect3DDevice9* d3dDevice)
+{
+
+}
