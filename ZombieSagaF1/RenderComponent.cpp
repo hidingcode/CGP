@@ -107,6 +107,7 @@ void RenderComponent::CleanUpLine()
 	line = NULL;
 }
 
+
 RECT RenderComponent::GetRectangle()
 {	
 	return rect;
@@ -115,6 +116,7 @@ RECT RenderComponent::GetRectangle()
 
 RECT RenderComponent::GetColRectangle()
 {	
+	//calculate the collision size of the object in rectangle shape	
 	colRect.left = position.x;
 	colRect.top = position.y;
 	colRect.right = colRect.left + (textureWidth * scaling.x);

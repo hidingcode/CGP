@@ -14,7 +14,8 @@ public:
 	// Destructor
 	~Box();
 	// Initialisation of box in Rectangle, box position is the top left corner of the box
-	void Init(int boxWidth, int boxHeight, D3DXVECTOR2 boxPosition);
+	void Init(int 
+		Width, int boxHeight, D3DXVECTOR2 boxPosition);
 	// Render Line
 	void RenderLine(D3DXCOLOR color);
 
