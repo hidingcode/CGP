@@ -14,6 +14,10 @@ public:
 	// Initialise Sprite Data
 	void InitSprite(int textureWidth, int textureHeight, D3DXVECTOR2 scalingCentre, float scalingRotation, D3DXVECTOR2 scaling,
 		D3DXVECTOR2 rotationCentre, float rotation, D3DXVECTOR2 position, D3DXCOLOR colorFilter);
+	// Initialise Animated Sprite Data
+	void InitAnimSprite(int textureWidth, int textureHeight, int textureRow, int textureColumn, D3DXVECTOR2 scalingCentre, 
+		float scalingRotation, D3DXVECTOR2 scaling, D3DXVECTOR2 rotationCentre, float rotation, D3DXVECTOR2 position, 
+		D3DXCOLOR colorFilter);
 	// Create Texture
 	void CreateTexture(IDirect3DDevice9* d3dDevice, LPCSTR textureFilePath);
 	// Render Sprite
@@ -41,8 +45,6 @@ public:
 
 	// Get Rectangle
 	RECT GetRectangle();
-	// Calculate Collision Rectangle (Use to check Rectangle Collision)
-	void CalColRect();
 	// Get collision rectangle 
 	RECT GetColRectangle();
 	// Set Scaling Centre
@@ -95,6 +97,8 @@ protected:
 	// Sprite varaibles
 	int textureWidth;
 	int textureHeight;
+	int textureRow;
+	int textureColumn;
 
 	// Text Varaibles
 	int textLength = -1;

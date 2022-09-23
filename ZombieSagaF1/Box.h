@@ -33,9 +33,9 @@ private:
 	D3DXVECTOR2 point3;
 	D3DXVECTOR2 point4;
 
-	// Use to determine the X value for point 2 and point 3
+	// Calculate the X position for point 2 and 3 according to the box width
 	int pointX = 0;
-	// Use to determine the Y value for point 4 and point 3
+	// Calculate the X position for point 3 and 4 according to the box height
 	int pointY = 0;
 	// Line Vertices 
 	D3DXVECTOR2 lineVertices[];

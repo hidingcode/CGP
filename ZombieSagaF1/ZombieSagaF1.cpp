@@ -101,7 +101,7 @@ void InitLevel()
 
 	mainMenu.InitLevel(deviceManager->GetD3D9Device(), windowManager);
 	level1.InitLevel(deviceManager->GetD3D9Device(), windowManager);
-	gameState.push_back(&mainMenu);
+	gameState.push_back(&level1);
 }
 
 void Render() 
