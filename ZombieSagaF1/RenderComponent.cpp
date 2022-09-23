@@ -8,11 +8,6 @@ RenderComponent::~RenderComponent()
 {
 }
 
-void RenderComponent::CalColRect()
-{
-
-}
-
 void RenderComponent::InitSprite(D3DXVECTOR2 scalingCentre, float scalingRotation, D3DXVECTOR2 scaling, 
 	D3DXVECTOR2 rotationCentre, float rotation, D3DXVECTOR2 position, D3DXCOLOR colorFilter)
 {	
@@ -111,15 +106,23 @@ void RenderComponent::CleanUpLine()
 	line->Release();
 	line = NULL;
 }
-RECT RenderComponent::GetColRectangle()
-{
-	return colRect;
-}
 
 RECT RenderComponent::GetRectangle()
 {	
 	return rect;
 }
+
+
+RECT RenderComponent::GetColRectangle()
+{	
+	colRect.left = position.x;
+	colRect.top = position.y;
+	colRect.right = colRect.left + (textureWidth * scaling.x);
+	colRect.bottom = colRect.top + (textureHeight * scaling .y);
+
+	return colRect;
+}
+
 
 void RenderComponent::SetScalingCentre(D3DXVECTOR2 scalingCentre)
 {

@@ -1,19 +1,5 @@
 #include "Level1.h"
 
-
-bool Level1::CircleCollisionDetection(int radiusA, int radiusB, D3DXVECTOR2 positionA, D3DXVECTOR2 positionB)
-{
-	D3DXVECTOR2 distance = positionA - positionB;
-	if (radiusA + radiusB < D3DXVec2Length(&distance))
-	{
-		return false;
-	}
-	else
-	{
-		return true;
-	}
-}
-
 void Level1::InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowManager)
 {	
 	srand(time(0));
@@ -51,8 +37,11 @@ void Level1::InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowManag
 void Level1::Update(int framesToUpdate, InputManager* inputManager, AudioManager* audioManager,
 	vector<GameState*> gameState, MyWindowManager* windowManager)
 {	
+	// Update Sound
 	audioManager->UpdateSound();
+	// Manage the playing state of the car engine sound
 	audioManager->ManageCarEngineSound(inputManager->GetKeyPress(DIK_W), inputManager->GetKeyPress(DIK_S));
+	// Pan the car engine sound left to right according to the F1 position
 	audioManager->DynamicCarEngineSound(windowManager->GetWindowWidth(), F1->GetPosition().x);
 
 	for (int i = 0; i < framesToUpdate; i++) {
@@ -79,16 +68,18 @@ void Level1::Update(int framesToUpdate, InputManager* inputManager, AudioManager
 		{
 			if (zombie[i].GetHP() > 0)
 			{
-				if (CircleCollisionDetection(F1->GetSpriteWidth() / 2, zombie[i].GetSpriteWidth() / 2, F1->GetPosition() /* + F1->GetSpriteCentre()*/, zombie[i].GetPosition()/* + zombie[i].GetSpriteCentre()*/))
+				if (F1->CircleColDetection(F1->GetSpriteWidth() / 2, zombie[i].GetSpriteWidth() / 2, F1->GetPosition() , zombie[i].GetPosition()))
 				{
 					cout << "Collision occurs" << endl;
 					audioManager->PlayCollisionSound();
 
-					// Calculate the bouncing vector of zombie after collision
-					D3DXVECTOR2 f1FVelocity = F1->GetVelocity() * (F1->GetMass() - zombie[i].GetMass()) + 2 * zombie[i].GetMass() * zombie[i].GetVelocity() / (F1->GetMass() + zombie[i].GetMass());
+					// Calculate the bouncing vector of F1 after collision
+					D3DXVECTOR2 f1FVelocity = F1->GetVelocity() * (F1->GetMass() - zombie[i].GetMass()) + 
+						2 * zombie[i].GetMass() * zombie[i].GetVelocity() / (F1->GetMass() + zombie[i].GetMass());
 
 					// Calculate the bouncing vector of zombie after collision
-					D3DXVECTOR2 zombieFVelocity = zombie[i].GetVelocity() * (zombie[i].GetMass() - F1->GetMass()) + 2 * F1->GetMass() * F1->GetVelocity() / (F1->GetMass() + zombie[i].GetMass());
+					D3DXVECTOR2 zombieFVelocity = zombie[i].GetVelocity() * (zombie[i].GetMass() - F1->GetMass()) + 
+						2 * F1->GetMass() * F1->GetVelocity() / (F1->GetMass() + zombie[i].GetMass());
 
 					F1->SetVelocity(-f1FVelocity);
 					zombie[i].SetVelocity(zombieFVelocity);
@@ -96,8 +87,10 @@ void Level1::Update(int framesToUpdate, InputManager* inputManager, AudioManager
 					scoreBoard->IncreaseScore(10);
 				}
 			}
+			// Update zombie
 			zombie[i].Update(windowManager->GetWindowWidth(), windowManager->GetWindowHeight());
 		}
+		// Update F1
 		F1->Update(windowManager->GetWindowWidth(), windowManager->GetWindowHeight());
 
 		if (scoreBoard->GetScore() == 100)
@@ -118,12 +111,13 @@ void Level1::Render(LPD3DXSPRITE spriteBrush)
 	F1->RenderSprite(spriteBrush, &mat);
 
 	// Draw Text
-	// .c_str() is to change the score to LPCSTR
+	// .c_str() is to change the score from string to LPCSTR
 	text->RenderText(spriteBrush, &mat, scoreBoard->DisplayScore().c_str());
 
-	// Draw Zombie
+	
 	for (int i = 0; i < spawnNum; i++)
-	{
+	{	
+		// Only Draw Zombie when the zombie hp is higher than 0
 		if (zombie[i].GetHP() > 0)
 		{
 			zombie[i].RenderSprite(spriteBrush, &mat);

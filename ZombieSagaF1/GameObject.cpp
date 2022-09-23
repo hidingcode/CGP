@@ -7,7 +7,6 @@ GameObject::GameObject()
 // Destructor
 GameObject::~GameObject()
 {
-
 }
 
 // Initialise Game Object
@@ -75,10 +74,6 @@ void GameObject::Update(int WindowWidth, int WindowHeight)
 		position.y = WindowHeight - spriteHeight * scaling.y;
 		velocity.y *= -1;
 	}
-}
-
-void GameObject::UpdateAnim()
-{
 }
 
 D3DXVECTOR2 GameObject::GetVelocity()

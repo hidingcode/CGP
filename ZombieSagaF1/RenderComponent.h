@@ -9,9 +9,7 @@ class RenderComponent
 public:
 	RenderComponent();
 	~RenderComponent();
-	// Calculate Collision Rectangle
-	void CalColRect();
-
+	
 	// Sprite
 	// Initialise Sprite Data
 	void InitSprite(D3DXVECTOR2 scalingCentre, float scalingRotation, D3DXVECTOR2 scaling,
@@ -41,10 +39,11 @@ public:
 	// Clean Line
 	void CleanUpLine();
 
-
 	// Get Rectangle
 	RECT GetRectangle();
-	// Get collision rectangle
+	// Calculate Collision Rectangle (Use to check Rectangle Collision)
+	void CalColRect();
+	// Get collision rectangle 
 	RECT GetColRectangle();
 	// Set Scaling Centre
 	void SetScalingCentre(D3DXVECTOR2 scalingCentre);

@@ -32,10 +32,6 @@ void VerticalPanel::Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat)
 
 void VerticalPanel::OnCollide(RECT colRect)
 {
-	//update the collision rectangle of button  
-	startButton->GetColStuff();
-	quitButton->GetColStuff();
-
 	if (startButton->OnCollide(colRect))
 	{	
 		startButton->SetColorFilter(D3DCOLOR_XRGB(255, 0, 0));

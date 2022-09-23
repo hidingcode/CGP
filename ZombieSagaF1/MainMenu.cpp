@@ -1,6 +1,4 @@
 #include "MainMenu.h"
-#define WindowWidth 840
-#define WindowHeight 650
 
 void MainMenu::InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowManager)
 {	
@@ -18,7 +16,7 @@ void MainMenu::Update(int framesToUpdate, InputManager* inputManager, AudioManag
 {	
 	audioManager->UpdateSound();
 	audioManager->ManageCarEngineSound(inputManager->GetKeyPress(DIK_W), inputManager->GetKeyPress(DIK_S));
-	audioManager->DynamicCarEngineSound(WindowWidth, F1->GetPosition().x);
+	audioManager->DynamicCarEngineSound(windowManager->GetWindowWidth(), F1->GetPosition().x);
 
 	//if(Button::OnCollide(RECT F1))
 
@@ -44,7 +42,7 @@ void MainMenu::Update(int framesToUpdate, InputManager* inputManager, AudioManag
 			//cout << gameState.back()->GetLevelState() << endl;
 		}
 
-		F1->Update(WindowWidth, WindowHeight);
+		F1->Update(windowManager->GetWindowWidth(), windowManager->GetWindowHeight());
 		inputManager->SetAllKeyPressToFalse();
 
 		ui->OnCollide(F1->GetColRectangle());

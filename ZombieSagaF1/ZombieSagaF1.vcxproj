@@ -138,6 +138,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="CollisionComponent.h" />
     <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="Button.h" />
@@ -161,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="CollisionComponent.cpp" />
     <ClCompile Include="GameStateManager.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Button.cpp" />

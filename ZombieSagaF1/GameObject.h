@@ -1,10 +1,11 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 #include "RenderComponent.h"
+#include "CollisionComponent.h"
 #include <iostream>
 using namespace std;
 
-class GameObject: public RenderComponent
+class GameObject: public RenderComponent, public CollisionComponent
 {
 public:
 	// Constructor
@@ -19,9 +20,6 @@ public:
 
 	// Update Game Object Physics
 	void Update(int WindowWidth, int WindowHeight);
-
-	// Update Animation
-	void UpdateAnim();
 
 	// Get Velocty
 	D3DXVECTOR2 GetVelocity();
