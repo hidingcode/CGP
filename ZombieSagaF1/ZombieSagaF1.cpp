@@ -96,13 +96,12 @@ void HandleBGMusic()
 
 void InitLevel() 
 {	
-	// First level 
-	//gameState.push_back(&mainMenu);
 	audioManager->PlayBackgroundMusic();
 	audioManager->PlayCarEngineSound();
 
 	mainMenu.InitLevel(deviceManager->GetD3D9Device(), windowManager);
-	//level1.InitLevel(deviceManager->GetD3D9Device());
+	level1.InitLevel(deviceManager->GetD3D9Device(), windowManager);
+	gameState.push_back(&level1);
 }
 
 void Render() 
@@ -128,8 +127,6 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 	SetInput();
 	InitAudio();
 	InitLevel();
-
-	gameState.push_back(&mainMenu);
 
 	FrameTimer* timer = new FrameTimer();
 	timer->Init(20);

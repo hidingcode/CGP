@@ -14,7 +14,7 @@ bool Level1::CircleCollisionDetection(int radiusA, int radiusB, D3DXVECTOR2 posi
 	}
 }
 
-void Level1::InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager windowManager)
+void Level1::InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowManager)
 {	
 	srand(time(0));
 
@@ -32,28 +32,28 @@ void Level1::InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager windowManage
 		zombie[i] = Enemy();
 		zombie[i].CreateTexture(d3dDevice, "Assets/zombie_idle.png");
 		// Spawn the zombie in random position
-		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (windowManager.GetWindowWidth() - zombie[i].GetSpriteWidth() - 100),
-			rand() % (windowManager.GetWindowHeight() - zombie[i].GetSpriteHeight() - 100));
+		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (windowManager->GetWindowWidth() - zombie[i].GetSpriteWidth() - 100),
+			rand() % (windowManager->GetWindowHeight() - zombie[i].GetSpriteHeight() - 100));
 
 		zombie[i].Init(3774, 230, 1, 17, 16, D3DXVECTOR2(0, 0), 0.0f, randomSpawn, 0.0f, 0.0f, 1.0f,
 			D3DXVECTOR2(0.3f, 0.3f), 0.0f, 0.01f, D3DCOLOR_XRGB(255, 255, 255), 2);
 	}
 
 	box->CreateLine(d3dDevice);
-	box->Init(120, 30, D3DXVECTOR2(10, 10));
+	box->Init(120, 30, D3DXVECTOR2(0, 0));
 
 	text->CreateFontType(d3dDevice, "Arial");
 	text->Init(200, 200, D3DXVECTOR2(1, 1), 0.0f, D3DXVECTOR2(1, 1), text->GetPosition(), 0.0f,
-		box->GetBoxPosition(), -1, 0, D3DCOLOR_XRGB(0, 0, 0));
+		box->GetPosition(), -1, 0, D3DCOLOR_XRGB(0, 0, 0));
 
 }
 
 void Level1::Update(int framesToUpdate, InputManager* inputManager, AudioManager* audioManager,
-	vector<GameState*> gameState, MyWindowManager windowManager)
+	vector<GameState*> gameState, MyWindowManager* windowManager)
 {	
 	audioManager->UpdateSound();
 	audioManager->ManageCarEngineSound(inputManager->GetKeyPress(DIK_W), inputManager->GetKeyPress(DIK_S));
-	audioManager->DynamicCarEngineSound(windowManager.GetWindowWidth(), F1->GetPosition().x);
+	audioManager->DynamicCarEngineSound(windowManager->GetWindowWidth(), F1->GetPosition().x);
 
 	for (int i = 0; i < framesToUpdate; i++) {
 		if (inputManager->GetKeyPress(DIK_W)) {
@@ -96,9 +96,9 @@ void Level1::Update(int framesToUpdate, InputManager* inputManager, AudioManager
 					scoreBoard->IncreaseScore(10);
 				}
 			}
-			zombie[i].Update(windowManager.GetWindowWidth(), windowManager.GetWindowHeight());
+			zombie[i].Update(windowManager->GetWindowWidth(), windowManager->GetWindowHeight());
 		}
-		F1->Update(windowManager.GetWindowWidth(), windowManager.GetWindowHeight());
+		F1->Update(windowManager->GetWindowWidth(), windowManager->GetWindowHeight());
 
 		if (scoreBoard->GetScore() == 100)
 		{

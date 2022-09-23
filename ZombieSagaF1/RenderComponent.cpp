@@ -25,21 +25,6 @@ void RenderComponent::InitSprite(D3DXVECTOR2 scalingCentre, float scalingRotatio
 	this->colorFilter = colorFilter;
 }
 
-void RenderComponent::InitText(D3DXVECTOR2 scalingCentre, float scalingRotation, D3DXVECTOR2 scaling,
-	D3DXVECTOR2 rotationCentre, float rotation, D3DXVECTOR2 position,
-	int textLength, UINT format, D3DXCOLOR colorFilter)
-{
-	this->scalingCentre = scalingCentre;
-	this->scalingRotation = scalingRotation;
-	this->scaling = scaling;
-	this->rotationCentre = rotationCentre;
-	this->rotation = rotation;
-	this->position = position;
-	this->textLength = textLength;
-	this->format = format;
-	this->colorFilter = colorFilter;
-}
-
 void RenderComponent::CreateTexture(IDirect3DDevice9* d3dDevice, LPCSTR textureFilePath)
 {
 	// Create texture from file
@@ -47,16 +32,6 @@ void RenderComponent::CreateTexture(IDirect3DDevice9* d3dDevice, LPCSTR textureF
 
 	if (FAILED(hr)) {
 		cout << "Create background texture failed" << endl;
-	}
-}
-
-void RenderComponent::CreateFontType(IDirect3DDevice9* d3dDevice, LPCSTR fontType)
-{
-	HRESULT hr = D3DXCreateFont(d3dDevice, 25, 0, 0, 1, false, DEFAULT_CHARSET, OUT_TT_ONLY_PRECIS, DEFAULT_QUALITY,
-		DEFAULT_PITCH | FF_DONTCARE, fontType, &font);
-
-	if (FAILED(hr)) {
-		cout << "Create font failed" << endl;
 	}
 }
 
@@ -75,6 +50,37 @@ void RenderComponent::RenderSprite(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat)
 	}
 }
 
+void RenderComponent::CleanUpSprite()
+{
+	texture->Release();
+	texture = NULL;
+}
+
+void RenderComponent::InitText(D3DXVECTOR2 scalingCentre, float scalingRotation, D3DXVECTOR2 scaling,
+	D3DXVECTOR2 rotationCentre, float rotation, D3DXVECTOR2 position,
+	int textLength, UINT format, D3DXCOLOR colorFilter)
+{
+	this->scalingCentre = scalingCentre;
+	this->scalingRotation = scalingRotation;
+	this->scaling = scaling;
+	this->rotationCentre = rotationCentre;
+	this->rotation = rotation;
+	this->position = position;
+	this->textLength = textLength;
+	this->format = format;
+	this->colorFilter = colorFilter;
+}
+
+void RenderComponent::CreateFontType(IDirect3DDevice9* d3dDevice, LPCSTR fontType)
+{
+	HRESULT hr = D3DXCreateFont(d3dDevice, 25, 0, 0, 1, false, DEFAULT_CHARSET, OUT_TT_ONLY_PRECIS, DEFAULT_QUALITY,
+		DEFAULT_PITCH | FF_DONTCARE, fontType, &font);
+
+	if (FAILED(hr)) {
+		cout << "Create font failed" << endl;
+	}
+}
+
 void RenderComponent::RenderText(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat, LPCSTR textContent)
 {
 	D3DXMatrixTransformation2D(mat, &scalingCentre, scalingRotation, &scaling, &rotationCentre, rotation, &position);
@@ -85,18 +91,26 @@ void RenderComponent::RenderText(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat, LPCS
 	}
 }
 
-void RenderComponent::CleanUpSprite()
-{
-	texture->Release();
-	texture = NULL;
-}
-
 void RenderComponent::CleanUpText()
 {
 	font->Release();
 	font = NULL;
 }
 
+void RenderComponent::CreateLine(IDirect3DDevice9* d3dDevice)
+{
+	HRESULT hr = D3DXCreateLine(d3dDevice, &line);
+
+	if (FAILED(hr)) {
+		cout << "Create line failed" << endl;
+	}
+}
+
+void RenderComponent::CleanUpLine()
+{
+	line->Release();
+	line = NULL;
+}
 RECT RenderComponent::GetColRectangle()
 {
 	return colRect;
@@ -104,8 +118,6 @@ RECT RenderComponent::GetColRectangle()
 
 RECT RenderComponent::GetRectangle()
 {	
-	//rect.right *= scaling.x;
-	//rect.bottom *= scaling.y;
 	return rect;
 }
 

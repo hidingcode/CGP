@@ -9,32 +9,17 @@ Box::~Box()
 {
 }
 
-void Box::CreateLine(IDirect3DDevice9* d3dDevice)
-{
-	HRESULT hr = D3DXCreateLine(d3dDevice, &line);
-
-	if (FAILED(hr)) {
-		cout << "Create line failed" << endl;
-	}
-}
-
-void Box::CleanUpLine()
-{
-	line->Release();
-	line = NULL;
-}
-
 void Box::Init(int boxWidth, int boxHeight, D3DXVECTOR2 boxPosition)
 {	
-	this->boxPosition = boxPosition;
+	this->position = position;
 
-	pointX = this->boxPosition.x + boxWidth;
-	pointY = this->boxPosition.y + boxHeight;
+	pointX = this->position.x + boxWidth;
+	pointY = this->position.y + boxHeight;
 
 	point1 = boxPosition;
-	point2 = D3DXVECTOR2(pointX, this->boxPosition.y);
+	point2 = D3DXVECTOR2(pointX, this->position.y);
 	point3 = D3DXVECTOR2(pointX, pointY);
-	point4 = D3DXVECTOR2(this->boxPosition.y, pointY);
+	point4 = D3DXVECTOR2(this->position.y, pointY);
 
 	lineVertices[0] = point1;
 	lineVertices[1] = point2;
@@ -50,7 +35,3 @@ void Box::RenderLine(D3DXCOLOR color)
 	line->End();
 }
 
-D3DXVECTOR2 Box::GetBoxPosition()
-{
-	return boxPosition;
-}
