@@ -29,12 +29,3 @@ void Image::Init(int textureWidth, int textureHeight, D3DXVECTOR2 scalingCentre,
 	
 }
 
-int Image::GetTextureWidth()
-{
-	return this->textureWidth;
-}
-
-int Image::GetTextureHeight()
-{
-	return this->textureHeight;
-}
