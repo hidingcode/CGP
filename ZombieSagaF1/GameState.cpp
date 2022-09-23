@@ -1,5 +1,9 @@
 #include "GameState.h"
 
+GameState::~GameState()
+{
+}
+
 void GameState::InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowManager)
 {
 }
@@ -36,4 +40,8 @@ void GameState::CleanUpLevel()
 void GameState::ChangeState(GameStateManager* game, GameState* state, IDirect3DDevice9* d3dDevice)
 {
 
+}
+
+GameState::GameState()
+{
 }

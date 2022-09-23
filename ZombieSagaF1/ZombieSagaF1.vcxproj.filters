@@ -75,6 +75,9 @@
     <ClInclude Include="GameStateManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Canva.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObject.cpp">
@@ -138,6 +141,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameStateManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Canva.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

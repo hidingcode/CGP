@@ -20,9 +20,9 @@ class Level1: public GameState
 public:
 	bool CircleCollisionDetection(int radiusA, int radiusB, D3DXVECTOR2 positionA, D3DXVECTOR2 positionB);
 	
-	void InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager windowManager);
+	void InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowManager);
 	void Update(int framesToUpdate, InputManager* inputManager, AudioManager* audioManager,
-		vector<GameState*> gameState, MyWindowManager windowManager);
+		vector<GameState*> gameState, MyWindowManager* windowManager);
 	
 	void Render(LPD3DXSPRITE spriteBrush);
 	void RenderLine();
