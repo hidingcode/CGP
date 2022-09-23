@@ -9,7 +9,7 @@ D3D9DeviceManager::~D3D9DeviceManager()
 {
 }
 
-void D3D9DeviceManager::CreateMyD3D9Device(HWND g_hWnd,int WindowWidth, int WindowHeight)
+void D3D9DeviceManager::CreateMyD3D9Device(HWND g_hWnd,int windowWidth, int windowHeight)
 {
 		//	Define Direct3D 9.
 		IDirect3D9* direct3D9 = Direct3DCreate9(D3D_SDK_VERSION);
@@ -22,8 +22,8 @@ void D3D9DeviceManager::CreateMyD3D9Device(HWND g_hWnd,int WindowWidth, int Wind
 		d3dPP.SwapEffect = D3DSWAPEFFECT_DISCARD;
 		d3dPP.BackBufferFormat = D3DFMT_X8R8G8B8;
 		d3dPP.BackBufferCount = 1;
-		d3dPP.BackBufferWidth = WindowWidth;
-		d3dPP.BackBufferHeight = WindowHeight;
+		d3dPP.BackBufferWidth = windowWidth;
+		d3dPP.BackBufferHeight = windowHeight;
 		d3dPP.hDeviceWindow = g_hWnd;
 
 		//	Create a Direct3D 9 device.
@@ -89,7 +89,6 @@ LPD3DXSPRITE D3D9DeviceManager::GetSpriteBrush()
 {
 	return this->spriteBrush;
 }
-
 
 void D3D9DeviceManager::CleanUpMyD3D9Device()
 {

@@ -2,15 +2,7 @@
 #define WindowWidth 840
 #define WindowHeight 650
 
-MainMenu::MainMenu()
-{
-}
-
-MainMenu::~MainMenu()
-{
-}
-
-void MainMenu::InitLevel(IDirect3DDevice9* d3dDevice)
+void MainMenu::InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowManager)
 {	
 	F1->CreateTexture(d3dDevice, "Assets/F1.png");
 	F1->Init(768, 450, 3, 6, 5, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(600, 400), 1.0f, 0.0f, 2.0f,
@@ -22,7 +14,7 @@ void MainMenu::InitLevel(IDirect3DDevice9* d3dDevice)
 }
 
 void MainMenu::Update(int framesToUpdate, InputManager* inputManager, AudioManager* audioManager,
-	vector<GameLevel*> gameLevel)
+	vector<GameState*> gameState, MyWindowManager* windowManager)
 {	
 	audioManager->UpdateSound();
 	audioManager->ManageCarEngineSound(inputManager->GetKeyPress(DIK_W), inputManager->GetKeyPress(DIK_S));
@@ -44,12 +36,12 @@ void MainMenu::Update(int framesToUpdate, InputManager* inputManager, AudioManag
 			F1->TurnRight();
 		}
 		if (inputManager->GetKeyPress(DIK_O)) {
-			gameLevel.front()->SetLevelState(1);
-			cout << gameLevel.front()->GetLevelState() << endl;
+			//gameState.back()->SetLevelState(1);
+			//cout << gameState.back()->GetLevelState() << endl;
 		}
 		if (inputManager->GetKeyPress(DIK_I)) {
-			gameLevel.front()->SetLevelState(3);
-			cout << gameLevel.front()->GetLevelState() << endl;
+			//gameState.back()->SetLevelState(3);
+			//cout << gameState.back()->GetLevelState() << endl;
 		}
 
 		F1->Update(WindowWidth, WindowHeight);

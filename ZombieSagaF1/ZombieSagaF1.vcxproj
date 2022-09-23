@@ -138,11 +138,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="D3D9DeviceManager.h" />
     <ClInclude Include="FrameTimer.h" />
-    <ClInclude Include="GameLevel.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Box.h" />
@@ -154,17 +155,17 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="ScoreBoard.h" />
-    <ClInclude Include="SpriteBrush.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Enemy.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="GameStateManager.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="D3D9DeviceManager.cpp" />
     <ClCompile Include="FrameTimer.cpp" />
-    <ClCompile Include="GameLevel.cpp" />
+    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Box.cpp" />
@@ -176,7 +177,6 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="ScoreBoard.cpp" />
-    <ClCompile Include="SpriteBrush.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="ZombieSagaF1.cpp" />

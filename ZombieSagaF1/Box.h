@@ -1,4 +1,5 @@
-#pragma once
+#ifndef BOX_H
+#define BOX_H
 
 #include <d3dx9.h>
 #include <iostream>
@@ -42,3 +43,4 @@ private:
 	// Line Vertices 
 	D3DXVECTOR2 lineVertices[];
 };
+#endif

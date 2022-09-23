@@ -1,4 +1,5 @@
-#pragma once
+#ifndef VERTICALPANEL_H
+#define VERTICALPANEL_H
 #include <d3dx9.h>
 #include "Button.h"
 
@@ -17,4 +18,5 @@ private:
 	Button* startButton = new Button();
 	Button* quitButton = new Button();
 };
+#endif
 

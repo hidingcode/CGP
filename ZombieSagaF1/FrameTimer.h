@@ -1,4 +1,5 @@
-#pragma once
+#ifndef FRAMETIMER_H
+#define FRAMETIMER_H
 #include <Windows.h>
 
 class FrameTimer
@@ -19,3 +20,4 @@ private:
 	float intervalsSinceLastUpdate;
 
 };
+#endif

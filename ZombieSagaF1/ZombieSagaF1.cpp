@@ -15,21 +15,19 @@
 
 // Sprite Brush and Input Manager
 #include "InputManager.h"
-
 //include windowClass
 #include "MyWindowManager.h"
-
 //DeviceManagerClass
 #include "D3D9DeviceManager.h"
+// Audio Library
+#include "AudioManager.h"
 
 // Frame Timer
 #include "FrameTimer.h"
 
-// Audio Library
-#include "AudioManager.h"
-
 // Game State (Level control)
-#include "GameLevel.h"
+#include "GameStateManager.h"
+#include "GameState.h"
 #include "MainMenu.h"
 #include "Level1.h"
 
@@ -46,21 +44,19 @@ using namespace std;
 //--------------------------------------------------------------------
 
 //WindowManagerClass
-MyWindowManager* myWindowManager = new MyWindowManager();
+MyWindowManager* windowManager = new MyWindowManager();
 D3D9DeviceManager* deviceManager = new D3D9DeviceManager();
 
 // Input Manager
 InputManager* inputManager = new InputManager();
 
 // Game Level
-vector<GameLevel*> gameLevel;
+vector<GameState*> gameState;
 MainMenu mainMenu = MainMenu();
 Level1 level1 =  Level1();
 
 // Audio globals
 AudioManager* audioManager;
-
-Button* test = new Button();
 
 void SetInput()
 {
@@ -69,7 +65,9 @@ void SetInput()
 	inputManager->AddKey(DIK_S);
 	inputManager->AddKey(DIK_A);
 	inputManager->AddKey(DIK_D);
-	inputManager->AddKey(DIK_P);
+	inputManager->AddKey(DIK_0);
+	inputManager->AddKey(DIK_9);
+	// Testing
 	inputManager->AddKey(DIK_O);
 	inputManager->AddKey(DIK_I);
 	inputManager->AddKey(DIK_U);
@@ -82,44 +80,29 @@ void InitAudio()
 	audioManager->LoadSounds();
 }
 
+// Change the state of background musci to muted or unmuted
+void HandleBGMusic()
+{	
+	if (inputManager->GetKeyPress(DIK_0))
+	{
+		audioManager->ChangeMuteState(true);
+	}
+
+	if (inputManager->GetKeyPress(DIK_9))
+	{
+		audioManager->ChangeMuteState(false);
+	}
+}
+
 void InitLevel() 
 {	
 	// First level 
-	gameLevel.push_back(&mainMenu);
-
+	//gameState.push_back(&mainMenu);
 	audioManager->PlayBackgroundMusic();
 	audioManager->PlayCarEngineSound();
 
-	mainMenu.InitLevel(deviceManager->GetD3D9Device());
-	level1.InitLevel(deviceManager->GetD3D9Device());
-}
-
-// Manage which level to be unload and load
-void LevelManager()
-{
-	if (gameLevel.front()->GetLevelState() == 1)
-	{
-		gameLevel.pop_back();
-		gameLevel.push_back(&level1);
-	}
-
-	if (gameLevel.front()->GetLevelState() == 2)
-	{	
-		gameLevel.pop_back();
-		gameLevel.push_back(&mainMenu);
-	}
-
-	if (gameLevel.front()->GetLevelState() == 3)
-	{
-		gameLevel.pop_back();
-		gameLevel.push_back(&level1);
-	}
-
-	if (gameLevel.front()->GetLevelState() == 4)
-	{
-		gameLevel.pop_back();
-		gameLevel.push_back(&mainMenu);
-	}
+	mainMenu.InitLevel(deviceManager->GetD3D9Device(), windowManager);
+	//level1.InitLevel(deviceManager->GetD3D9Device());
 }
 
 void Render() 
@@ -127,11 +110,11 @@ void Render()
 	deviceManager->BeginRender();
 	deviceManager->BeginSpriteBrush();
 
-	gameLevel.front()->Render(deviceManager->GetSpriteBrush());
+	gameState.back()->Render(deviceManager->GetSpriteBrush());
 
 	deviceManager->EndSpriteBrush();
 
-	gameLevel.front()->RenderLine();
+	gameState.back()->RenderLine();
 
 	deviceManager->PresentBuffer();
 }
@@ -139,27 +122,29 @@ void Render()
 //	use WinMain if you don't want the console
 int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) // WinMain is a function in WINAPI
 {	
-	myWindowManager->CreateMyWindow(WindowWidth, WindowHeight);
-	deviceManager->CreateMyD3D9Device(myWindowManager->GetWindowHandle(), WindowWidth, WindowHeight);
-	inputManager->CreateMyDirectInput(myWindowManager->GetWindowHandle());
-
+	windowManager->CreateMyWindow(WindowWidth, WindowHeight);
+	deviceManager->CreateMyD3D9Device(windowManager->GetWindowHandle(), WindowWidth, WindowHeight);
+	inputManager->CreateMyDirectInput(windowManager->GetWindowHandle());
 	SetInput();
 	InitAudio();
 	InitLevel();
 
+	gameState.push_back(&mainMenu);
+
 	FrameTimer* timer = new FrameTimer();
 	timer->Init(20);
-	while (myWindowManager->IsWindowRunning())
+	while (windowManager->IsWindowRunning())
 	{	
-		LevelManager();
 		inputManager->GetInput();
-		gameLevel.front()->Update(timer->FramesToUpdate(), inputManager, audioManager, gameLevel);
+		HandleBGMusic();
+		gameState.back()->Update(timer->FramesToUpdate(), inputManager, audioManager, gameState, 
+			windowManager);
 		Render();
 	}
-	gameLevel.front()->CleanUpLevel();
+	gameState.back()->CleanUpLevel();
 	inputManager->CleanUpMyDirectInput();
 	deviceManager->CleanUpMyD3D9Device();
-	myWindowManager->CleanUpMyWindow();
+	windowManager->CleanUpMyWindow();
 
 	return 0;
 }

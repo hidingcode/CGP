@@ -11,49 +11,32 @@ Button::~Button()
 
 void Button::GetColStuff()
 {
-	//Image::Init();
-	this->ColRect.left = this->GetPosition().x; // x = 0 dk why, 
-	this->ColRect.top = this->GetPosition().y; // y = 0 dk why, 
-	this->ColRect.right = ColRect.left + this->GetTextureWidth();
-	this->ColRect.bottom = ColRect.top + this->GetTextureHeight();
-	
-
+	this->colRect.left = this->GetPosition().x;
+	this->colRect.top = this->GetPosition().y; 
+	this->colRect.right = colRect.left + this->GetTextureWidth();
+	this->colRect.bottom = colRect.top + this->GetTextureHeight();
 }
 
-bool Button::OnCollide(RECT ColRect)
+bool Button::OnCollide(RECT colRect)
 {	
-	//cout << "startButton : " << this->ColRect.left << " , " << this->ColRect.top << " , " << this->ColRect.right << " , " << this->ColRect.bottom << endl;
-	//cout << "F1 :" << ColRect.left << " , " << ColRect.top << " , " << ColRect.right << " , " << ColRect.bottom << endl;
-
-	if (this->ColRect.left > ColRect.right)
+	if (this->colRect.left > colRect.right)
 	{
-		
 		return false;
 	}
-	if (this->ColRect.right < ColRect.left)
+	if (this->colRect.right < colRect.left)
 	{
-		
 		return false;
 	}
-	if (this->ColRect.top > ColRect.bottom)
+	if (this->colRect.top > colRect.bottom)
 	{
-		
 		return false;
 	}
-	if (this->ColRect.bottom < ColRect.top )
+	if (this->colRect.bottom < colRect.top )
 	{
-		
 		return false;
 	}
-
-	
-
 	return true;
 }
 
-void Button::GetColRect()
-{
-	cout << "LEFT :" << this->ColRect.left << "," << "TOP :" << this->ColRect.top << "," << "RIGHT :" << this->ColRect.right << "," << "BOTTOM :" << this->ColRect.bottom << endl;
-}
 
 

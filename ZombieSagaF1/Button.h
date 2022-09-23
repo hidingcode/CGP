@@ -1,4 +1,5 @@
-#pragma once
+#ifndef BUTTON_H
+#define BUTTON_H
 #include "Image.h"
 
 class Button : public Image
@@ -11,6 +12,6 @@ public:
 	// Set Position of Panel
 
 	void GetColStuff();
-	void GetColRect();
 };
+#endif
 

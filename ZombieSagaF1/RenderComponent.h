@@ -1,4 +1,5 @@
-#pragma once
+#ifndef RENDERCOMPONENT_H
+#define RENDERCOMPONENT_H
 #include <d3dx9.h>
 #include <iostream>
 using namespace std;
@@ -8,6 +9,8 @@ class RenderComponent
 public:
 	RenderComponent();
 	~RenderComponent();
+	// Calculate Collision Rectangle
+	void CalColRect();
 	// Initialise Sprite Data
 	void InitSprite(D3DXVECTOR2 scalingCentre, float scalingRotation, D3DXVECTOR2 scaling,
 		D3DXVECTOR2 rotationCentre, float rotation, D3DXVECTOR2 position, D3DXCOLOR colorFilter);
@@ -63,7 +66,7 @@ public:
 protected:
 	LPDIRECT3DTEXTURE9 texture = NULL;
 	RECT rect;
-	RECT ColRect;
+	RECT colRect;
 	D3DXVECTOR2 scalingCentre;
 	float scalingRotation;
 	D3DXVECTOR2 scaling;
@@ -75,4 +78,5 @@ protected:
 	int textLength = -1;
 	UINT format = 0;
 };
+#endif
 
