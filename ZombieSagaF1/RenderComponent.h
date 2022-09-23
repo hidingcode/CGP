@@ -12,7 +12,7 @@ public:
 	
 	// Sprite
 	// Initialise Sprite Data
-	void InitSprite(D3DXVECTOR2 scalingCentre, float scalingRotation, D3DXVECTOR2 scaling,
+	void InitSprite(int textureWidth, int textureHeight, D3DXVECTOR2 scalingCentre, float scalingRotation, D3DXVECTOR2 scaling,
 		D3DXVECTOR2 rotationCentre, float rotation, D3DXVECTOR2 position, D3DXCOLOR colorFilter);
 	// Create Texture
 	void CreateTexture(IDirect3DDevice9* d3dDevice, LPCSTR textureFilePath);
@@ -81,7 +81,7 @@ protected:
 	LPD3DXLINE line = NULL;
 	LPD3DXFONT font = NULL;
 
-	// Sprite, Text, Line Variables
+	// Sprite, Text, Line Shared Variables
 	RECT rect;
 	RECT colRect;
 	D3DXVECTOR2 scalingCentre;
@@ -92,11 +92,13 @@ protected:
 	D3DXVECTOR2 position;
 	D3DCOLOR colorFilter;
 	
+	// Sprite varaibles
+	int textureWidth;
+	int textureHeight;
+
 	// Text Varaibles
 	int textLength = -1;
 	UINT format = 0;
-	int textureWidth;
-	int textureHeight;
 
 };
 #endif

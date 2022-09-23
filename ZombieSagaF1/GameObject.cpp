@@ -14,8 +14,6 @@ void GameObject::Init(int textureWidth, int textureHeight, int textureRow, int t
 	int maxFrame, D3DXVECTOR2 scalingCentre,float scalingRotation, D3DXVECTOR2 position, float thrust, 
 	float rotation, float mass, D3DXVECTOR2 scaling, float rotationSpeed,float friction, D3DXCOLOR colorFilter)
 {
-	this->textureWidth = textureWidth;
-	this->textureHeight = textureHeight;
 	this->textureRow = textureRow;
 	this->textureColumn = textureColumn;
 	this->maxFrame = maxFrame;
@@ -30,7 +28,7 @@ void GameObject::Init(int textureWidth, int textureHeight, int textureRow, int t
 	rect.top = 0;
 	rect.bottom = rect.top + spriteHeight;
 
-	RenderComponent::InitSprite(scalingCentre, scalingRotation, scaling, D3DXVECTOR2(spriteWidth * scaling.x / 2, spriteHeight * scaling.y / 2),
+	RenderComponent::InitSprite(textureWidth, textureHeight, scalingCentre, scalingRotation, scaling, D3DXVECTOR2(spriteWidth * scaling.x / 2, spriteHeight * scaling.y / 2),
 		rotation, position, colorFilter);
 
 	this->position = position;

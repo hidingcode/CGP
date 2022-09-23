@@ -23,7 +23,7 @@ void Image::Init(int textureWidth, int textureHeight, D3DXVECTOR2 scalingCentre,
 	rect.top = 0;
 	rect.bottom = textureHeight;
 	
-	RenderComponent::InitSprite(scalingCentre, scalingRotation, scaling, D3DXVECTOR2(textureWidth * scaling.x / 2, textureHeight * scaling.y / 2),
+	RenderComponent::InitSprite(textureWidth, textureHeight, scalingCentre, scalingRotation, scaling, D3DXVECTOR2(textureWidth * scaling.x / 2, textureHeight * scaling.y / 2),
 		rotation, position, colorFilter);
 
 	

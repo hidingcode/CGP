@@ -57,8 +57,6 @@ void Player::UpdateAnim()
 	rect.top = currentDirection * spriteHeight;
 	rect.bottom = rect.top + spriteHeight;
 
-	
-
 	// If the frame counter exceed max frame set the frame counter back to 0
 	// to loop the animation
 	if (frameCounter > maxFrame)

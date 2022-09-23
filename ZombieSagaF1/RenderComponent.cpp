@@ -8,9 +8,11 @@ RenderComponent::~RenderComponent()
 {
 }
 
-void RenderComponent::InitSprite(D3DXVECTOR2 scalingCentre, float scalingRotation, D3DXVECTOR2 scaling, 
+void RenderComponent::InitSprite(int textureWidth, int textureHeight, D3DXVECTOR2 scalingCentre, float scalingRotation, D3DXVECTOR2 scaling,
 	D3DXVECTOR2 rotationCentre, float rotation, D3DXVECTOR2 position, D3DXCOLOR colorFilter)
 {	
+	this->textureWidth = textureWidth;
+	this->textureHeight = textureHeight;
 	this->scalingCentre = scalingCentre;
 	this->scalingRotation = scalingRotation;
 	this->scaling = scaling;
