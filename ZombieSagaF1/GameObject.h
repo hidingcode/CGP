@@ -2,8 +2,7 @@
 #define GAMEOBJECT_H
 #include "RenderComponent.h"
 #include "CollisionComponent.h"
-#include <iostream>
-using namespace std;
+#include "GameManager.h"
 
 class GameObject: public RenderComponent, public CollisionComponent
 {
@@ -19,7 +18,7 @@ public:
 		float rotation, float mass, D3DXVECTOR2 scaling, float rotationSpeed, float friction, D3DXCOLOR colorFilter);
 
 	// Update Game Object Physics
-	void Update(int WindowWidth, int WindowHeight);
+	void Update();
 
 	// Get Velocty
 	D3DXVECTOR2 GetVelocity();

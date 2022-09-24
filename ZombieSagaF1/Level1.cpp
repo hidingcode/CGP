@@ -18,8 +18,8 @@ void Level1::InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowManag
 		zombie[i] = Enemy();
 		zombie[i].CreateTexture(d3dDevice, "Assets/zombie_idle.png");
 		// Spawn the zombie in random position
-		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (windowManager->GetWindowWidth() - zombie[i].GetSpriteWidth() - 100),
-			rand() % (windowManager->GetWindowHeight() - zombie[i].GetSpriteHeight() - 100));
+		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (WindowWidth - zombie[i].GetSpriteWidth() - 100),
+			rand() % (WindowHeight - zombie[i].GetSpriteHeight() - 100));
 
 		zombie[i].Init(3774, 230, 1, 17, 16, D3DXVECTOR2(0, 0), 0.0f, randomSpawn, 0.0f, 0.0f, 1.0f,
 			D3DXVECTOR2(0.3f, 0.3f), 0.0f, 0.01f, D3DCOLOR_XRGB(255, 255, 255), 2);
@@ -49,7 +49,7 @@ void Level1::Update(InputManager* inputManager, AudioManager* audioManager,
 	// Manage the playing state of the car engine sound
 	audioManager->ManageCarEngineSound(inputManager->GetKeyPress(DIK_W), inputManager->GetKeyPress(DIK_S));
 	// Pan the car engine sound left to right according to the F1 position
-	audioManager->DynamicCarEngineSound(windowManager->GetWindowWidth(), F1->GetPosition().x);
+	audioManager->DynamicCarEngineSound(WindowWidth, F1->GetPosition().x);
 
 	if (inputManager->GetKeyPress(DIK_W)) {
 		F1->MovForward();
@@ -94,10 +94,10 @@ void Level1::Update(InputManager* inputManager, AudioManager* audioManager,
 			}
 		}
 		// Update zombie
-		zombie[i].Update(windowManager->GetWindowWidth(), windowManager->GetWindowHeight());
+		zombie[i].Update();
 	}
 	// Update F1
-	F1->Update(windowManager->GetWindowWidth(), windowManager->GetWindowHeight());
+	F1->Update();
 
 	if (scoreBoard->GetScore() >= 40)
 	{	

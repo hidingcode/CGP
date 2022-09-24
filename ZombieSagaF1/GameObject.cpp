@@ -43,7 +43,7 @@ void GameObject::Init(int textureWidth, int textureHeight, int textureRow, int t
 	this->friction = friction;
 }
 
-void GameObject::Update(int WindowWidth, int WindowHeight)
+void GameObject::Update()
 { 
 	velocity += acceleration;
 	velocity *= 1 - friction;

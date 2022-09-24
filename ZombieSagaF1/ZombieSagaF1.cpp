@@ -146,9 +146,9 @@ void CleanUp()
 int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) // WinMain is a function in WINAPI
 {
 	// Create Window
-	windowManager->CreateMyWindow(WindowWidth, WindowHeight);
+	windowManager->CreateMyWindow();
 	// Create virtual graphic card
-	deviceManager->CreateMyD3D9Device(windowManager->GetWindowHandle(), WindowWidth, WindowHeight);
+	deviceManager->CreateMyD3D9Device(windowManager->GetWindowHandle());
 	// Create direct input
 	inputManager->CreateMyDirectInput(windowManager->GetWindowHandle());
 	// Initialise input,audio, level

@@ -42,9 +42,9 @@ void Player::MovBackward()
 	acceleration.y = cos(rotation) * thrust / mass;
 }
 
-void Player::Update(int WindowWidth, int WindowHeight)
+void Player::Update()
 {
-	GameObject::Update(WindowWidth, WindowHeight);
+	GameObject::Update();
 	UpdateAnim();
 }
 

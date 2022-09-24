@@ -17,7 +17,7 @@ public:
 	// Move the player backward
 	void MovBackward();
 	// Update
-	void Update(int WindowWidth, int WindowHeight);
+	void Update();
 	// Update Animation
 	void UpdateAnim();
 	// Get Collision Rectangle

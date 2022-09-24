@@ -16,7 +16,7 @@ void MainMenu::Update(InputManager* inputManager, AudioManager* audioManager,
 {	
 	audioManager->UpdateSound();
 	audioManager->ManageCarEngineSound(inputManager->GetKeyPress(DIK_W), inputManager->GetKeyPress(DIK_S));
-	audioManager->DynamicCarEngineSound(windowManager->GetWindowWidth(), F1->GetPosition().x);
+	audioManager->DynamicCarEngineSound(WindowWidth, F1->GetPosition().x);
 
 	if (inputManager->GetKeyPress(DIK_W)) {
 		F1->MovForward();
@@ -39,7 +39,7 @@ void MainMenu::Update(InputManager* inputManager, AudioManager* audioManager,
 		//cout << gameState.back()->GetLevelState() << endl;
 	}
 
-	F1->Update(windowManager->GetWindowWidth(), windowManager->GetWindowHeight());
+	F1->Update();
 	inputManager->SetAllKeyPressToFalse();
 
 	// Check Collision

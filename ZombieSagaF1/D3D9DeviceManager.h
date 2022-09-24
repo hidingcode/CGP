@@ -5,8 +5,7 @@
 #include "Box.h"
 #include "RenderComponent.h"
 #include "MyWindowManager.h"
-#include <iostream>
-
+#include "GameManager.h"
 
 class D3D9DeviceManager {
 public:
@@ -14,7 +13,7 @@ public:
 	~D3D9DeviceManager();
 
 	// Create Direct3D9 Device
-	void CreateMyD3D9Device(HWND g_hWnd, int WindowWidth, int WindowHeight);
+	void CreateMyD3D9Device(HWND g_hWnd);
 	// Begin Render (Begin scene and set up spriteBrush)
 	void BeginRender();
 	// Begin Sprite Brush
@@ -33,8 +32,6 @@ public:
 private:
 	IDirect3DDevice9* d3dDevice;
 	IDirect3DDevice9** d3dDeviceReference;
-	int WindowWidth = 840;
-	int WindowHeight = 650;
 	LPD3DXSPRITE spriteBrush = NULL;
 };
 
