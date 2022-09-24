@@ -39,6 +39,7 @@ private:
 
 	// Image 
 	Image* background = new Image();
+	Image* eKey = new Image();
 
 	// Game Object 
 	Player* F1 = new Player();

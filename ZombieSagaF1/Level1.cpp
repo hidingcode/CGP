@@ -28,6 +28,9 @@ void Level1::InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowManag
 	retryButton->CreateTexture(d3dDevice, "Assets/retryButton.png");
 	retryButton->Init(205, 75, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(310, 310), 0.0f,
 		D3DXVECTOR2(1, 1), D3DCOLOR_XRGB(255, 255, 255));
+	eKey->CreateTexture(d3dDevice, "Assets/e-key.png");
+	eKey->Init(215, 220, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(550, 330), 0.0f, D3DXVECTOR2(0.18, 0.18),
+		D3DCOLOR_XRGB(255, 255, 255));
 
 	box->CreateLine(d3dDevice);
 	box->Init(120, 30, D3DXVECTOR2(0, 0));
@@ -97,7 +100,7 @@ void Level1::Update(int framesToUpdate, InputManager* inputManager, AudioManager
 		// Update F1
 		F1->Update(windowManager->GetWindowWidth(), windowManager->GetWindowHeight());
 
-		if (scoreBoard->GetScore() == 40)
+		if (scoreBoard->GetScore() >= 40)
 		{	
 			if (retryButton->RectColDetection(retryButton->GetColRectangle(), F1->GetColRectangle()))
 			{
@@ -119,9 +122,13 @@ void Level1::Render(LPD3DXSPRITE spriteBrush)
 	background->RenderSprite(spriteBrush, &mat);
 
 	// Render Retry Button when the score is equal than 40
-	if (scoreBoard->GetScore() == 40)
+	if (scoreBoard->GetScore() >= 40)
 	{
 		retryButton->RenderSprite(spriteBrush, &mat);
+		if (retryButton->RectColDetection(retryButton->GetColRectangle(), F1->GetColRectangle()))
+		{
+			eKey->RenderSprite(spriteBrush, &mat);
+		}
 	}
 
 	// Draw F1
@@ -160,7 +167,8 @@ void Level1::CleanUpLevel()
 	
 	retryButton->CleanUpSprite();
 	retryButton = NULL;
-
+	eKey->CleanUpSprite();
+	eKey = NULL;
 	background->CleanUpSprite();
 	background = NULL;
 	box->CleanUpLine();

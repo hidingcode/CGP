@@ -151,7 +151,6 @@
     <ClInclude Include="Level1.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Canva.h" />
-    <ClInclude Include="UI.h" />
     <ClInclude Include="MyWindowManager.h" />
     <ClInclude Include="VerticalPanel.h" />
     <ClInclude Include="Player.h" />
@@ -175,7 +174,6 @@
     <ClCompile Include="Level1.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Canva.cpp" />
-    <ClCompile Include="UI.cpp" />
     <ClCompile Include="MyWindowManager.cpp" />
     <ClCompile Include="VerticalPanel.cpp" />
     <ClCompile Include="Player.cpp" />

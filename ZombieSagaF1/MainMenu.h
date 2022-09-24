@@ -2,7 +2,7 @@
 #define MAINMENU_H
 #include "GameState.h"
 #include "Player.h"
-#include "UI.h"
+#include "Canva.h"
 #include "Text.h"
 
 class MainMenu : public GameState
@@ -25,7 +25,7 @@ private:
 	static MainMenu mainMenuRef;
 
 	Player* F1 = new Player();
-	UI* ui = new UI();
+	Canva* canva = new Canva();
 	Text* instruction = new Text();
 };
 #endif
