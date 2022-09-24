@@ -29,16 +29,7 @@ public:
 	void RenderLine();
 	void CleanUpLevel();
 
-	static Level1* Instance() {
-		return &level1Ref;
-	}
-
-protected:
-	/*Level1();*/
-
 private:
-	static Level1 level1Ref;
-
 	// Image 
 	Image* background = new Image();
 	Image* eKey = new Image();
