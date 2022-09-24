@@ -14,7 +14,7 @@ public:
 
 	virtual void InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowManager);
 	virtual	void Update(InputManager* inputManager, AudioManager* audioManager,
-		vector<GameState*> gameState, MyWindowManager* windowManager);
+		vector<GameState*> gameState, MyWindowManager* windowManager, IDirect3DDevice9* d3dDevice);
 	virtual void Render(LPD3DXSPRITE spriteBrush);
 	virtual void RenderLine();
 	virtual void CleanUpLevel();

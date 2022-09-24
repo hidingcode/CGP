@@ -1,9 +1,5 @@
 #include "MainMenu.h"
 
-MainMenu::MainMenu()
-{
-}
-
 MainMenu::~MainMenu()
 {
 }
@@ -20,7 +16,7 @@ void MainMenu::InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowMan
 }
 
 void MainMenu::Update(InputManager* inputManager, AudioManager* audioManager,
-	vector<GameState*> gameState, MyWindowManager* windowManager)
+	vector<GameState*> gameState, MyWindowManager* windowManager, IDirect3DDevice9* d3dDevice)
 {	
 	audioManager->UpdateSound();
 	audioManager->ManageCarEngineSound(inputManager->GetKeyPress(DIK_W), inputManager->GetKeyPress(DIK_S));

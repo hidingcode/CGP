@@ -1,4 +1,5 @@
 #include "Level1.h"
+#include "MainMenu.h"
 
 Level1::Level1()
 {
@@ -50,7 +51,7 @@ void Level1::InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowManag
 }
 
 void Level1::Update(InputManager* inputManager, AudioManager* audioManager,
-	vector<GameState*> gameState, MyWindowManager* windowManager)
+	vector<GameState*> gameState, MyWindowManager* windowManager, IDirect3DDevice9* d3dDevice)
 {	
 	// Update Sound
 	audioManager->UpdateSound();
@@ -72,8 +73,10 @@ void Level1::Update(InputManager* inputManager, AudioManager* audioManager,
 		F1->TurnRight();
 	}
 	if (inputManager->GetKeyPress(DIK_P)) {
-		//gameState.pop_back();
-		//gameState.push_back(new MainMenu());
+		cout << "P Pressed" << endl;
+		gameState.pop_back();
+		gameState.push_back(new Level1());
+		gameState.back()->InitLevel(d3dDevice, windowManager);
 	}
 
 	for (int i = 0; i < spawnNum; i++)
@@ -115,6 +118,7 @@ void Level1::Update(InputManager* inputManager, AudioManager* audioManager,
 			retryButton->SetColorFilter(D3DCOLOR_XRGB(255, 255, 255));
 		}
 	}
+	inputManager->SetAllKeyPressToFalse();
 }
 
 void Level1::Render(LPD3DXSPRITE spriteBrush)

@@ -31,17 +31,6 @@
 #include "MainMenu.h"
 #include "Level1.h"
 
-using namespace std;
-
-#define WindowWidth 840
-#define WindowHeight 650
-
-#pragma comment(lib, "d3d9.lib ")
-#pragma comment(lib, "d3dx9.lib ")
-#pragma comment(lib, "dinput8.lib ")
-#pragma comment(lib, "dxguid.lib")
-#pragma comment(lib, "fmod_vc.lib")
-//--------------------------------------------------------------------
 
 //WindowManagerClass
 MyWindowManager* windowManager = new MyWindowManager();
@@ -73,6 +62,7 @@ void SetInput()
 	inputManager->AddKey(DIK_9);
 	// Testing
 	inputManager->AddKey(DIK_P);
+	inputManager->AddKey(DIK_A);
 }
 
 // Initialise audio
@@ -89,7 +79,7 @@ void Init()
 	SetInput();
 	InitAudio();
 	// Push main menu to the back of the stack
-	gameState.push_back(mainMenu);
+	gameState.push_back(level1);
 	// Get the back of the game state stack  
 	gameState.back()->InitLevel(deviceManager->GetD3D9Device(), windowManager);
 }
@@ -114,7 +104,7 @@ void Update(int framesToUpdate)
 	for (int i = 0; i < framesToUpdate; i++) {
 		// Get the back of the game state stack  
 		gameState.back()->Update(inputManager, audioManager, gameState,
-			windowManager);
+			windowManager, deviceManager->GetD3D9Device());
 	}
 }
 
@@ -159,8 +149,26 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 
 	while (windowManager->IsWindowRunning())
 	{
-		inputManager->GetInput();
 		Update(timer->FramesToUpdate());
+		inputManager->GetInput();
+		//if (inputManager->GetKeyPress(DIK_A))
+		//{
+		//	cout << "Test 1" << endl;
+		//	gameState.pop_back();
+		//	// Push main menu to the back of the stack
+		//	gameState.push_back(mainMenu);
+		//	// Get the back of the game state stack  
+		//	gameState.back()->InitLevel(deviceManager->GetD3D9Device(), windowManager);
+		//}
+		//if (inputManager->GetKeyPress(DIK_P))
+		//{
+		//	cout << "Test 2" << endl;
+		//	gameState.pop_back();
+		//	// Push main menu to the back of the stack
+		//	gameState.push_back(level1);
+		//	// Get the back of the game state stack  
+		//	gameState.back()->InitLevel(deviceManager->GetD3D9Device(), windowManager);
+		//}
 		Render();
 	}
 
