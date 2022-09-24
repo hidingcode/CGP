@@ -11,43 +11,39 @@ void MainMenu::InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowMan
 		D3DCOLOR_XRGB(255, 255, 255));
 }
 
-void MainMenu::Update(int framesToUpdate, InputManager* inputManager, AudioManager* audioManager,
+void MainMenu::Update(InputManager* inputManager, AudioManager* audioManager,
 	vector<GameState*> gameState, MyWindowManager* windowManager)
 {	
 	audioManager->UpdateSound();
 	audioManager->ManageCarEngineSound(inputManager->GetKeyPress(DIK_W), inputManager->GetKeyPress(DIK_S));
 	audioManager->DynamicCarEngineSound(windowManager->GetWindowWidth(), F1->GetPosition().x);
 
-	//if(Button::OnCollide(RECT F1))
-
-	for (int i = 0; i < framesToUpdate; i++) {
-		if (inputManager->GetKeyPress(DIK_W)) {
-			F1->MovForward();
-		}
-		if (inputManager->GetKeyPress(DIK_S)) {
-			F1->MovBackward();
-		}
-		if (inputManager->GetKeyPress(DIK_A)) {
-			F1->TurnLeft();
-		}
-		if (inputManager->GetKeyPress(DIK_D)) {
-			F1->TurnRight();
-		}
-		if (inputManager->GetKeyPress(DIK_O)) {
-			//gameState.back()->SetLevelState(1);
-			//cout << gameState.back()->GetLevelState() << endl;
-		}
-		if (inputManager->GetKeyPress(DIK_I)) {
-			//gameState.back()->SetLevelState(3);
-			//cout << gameState.back()->GetLevelState() << endl;
-		}
-
-		F1->Update(windowManager->GetWindowWidth(), windowManager->GetWindowHeight());
-		inputManager->SetAllKeyPressToFalse();
-
-		// Check Collision
-		canva->OnCollide(F1->GetColRectangle());
+	if (inputManager->GetKeyPress(DIK_W)) {
+		F1->MovForward();
 	}
+	if (inputManager->GetKeyPress(DIK_S)) {
+		F1->MovBackward();
+	}
+	if (inputManager->GetKeyPress(DIK_A)) {
+		F1->TurnLeft();
+	}
+	if (inputManager->GetKeyPress(DIK_D)) {
+		F1->TurnRight();
+	}
+	if (inputManager->GetKeyPress(DIK_O)) {
+		//gameState.back()->SetLevelState(1);
+		//cout << gameState.back()->GetLevelState() << endl;
+	}
+	if (inputManager->GetKeyPress(DIK_I)) {
+		//gameState.back()->SetLevelState(3);
+		//cout << gameState.back()->GetLevelState() << endl;
+	}
+
+	F1->Update(windowManager->GetWindowWidth(), windowManager->GetWindowHeight());
+	inputManager->SetAllKeyPressToFalse();
+
+	// Check Collision
+	canva->OnCollide(F1->GetColRectangle());
 }
 
 void MainMenu::Render(LPD3DXSPRITE spriteBrush)

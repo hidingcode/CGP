@@ -50,14 +50,18 @@ D3D9DeviceManager* deviceManager = new D3D9DeviceManager();
 // Input Manager
 InputManager* inputManager = new InputManager();
 
+// Framer Timer
+FrameTimer* timer = new FrameTimer();
+
 // Game Level
 vector<GameState*> gameState;
 MainMenu mainMenu = MainMenu();
 Level1 level1 =  Level1();
 
 // Audio globals
-AudioManager* audioManager;
+AudioManager* audioManager = new AudioManager();
 
+// Set Input
 void SetInput()
 {
 	// Add Key Codes to Input Manager
@@ -68,21 +72,31 @@ void SetInput()
 	inputManager->AddKey(DIK_0);
 	inputManager->AddKey(DIK_9);
 	// Testing
-	inputManager->AddKey(DIK_O);
-	inputManager->AddKey(DIK_I);
-	inputManager->AddKey(DIK_U);
+	inputManager->AddKey(DIK_P);
 }
 
+// Initialise audio
 void InitAudio()
 {
-	audioManager = new AudioManager();
 	audioManager->InitialiseAudio();
 	audioManager->LoadSounds();
+	audioManager->PlayBackgroundMusic();
+	audioManager->PlayCarEngineSound();
+}
+
+void Init()
+{
+	SetInput();
+	InitAudio();
+	// Push main menu to the back of the stack
+	gameState.push_back(&mainMenu);
+	// Get the back of the game state stack  
+	gameState.back()->InitLevel(deviceManager->GetD3D9Device(), windowManager);
 }
 
 // Change the state of background musci to muted or unmuted
 void HandleBGMusic()
-{	
+{
 	if (inputManager->GetKeyPress(DIK_0))
 	{
 		audioManager->ChangeMuteState(true);
@@ -94,17 +108,17 @@ void HandleBGMusic()
 	}
 }
 
-void InitLevel() 
-{	
-	audioManager->PlayBackgroundMusic();
-	audioManager->PlayCarEngineSound();
-
-	mainMenu.InitLevel(deviceManager->GetD3D9Device(), windowManager);
-	level1.InitLevel(deviceManager->GetD3D9Device(), windowManager);
-	gameState.push_back(&mainMenu);
+void Update(int framesToUpdate)
+{
+	HandleBGMusic();
+	for (int i = 0; i < framesToUpdate; i++) {
+		// Get the back of the game state stack  
+		gameState.back()->Update(inputManager, audioManager, gameState,
+			windowManager);
+	}
 }
 
-void Render() 
+void Render()
 {
 	deviceManager->BeginRender();
 	deviceManager->BeginSpriteBrush();
@@ -112,37 +126,45 @@ void Render()
 	gameState.back()->Render(deviceManager->GetSpriteBrush());
 
 	deviceManager->EndSpriteBrush();
-
+	// End the sprite brush before draw the line to allow line to be 
+	// drawn in front of sprite or text
 	gameState.back()->RenderLine();
 
 	deviceManager->PresentBuffer();
 }
 
-//	use WinMain if you don't want the console
-int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) // WinMain is a function in WINAPI
-{	
-	windowManager->CreateMyWindow(WindowWidth, WindowHeight);
-	deviceManager->CreateMyD3D9Device(windowManager->GetWindowHandle(), WindowWidth, WindowHeight);
-	inputManager->CreateMyDirectInput(windowManager->GetWindowHandle());
-	SetInput();
-	InitAudio();
-	InitLevel();
-
-	FrameTimer* timer = new FrameTimer();
-	timer->Init(20);
-	while (windowManager->IsWindowRunning())
-	{	
-		inputManager->GetInput();
-		HandleBGMusic();
-		gameState.back()->Update(timer->FramesToUpdate(), inputManager, audioManager, gameState, 
-			windowManager);
-		Render();
-	}
+// Clean Up Level, Direct Input, Virtual Graphic Card and Window
+void CleanUp()
+{
 	gameState.back()->CleanUpLevel();
 	inputManager->CleanUpMyDirectInput();
 	deviceManager->CleanUpMyD3D9Device();
 	windowManager->CleanUpMyWindow();
+}
 
+//	use WinMain if you don't want the console
+int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) // WinMain is a function in WINAPI
+{
+	// Create Window
+	windowManager->CreateMyWindow(WindowWidth, WindowHeight);
+	// Create virtual graphic card
+	deviceManager->CreateMyD3D9Device(windowManager->GetWindowHandle(), WindowWidth, WindowHeight);
+	// Create direct input
+	inputManager->CreateMyDirectInput(windowManager->GetWindowHandle());
+	// Initialise input,audio, level
+	Init();
+
+	// Set the game fps
+	timer->Init(20);
+
+	while (windowManager->IsWindowRunning())
+	{
+		inputManager->GetInput();
+		Update(timer->FramesToUpdate());
+		Render();
+	}
+
+	CleanUp();
 	return 0;
 }
 

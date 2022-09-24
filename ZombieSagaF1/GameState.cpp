@@ -8,7 +8,7 @@ void GameState::InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowMa
 {
 }
 
-void GameState::Update(int framesToUpdate, InputManager* inputManager, AudioManager* audioManager,
+void GameState::Update(InputManager* inputManager, AudioManager* audioManager,
 	vector<GameState*> gameState, MyWindowManager* windowManager)
 {
 }

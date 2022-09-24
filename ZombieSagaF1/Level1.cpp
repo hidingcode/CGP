@@ -41,7 +41,7 @@ void Level1::InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowManag
 
 }
 
-void Level1::Update(int framesToUpdate, InputManager* inputManager, AudioManager* audioManager,
+void Level1::Update(InputManager* inputManager, AudioManager* audioManager,
 	vector<GameState*> gameState, MyWindowManager* windowManager)
 {	
 	// Update Sound
@@ -51,67 +51,64 @@ void Level1::Update(int framesToUpdate, InputManager* inputManager, AudioManager
 	// Pan the car engine sound left to right according to the F1 position
 	audioManager->DynamicCarEngineSound(windowManager->GetWindowWidth(), F1->GetPosition().x);
 
-	for (int i = 0; i < framesToUpdate; i++) {
-		if (inputManager->GetKeyPress(DIK_W)) {
-			F1->MovForward();
-		}
-		if (inputManager->GetKeyPress(DIK_S)) {
-			F1->MovBackward();
-		}
-		if (inputManager->GetKeyPress(DIK_A)) {
-			F1->TurnLeft();
-		}
-		if (inputManager->GetKeyPress(DIK_D)) {
-			F1->TurnRight();
-		}
-		if (inputManager->GetKeyPress(DIK_P)) {
-			//gameState.back()->SetLevelState(2);
-		}
-		if (inputManager->GetKeyPress(DIK_U)) {
-			//gameState.back()->SetLevelState(4);
-		}
+	if (inputManager->GetKeyPress(DIK_W)) {
+		F1->MovForward();
+	}
+	if (inputManager->GetKeyPress(DIK_S)) {
+		F1->MovBackward();
+	}
+	if (inputManager->GetKeyPress(DIK_A)) {
+		F1->TurnLeft();
+	}
+	if (inputManager->GetKeyPress(DIK_D)) {
+		F1->TurnRight();
+	}
+	if (inputManager->GetKeyPress(DIK_P)) {
+		//gameState.back()->SetLevelState(2);
+	}
+	if (inputManager->GetKeyPress(DIK_U)) {
+		//gameState.back()->SetLevelState(4);
+	}
 
-		for (int i = 0; i < spawnNum; i++)
+	for (int i = 0; i < spawnNum; i++)
+	{
+		if (zombie[i].GetHP() > 0)
 		{
-			if (zombie[i].GetHP() > 0)
+			if (F1->CircleColDetection(F1->GetSpriteWidth() / 2, zombie[i].GetSpriteWidth() / 2, F1->GetPosition() , zombie[i].GetPosition()))
 			{
-				if (F1->CircleColDetection(F1->GetSpriteWidth() / 2, zombie[i].GetSpriteWidth() / 2, F1->GetPosition() , zombie[i].GetPosition()))
-				{
-					cout << "Collision occurs" << endl;
-					audioManager->PlayCollisionSound();
+				cout << "Collision occurs" << endl;
+				audioManager->PlayCollisionSound();
 
-					// Calculate the bouncing vector of F1 after collision
-					D3DXVECTOR2 f1FVelocity = F1->GetVelocity() * (F1->GetMass() - zombie[i].GetMass()) + 
-						2 * zombie[i].GetMass() * zombie[i].GetVelocity() / (F1->GetMass() + zombie[i].GetMass());
+				// Calculate the bouncing vector of F1 after collision
+				D3DXVECTOR2 f1FVelocity = F1->GetVelocity() * (F1->GetMass() - zombie[i].GetMass()) + 
+					2 * zombie[i].GetMass() * zombie[i].GetVelocity() / (F1->GetMass() + zombie[i].GetMass());
 
-					// Calculate the bouncing vector of zombie after collision
-					D3DXVECTOR2 zombieFVelocity = zombie[i].GetVelocity() * (zombie[i].GetMass() - F1->GetMass()) + 
-						2 * F1->GetMass() * F1->GetVelocity() / (F1->GetMass() + zombie[i].GetMass());
+				// Calculate the bouncing vector of zombie after collision
+				D3DXVECTOR2 zombieFVelocity = zombie[i].GetVelocity() * (zombie[i].GetMass() - F1->GetMass()) + 
+					2 * F1->GetMass() * F1->GetVelocity() / (F1->GetMass() + zombie[i].GetMass());
 
-					F1->SetVelocity(-f1FVelocity);
-					zombie[i].SetVelocity(zombieFVelocity);
-					zombie[i].DecreaseHP(1);
-					scoreBoard->IncreaseScore(10);
-				}
+				F1->SetVelocity(-f1FVelocity);
+				zombie[i].SetVelocity(zombieFVelocity);
+				zombie[i].DecreaseHP(1);
+				scoreBoard->IncreaseScore(10);
 			}
-			// Update zombie
-			zombie[i].Update(windowManager->GetWindowWidth(), windowManager->GetWindowHeight());
 		}
-		// Update F1
-		F1->Update(windowManager->GetWindowWidth(), windowManager->GetWindowHeight());
+		// Update zombie
+		zombie[i].Update(windowManager->GetWindowWidth(), windowManager->GetWindowHeight());
+	}
+	// Update F1
+	F1->Update(windowManager->GetWindowWidth(), windowManager->GetWindowHeight());
 
-		if (scoreBoard->GetScore() >= 40)
-		{	
-			if (retryButton->RectColDetection(retryButton->GetColRectangle(), F1->GetColRectangle()))
-			{
-				retryButton->SetColorFilter(D3DCOLOR_XRGB(255, 0, 0));
-			}
-			else {
-				retryButton->SetColorFilter(D3DCOLOR_XRGB(255, 255, 255));
-			}
+	if (scoreBoard->GetScore() >= 40)
+	{	
+		if (retryButton->RectColDetection(retryButton->GetColRectangle(), F1->GetColRectangle()))
+		{
+			retryButton->SetColorFilter(D3DCOLOR_XRGB(255, 0, 0));
+		}
+		else {
+			retryButton->SetColorFilter(D3DCOLOR_XRGB(255, 255, 255));
 		}
 	}
-	inputManager->SetAllKeyPressToFalse();
 }
 
 void Level1::Render(LPD3DXSPRITE spriteBrush)

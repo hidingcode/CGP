@@ -20,7 +20,7 @@ class Level1: public GameState
 {
 public:
 	void InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowManager);
-	void Update(int framesToUpdate, InputManager* inputManager, AudioManager* audioManager,
+	void Update(InputManager* inputManager, AudioManager* audioManager,
 		vector<GameState*> gameState, MyWindowManager* windowManager);
 	
 	void Render(LPD3DXSPRITE spriteBrush);
