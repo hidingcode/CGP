@@ -1,5 +1,9 @@
 #include "GameState.h"
 
+GameState::GameState()
+{
+}
+
 GameState::~GameState()
 {
 }
@@ -27,21 +31,3 @@ void GameState::CleanUpLevel()
 
 }
 
-//int GameState::GetLevelState()
-//{
-//	return levelState;
-//}
-//
-//void GameState::SetLevelState(int levelState)
-//{
-//	this->levelState = levelState;
-//}
-
-void GameState::ChangeState(GameStateManager* game, GameState* state, IDirect3DDevice9* d3dDevice)
-{
-
-}
-
-GameState::GameState()
-{
-}

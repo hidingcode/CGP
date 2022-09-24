@@ -55,8 +55,8 @@ FrameTimer* timer = new FrameTimer();
 
 // Game Level
 vector<GameState*> gameState;
-MainMenu mainMenu = MainMenu();
-Level1 level1 =  Level1();
+MainMenu* mainMenu = new MainMenu();
+Level1* level1 = new Level1();
 
 // Audio globals
 AudioManager* audioManager = new AudioManager();
@@ -89,7 +89,7 @@ void Init()
 	SetInput();
 	InitAudio();
 	// Push main menu to the back of the stack
-	gameState.push_back(&mainMenu);
+	gameState.push_back(mainMenu);
 	// Get the back of the game state stack  
 	gameState.back()->InitLevel(deviceManager->GetD3D9Device(), windowManager);
 }

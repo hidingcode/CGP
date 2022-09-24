@@ -1,5 +1,13 @@
 #include "Level1.h"
 
+Level1::Level1()
+{
+}
+
+Level1::~Level1()
+{
+}
+
 void Level1::InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowManager)
 {	
 	srand(time(0));
@@ -64,10 +72,8 @@ void Level1::Update(InputManager* inputManager, AudioManager* audioManager,
 		F1->TurnRight();
 	}
 	if (inputManager->GetKeyPress(DIK_P)) {
-		//gameState.back()->SetLevelState(2);
-	}
-	if (inputManager->GetKeyPress(DIK_U)) {
-		//gameState.back()->SetLevelState(4);
+		//gameState.pop_back();
+		//gameState.push_back(new MainMenu());
 	}
 
 	for (int i = 0; i < spawnNum; i++)

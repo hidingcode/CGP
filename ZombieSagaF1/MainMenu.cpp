@@ -1,5 +1,13 @@
 #include "MainMenu.h"
 
+MainMenu::MainMenu()
+{
+}
+
+MainMenu::~MainMenu()
+{
+}
+
 void MainMenu::InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowManager)
 {
 	F1->CreateTexture(d3dDevice, "Assets/F1.png");
