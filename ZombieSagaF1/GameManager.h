@@ -11,7 +11,14 @@ using namespace std;
 #include <d3dx9.h>
 #include <dinput.h>
 #include <iostream>
-#include <string> 
+#include <string>
+#include "AudioManager.h"
+// Input Manager
+#include "InputManager.h"
+#include "GameState.h"
+
+extern AudioManager* audioManager;
+extern InputManager* inputManager;
 
 #pragma comment (lib, "d3d9.lib") 
 #pragma comment (lib, "d3dx9.lib") 

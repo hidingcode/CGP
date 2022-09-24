@@ -4,7 +4,7 @@ MainMenu::~MainMenu()
 {
 }
 
-void MainMenu::InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowManager)
+void MainMenu::InitLevel(IDirect3DDevice9* d3dDevice)
 {
 	F1->CreateTexture(d3dDevice, "Assets/F1.png");
 	F1->Init(768, 450, 3, 6, 5, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(600, 400), 1.0f, 0.0f, 2.0f,
@@ -15,8 +15,7 @@ void MainMenu::InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowMan
 		D3DCOLOR_XRGB(255, 255, 255));
 }
 
-void MainMenu::Update(InputManager* inputManager, AudioManager* audioManager,
-	vector<GameState*> gameState, MyWindowManager* windowManager, IDirect3DDevice9* d3dDevice)
+void MainMenu::Update(vector<GameState*> gameState, IDirect3DDevice9* d3dDevice)
 {	
 	audioManager->UpdateSound();
 	audioManager->ManageCarEngineSound(inputManager->GetKeyPress(DIK_W), inputManager->GetKeyPress(DIK_S));

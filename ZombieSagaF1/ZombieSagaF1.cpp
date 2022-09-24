@@ -13,10 +13,6 @@
 #include <ctime>
 #include <vector>
 
-// Sprite Brush and Input Manager
-#include "InputManager.h"
-//include windowClass
-#include "MyWindowManager.h"
 //DeviceManagerClass
 #include "D3D9DeviceManager.h"
 // Audio Library
@@ -25,8 +21,11 @@
 // Frame Timer
 #include "FrameTimer.h"
 
+//include windowClass
+#include "MyWindowManager.h"
+
 // Game State (Level control)
-#include "GameStateManager.h"
+#include "GameManager.h"
 #include "GameState.h"
 #include "MainMenu.h"
 #include "Level1.h"
@@ -81,7 +80,7 @@ void Init()
 	// Push main menu to the back of the stack
 	gameState.push_back(level1);
 	// Get the back of the game state stack  
-	gameState.back()->InitLevel(deviceManager->GetD3D9Device(), windowManager);
+	gameState.back()->InitLevel(deviceManager->GetD3D9Device());
 }
 
 // Change the state of background musci to muted or unmuted
@@ -103,8 +102,7 @@ void Update(int framesToUpdate)
 	HandleBGMusic();
 	for (int i = 0; i < framesToUpdate; i++) {
 		// Get the back of the game state stack  
-		gameState.back()->Update(inputManager, audioManager, gameState,
-			windowManager, deviceManager->GetD3D9Device());
+		gameState.back()->Update(gameState, deviceManager->GetD3D9Device());
 	}
 }
 

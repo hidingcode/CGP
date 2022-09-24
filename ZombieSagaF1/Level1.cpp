@@ -9,7 +9,7 @@ Level1::~Level1()
 {
 }
 
-void Level1::InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowManager)
+void Level1::InitLevel(IDirect3DDevice9* d3dDevice)
 {	
 	srand(time(0));
 
@@ -50,8 +50,7 @@ void Level1::InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowManag
 
 }
 
-void Level1::Update(InputManager* inputManager, AudioManager* audioManager,
-	vector<GameState*> gameState, MyWindowManager* windowManager, IDirect3DDevice9* d3dDevice)
+void Level1::Update(vector<GameState*> gameState, IDirect3DDevice9* d3dDevice)
 {	
 	// Update Sound
 	audioManager->UpdateSound();
@@ -76,7 +75,7 @@ void Level1::Update(InputManager* inputManager, AudioManager* audioManager,
 		cout << "P Pressed" << endl;
 		gameState.pop_back();
 		gameState.push_back(new Level1());
-		gameState.back()->InitLevel(d3dDevice, windowManager);
+		gameState.back()->InitLevel(d3dDevice);
 	}
 
 	for (int i = 0; i < spawnNum; i++)

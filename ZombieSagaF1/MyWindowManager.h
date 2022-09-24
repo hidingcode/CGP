@@ -1,9 +1,9 @@
 #ifndef MYWINDOWMANAGER_H
 #define MYWINDOWMANAGER_H
+#include "GameManager.h"
 
 #define WIN32_LEAN_AND_MEAN // Only include the skinny(LEAN) and powerful(MEAN) part of Windows.h
 #include <Windows.h>
-#include "GameManager.h"
 
 class MyWindowManager
 {

@@ -1,7 +1,6 @@
+#include "GameManager.h"
 #ifndef INPUTMANAGER_H
 #define INPUTMANAGER_H
-#include "GameManager.h"
-using namespace std;
 
 class InputManager
 {

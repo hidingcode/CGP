@@ -8,12 +8,11 @@ GameState::~GameState()
 {
 }
 
-void GameState::InitLevel(IDirect3DDevice9* d3dDevice, MyWindowManager* windowManager)
+void GameState::InitLevel(IDirect3DDevice9* d3dDevice)
 {
 }
 
-void GameState::Update(InputManager* inputManager, AudioManager* audioManager,
-	vector<GameState*> gameState, MyWindowManager* windowManager, IDirect3DDevice9* d3dDevice)
+void GameState::Update(vector<GameState*> gameState, IDirect3DDevice9* d3dDevice)
 {
 }
 
