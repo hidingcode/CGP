@@ -7,8 +7,6 @@
 
 //DeviceManagerClass
 #include "D3D9DeviceManager.h"
-// Audio Library
-#include "AudioManager.h"
 
 // Frame Timer
 #include "FrameTimer.h"
@@ -17,11 +15,10 @@
 #include "MyWindowManager.h"
 
 // Game Manager 
-#include "GameManager.h"
+#include "GameHeader.h"
 
 // Main Menu Level
 #include "MainMenu.h"
-
 
 //Window Manager
 MyWindowManager* windowManager = new MyWindowManager();
@@ -132,8 +129,8 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 
 	while (windowManager->IsWindowRunning())
 	{
-		Update(timer->FramesToUpdate());
 		inputManager->GetInput();
+		Update(timer->FramesToUpdate());
 		Render();
 	}
 	CleanUp();

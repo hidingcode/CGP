@@ -5,7 +5,7 @@
 #include "Box.h"
 #include "RenderComponent.h"
 #include "MyWindowManager.h"
-#include "GameManager.h"
+#include "GameHeader.h"
 
 class D3D9DeviceManager {
 public:

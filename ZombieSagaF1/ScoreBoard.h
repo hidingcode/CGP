@@ -1,9 +1,6 @@
 #ifndef SCOREBOARD_H
 #define SCOREBOARD_H
-#include <d3dx9.h>
-#include <string>
-
-using namespace std;
+#include "GameHeader.h"
 
 class ScoreBoard 
 {

@@ -2,7 +2,7 @@
 #define GAMEOBJECT_H
 #include "RenderComponent.h"
 #include "CollisionComponent.h"
-#include "GameManager.h"
+#include "GameHeader.h"
 
 class GameObject: public RenderComponent, public CollisionComponent
 {

@@ -1,5 +1,5 @@
-#ifndef GAMEMANAGER_H
-#define GAMEMANAGER_H
+#ifndef GAMEHEADER_H
+#define GAMEHEADER_H
 
 #define WindowWidth 840
 #define WindowHeight 650

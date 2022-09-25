@@ -69,7 +69,7 @@
     <ClInclude Include="CollisionComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameManager.h">
+    <ClInclude Include="GameHeader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

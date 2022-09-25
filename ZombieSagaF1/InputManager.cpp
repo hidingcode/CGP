@@ -71,9 +71,9 @@ void InputManager::GetInput()
 {
 	//	Acquire the device.
 	dInputKeyboardDevice->Acquire();
-	dInputMouseDevice->Acquire();
 	//	Get immediate Keyboard Data.
 	dInputKeyboardDevice->GetDeviceState(256, diKeys);
+	dInputMouseDevice->Acquire();
 	//  Get Mouse Data
 	dInputMouseDevice->GetDeviceState(sizeof(mouseState), &mouseState);
 

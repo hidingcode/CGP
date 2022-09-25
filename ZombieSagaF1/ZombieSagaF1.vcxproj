@@ -139,7 +139,7 @@
   <ItemGroup>
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="CollisionComponent.h" />
-    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GameHeader.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="D3D9DeviceManager.h" />

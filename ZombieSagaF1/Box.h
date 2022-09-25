@@ -1,6 +1,6 @@
 #ifndef BOX_H
 #define BOX_H
-
+	
 #include <d3dx9.h>
 #include <iostream>
 #include "RenderComponent.h"

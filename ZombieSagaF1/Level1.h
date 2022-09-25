@@ -21,12 +21,11 @@ class Level1: public GameState
 public:
 	Level1();
 	~Level1();
-	void InitLevel(IDirect3DDevice9* d3dDevice);
-	void Update(IDirect3DDevice9* d3dDevice);
-	
-	void Render(LPD3DXSPRITE spriteBrush);
-	void RenderLine();
-	void CleanUpLevel();
+	void InitLevel(IDirect3DDevice9* d3dDevice) override;
+	void Update(IDirect3DDevice9* d3dDevice) override;
+	void Render(LPD3DXSPRITE spriteBrush) override;
+	void RenderLine() override;
+	void CleanUpLevel() override;
 
 private:
 	// Image, Text and Box (Line)
@@ -46,6 +45,5 @@ private:
 	int spawnNum = 2;
 	// zombie[x]  x -> maximum size of zombie array
 	Enemy* zombie[20];
-
 };
 #endif

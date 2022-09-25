@@ -1,4 +1,4 @@
-#include "GameManager.h"
+#include "GameHeader.h"
 #ifndef INPUTMANAGER_H
 #define INPUTMANAGER_H
 

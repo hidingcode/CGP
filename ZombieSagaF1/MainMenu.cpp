@@ -15,7 +15,7 @@ void MainMenu::InitLevel(IDirect3DDevice9* d3dDevice)
 		D3DCOLOR_XRGB(255, 255, 255));
 
 	instruction->CreateFontType(d3dDevice, "Arial");
-	instruction->Init(800, 200, D3DXVECTOR2(1, 1), 0.0f, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 0), 0.0f,
+	instruction->Init(1000, 200, D3DXVECTOR2(1, 1), 0.0f, D3DXVECTOR2(1, 1), D3DXVECTOR2(0, 0), 0.0f,
 		D3DXVECTOR2(0, 0), -1, 0, D3DCOLOR_XRGB(255, 255, 255));
 
 	startButton->CreateTexture(d3dDevice, "Assets/Textures/startButton.png");
@@ -94,7 +94,7 @@ void MainMenu::Render(LPD3DXSPRITE spriteBrush)
 
 	menuBG->RenderSprite(spriteBrush, &mat);
 	instruction->RenderText(spriteBrush, &mat,
-		"Move your car with W, A, S ,D to Start Button to start your game");
+		"Move your car with W, A, S ,D to Start Button to start your game (0/9 Mute/Unmuted Sound)");
 	startButton->RenderSprite(spriteBrush, &mat);
 	quitButton->RenderSprite(spriteBrush, &mat);
 
