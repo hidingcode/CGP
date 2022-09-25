@@ -10,7 +10,7 @@ public:
 	~GameState();
 
 	virtual void InitLevel(IDirect3DDevice9* d3dDevice);
-	virtual	void Update(vector<GameState*> gameState, IDirect3DDevice9* d3dDevice);
+	virtual	void Update(IDirect3DDevice9* d3dDevice);
 	virtual void Render(LPD3DXSPRITE spriteBrush);
 	virtual void RenderLine();
 	virtual void CleanUpLevel();

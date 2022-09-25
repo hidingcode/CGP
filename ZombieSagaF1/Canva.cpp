@@ -29,7 +29,7 @@ void Canva::Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat)
 	panel1->Render(spriteBrush, mat);
 }
 
-void Canva::OnCollide(RECT colRect)
+void Canva::OnCollide(RECT colRect, IDirect3DDevice9* d3dDevice)
 {
-	panel1->OnCollide(colRect);
+	panel1->OnCollide(colRect, d3dDevice);
 }

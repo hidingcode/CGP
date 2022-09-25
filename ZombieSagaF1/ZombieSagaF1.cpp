@@ -31,23 +31,20 @@
 #include "Level1.h"
 
 
-//WindowManagerClass
+//Window Manager
 MyWindowManager* windowManager = new MyWindowManager();
+// Virtual Graphic card Manager
 D3D9DeviceManager* deviceManager = new D3D9DeviceManager();
-
 // Input Manager
 InputManager* inputManager = new InputManager();
+// Audio globals
+AudioManager* audioManager = new AudioManager();
 
 // Framer Timer
 FrameTimer* timer = new FrameTimer();
 
 // Game Level
 vector<GameState*> gameState;
-MainMenu* mainMenu = new MainMenu();
-Level1* level1 = new Level1();
-
-// Audio globals
-AudioManager* audioManager = new AudioManager();
 
 // Set Input
 void SetInput()
@@ -59,9 +56,7 @@ void SetInput()
 	inputManager->AddKey(DIK_D);
 	inputManager->AddKey(DIK_0);
 	inputManager->AddKey(DIK_9);
-	// Testing
-	inputManager->AddKey(DIK_P);
-	inputManager->AddKey(DIK_A);
+	inputManager->AddKey(DIK_E);
 }
 
 // Initialise audio
@@ -77,8 +72,9 @@ void Init()
 {
 	SetInput();
 	InitAudio();
+	MainMenu* mainMenu = new MainMenu();
 	// Push main menu to the back of the stack
-	gameState.push_back(level1);
+	gameState.push_back(mainMenu);
 	// Get the back of the game state stack  
 	gameState.back()->InitLevel(deviceManager->GetD3D9Device());
 }
@@ -102,7 +98,7 @@ void Update(int framesToUpdate)
 	HandleBGMusic();
 	for (int i = 0; i < framesToUpdate; i++) {
 		// Get the back of the game state stack  
-		gameState.back()->Update(gameState, deviceManager->GetD3D9Device());
+		gameState.back()->Update(deviceManager->GetD3D9Device());
 	}
 }
 

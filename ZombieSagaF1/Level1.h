@@ -22,7 +22,7 @@ public:
 	Level1();
 	~Level1();
 	void InitLevel(IDirect3DDevice9* d3dDevice);
-	void Update(vector<GameState*> gameState, IDirect3DDevice9* d3dDevice);
+	void Update(IDirect3DDevice9* d3dDevice);
 	
 	void Render(LPD3DXSPRITE spriteBrush);
 	void RenderLine();

@@ -50,7 +50,7 @@ void Level1::InitLevel(IDirect3DDevice9* d3dDevice)
 
 }
 
-void Level1::Update(vector<GameState*> gameState, IDirect3DDevice9* d3dDevice)
+void Level1::Update(IDirect3DDevice9* d3dDevice)
 {	
 	// Update Sound
 	audioManager->UpdateSound();
@@ -71,13 +71,6 @@ void Level1::Update(vector<GameState*> gameState, IDirect3DDevice9* d3dDevice)
 	if (inputManager->GetKeyPress(DIK_D)) {
 		F1->TurnRight();
 	}
-	if (inputManager->GetKeyPress(DIK_P)) {
-		cout << "P Pressed" << endl;
-		gameState.pop_back();
-		gameState.push_back(new Level1());
-		gameState.back()->InitLevel(d3dDevice);
-	}
-
 	for (int i = 0; i < spawnNum; i++)
 	{
 		if (zombie[i].GetHP() > 0)
@@ -112,6 +105,13 @@ void Level1::Update(vector<GameState*> gameState, IDirect3DDevice9* d3dDevice)
 		if (retryButton->RectColDetection(retryButton->GetColRectangle(), F1->GetColRectangle()))
 		{
 			retryButton->SetColorFilter(D3DCOLOR_XRGB(255, 0, 0));
+			if (inputManager->GetKeyPress(DIK_E))
+			{	
+				gameState.back()->CleanUpLevel();
+				gameState.pop_back();
+				gameState.push_back(new Level1());
+				gameState.back()->InitLevel(d3dDevice);
+			}
 		}
 		else {
 			retryButton->SetColorFilter(D3DCOLOR_XRGB(255, 255, 255));

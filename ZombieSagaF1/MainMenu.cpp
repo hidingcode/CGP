@@ -1,5 +1,9 @@
 #include "MainMenu.h"
 
+MainMenu::MainMenu()
+{
+}
+
 MainMenu::~MainMenu()
 {
 }
@@ -15,7 +19,7 @@ void MainMenu::InitLevel(IDirect3DDevice9* d3dDevice)
 		D3DCOLOR_XRGB(255, 255, 255));
 }
 
-void MainMenu::Update(vector<GameState*> gameState, IDirect3DDevice9* d3dDevice)
+void MainMenu::Update(IDirect3DDevice9* d3dDevice)
 {	
 	audioManager->UpdateSound();
 	audioManager->ManageCarEngineSound(inputManager->GetKeyPress(DIK_W), inputManager->GetKeyPress(DIK_S));
@@ -34,19 +38,20 @@ void MainMenu::Update(vector<GameState*> gameState, IDirect3DDevice9* d3dDevice)
 		F1->TurnRight();
 	}
 	if (inputManager->GetKeyPress(DIK_O)) {
-		//gameState.back()->SetLevelState(1);
-		//cout << gameState.back()->GetLevelState() << endl;
-	}
-	if (inputManager->GetKeyPress(DIK_I)) {
-		//gameState.back()->SetLevelState(3);
-		//cout << gameState.back()->GetLevelState() << endl;
+
 	}
 
+	if (inputManager->GetKeyPress(DIK_P)) {
+		cout << "P Pressed" << endl;
+		gameState.pop_back();
+		gameState.push_back(new Level1());
+		gameState.back()->InitLevel(d3dDevice);
+	}
 	F1->Update();
 	inputManager->SetAllKeyPressToFalse();
 
 	// Check Collision
-	canva->OnCollide(F1->GetColRectangle());
+	canva->OnCollide(F1->GetColRectangle(), d3dDevice);
 }
 
 void MainMenu::Render(LPD3DXSPRITE spriteBrush)

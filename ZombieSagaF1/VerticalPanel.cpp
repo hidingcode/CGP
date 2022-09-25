@@ -31,13 +31,15 @@ void VerticalPanel::Render(LPD3DXSPRITE spriteBrush, D3DXMATRIX* mat)
 	quitButton->RenderSprite(spriteBrush, mat);
 }
 
-void VerticalPanel::OnCollide(RECT colRect)
+void VerticalPanel::OnCollide(RECT colRect, IDirect3DDevice9* d3dDevice)
 {
 	if (startButton->OnCollide(colRect))
 	{	
 		startButton->SetColorFilter(D3DCOLOR_XRGB(255, 0, 0));
-		// Start The Game
-		cout << "Start Button" << endl;
+		gameState.back()->CleanUpLevel();
+		gameState.pop_back();
+		gameState.push_back(new Level1());
+		gameState.back()->InitLevel(d3dDevice);
 	}
 	else
 	{
@@ -48,8 +50,7 @@ void VerticalPanel::OnCollide(RECT colRect)
 	{	
 		quitButton->SetColorFilter(D3DCOLOR_XRGB(255, 0, 0));
 		// Quit the game
-		
-		cout << "Quit Button" << endl;
+		exit(0);
 	}
 
 	else

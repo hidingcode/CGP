@@ -12,7 +12,7 @@ void GameState::InitLevel(IDirect3DDevice9* d3dDevice)
 {
 }
 
-void GameState::Update(vector<GameState*> gameState, IDirect3DDevice9* d3dDevice)
+void GameState::Update(IDirect3DDevice9* d3dDevice)
 {
 }
 

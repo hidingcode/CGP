@@ -4,18 +4,16 @@
 #include "Player.h"
 #include "Canva.h"
 #include "Text.h"
+#include "Level1.h"
 
 class MainMenu : public GameState
 {
 public:
-	MainMenu()
-	{
-
-	};
+	MainMenu();
 	~MainMenu();
 
 	void InitLevel(IDirect3DDevice9* d3dDevice);
-	void Update(vector<GameState*> gameState, IDirect3DDevice9* d3dDevice);
+	void Update(IDirect3DDevice9* d3dDevice);
 	void Render(LPD3DXSPRITE spriteBrush);
 	void CleanUpLevel();
 

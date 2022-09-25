@@ -19,6 +19,7 @@ using namespace std;
 
 extern AudioManager* audioManager;
 extern InputManager* inputManager;
+extern vector<GameState*> gameState;
 
 #pragma comment (lib, "d3d9.lib") 
 #pragma comment (lib, "d3dx9.lib") 
