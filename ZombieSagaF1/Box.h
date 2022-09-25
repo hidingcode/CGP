@@ -9,9 +9,7 @@ using namespace std;
 class Box : public RenderComponent
 {
 public:
-	// Constructor
 	Box();
-	// Destructor
 	~Box();
 	// Initialisation of box in Rectangle, box position is the top left corner of the box
 	void Init(int 

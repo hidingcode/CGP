@@ -13,9 +13,10 @@ public:
 	~GameObject();
 	
 	// Initialise GameObject
-	void Init(int textureWidth, int textureHeight, int textureRow, int textureColumn,
+	void InitSprite(int textureWidth, int textureHeight, int textureRow, int textureColumn,
 		int maxFrame, D3DXVECTOR2 scalingCentre, float scalingRotation, D3DXVECTOR2 position, float thrust,
-		float rotation, float mass, D3DXVECTOR2 scaling, float rotationSpeed, float friction, D3DXCOLOR colorFilter);
+		float rotation, float mass, D3DXVECTOR2 scaling, float rotationSpeed, float friction,
+		D3DXCOLOR colorFilter);
 
 	// Update Game Object Physics
 	void Update();

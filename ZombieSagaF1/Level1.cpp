@@ -15,31 +15,31 @@ void Level1::InitLevel(IDirect3DDevice9* d3dDevice)
 
 	// Create Texture and Initialise Game Object, UI and Images
 	background->CreateTexture(d3dDevice, "Assets/Textures/roadBG.png");
-	background->Init(840, 650, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(1, 1), 
+	background->InitSprite(840, 650, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(1, 1), 
 		D3DCOLOR_XRGB(255, 255, 255));
 
 	F1->CreateTexture(d3dDevice, "Assets/Textures/F1.png");
-	F1->Init(768, 450, 3, 6, 5, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(395, 580), 1.0f, 0.0f, 2.0f,
+	F1->InitSprite(768, 450, 3, 6, 5, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(395, 580), 1.0f, 0.0f, 2.0f,
 		D3DXVECTOR2(0.4f, 0.4f), 0.05f, 0.05f, D3DCOLOR_XRGB(255, 255, 255));
 
 	for (int i = 0; i < spawnNum; i++)
 	{
-		zombie[i] = Enemy();
-		zombie[i].CreateTexture(d3dDevice, "Assets/Textures/zombie_idle.png");
+		zombie[i] = new Enemy();
+		zombie[i]->CreateTexture(d3dDevice, "Assets/Textures/zombie_idle.png");
 		// Spawn the zombie in random position
-		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (WindowWidth - zombie[i].GetSpriteWidth() - 100),
-			rand() % (WindowHeight - zombie[i].GetSpriteHeight() - 100));
+		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (WindowWidth - zombie[i]->GetSpriteWidth() - 100),
+			rand() % (WindowHeight - zombie[i]->GetSpriteHeight() - 100));
 
-		zombie[i].Init(3774, 230, 1, 17, 16, D3DXVECTOR2(0, 0), 0.0f, randomSpawn, 0.0f, 0.0f, 1.0f,
+		zombie[i]->InitSprite(3774, 230, 1, 17, 16, D3DXVECTOR2(0, 0), 0.0f, randomSpawn, 0.0f, 0.0f, 1.0f,
 			D3DXVECTOR2(0.3f, 0.3f), 0.0f, 0.01f, D3DCOLOR_XRGB(255, 255, 255), 2);
 	}
 
 	retryButton->CreateTexture(d3dDevice, "Assets/Textures/retryButton.png");
-	retryButton->Init(205, 75, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(310, 310), 0.0f,
+	retryButton->InitSprite(205, 75, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(310, 310), 0.0f,
 		D3DXVECTOR2(1, 1), D3DCOLOR_XRGB(255, 255, 255));
 
 	eKey->CreateTexture(d3dDevice, "Assets/Textures/e-key.png");
-	eKey->Init(215, 220, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(550, 330), 0.0f, D3DXVECTOR2(0.18, 0.18),
+	eKey->InitSprite(215, 220, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(550, 330), 0.0f, D3DXVECTOR2(0.18, 0.18),
 		D3DCOLOR_XRGB(255, 255, 255));
 
 	box->CreateLine(d3dDevice);
@@ -74,29 +74,32 @@ void Level1::Update(IDirect3DDevice9* d3dDevice)
 	}
 	for (int i = 0; i < spawnNum; i++)
 	{
-		if (zombie[i].GetHP() > 0)
+		if (zombie[i]->GetHP() > 0)
 		{
-			if (F1->CircleColDetection(F1->GetSpriteWidth() / 2, zombie[i].GetSpriteWidth() / 2, F1->GetPosition() , zombie[i].GetPosition()))
+			if (F1->CircleColDetection(F1->GetSpriteWidth() / 2, zombie[i]->GetSpriteWidth() / 2, 
+				F1->GetPosition() , zombie[i]->GetPosition()))
 			{
 				cout << "Collision occurs" << endl;
 				audioManager->PlayCollisionSound();
 
 				// Calculate the bouncing vector of F1 after collision
-				D3DXVECTOR2 f1FVelocity = F1->GetVelocity() * (F1->GetMass() - zombie[i].GetMass()) + 
-					2 * zombie[i].GetMass() * zombie[i].GetVelocity() / (F1->GetMass() + zombie[i].GetMass());
+				D3DXVECTOR2 f1FVelocity = F1->GetVelocity() * (F1->GetMass() - zombie[i]->GetMass()) + 
+					2 * zombie[i]->GetMass() * zombie[i]->GetVelocity() / (F1->GetMass() + zombie[i]->GetMass());
 
 				// Calculate the bouncing vector of zombie after collision
-				D3DXVECTOR2 zombieFVelocity = zombie[i].GetVelocity() * (zombie[i].GetMass() - F1->GetMass()) + 
-					2 * F1->GetMass() * F1->GetVelocity() / (F1->GetMass() + zombie[i].GetMass());
+				D3DXVECTOR2 zombieFVelocity = zombie[i]->GetVelocity() * (zombie[i]->GetMass() - F1->GetMass()) + 
+					2 * F1->GetMass() * F1->GetVelocity() / (F1->GetMass() + zombie[i]->GetMass());
 
+				// Set the bouncing vector of F1 and zombie
 				F1->SetVelocity(-f1FVelocity);
-				zombie[i].SetVelocity(zombieFVelocity);
-				zombie[i].DecreaseHP(1);
+				zombie[i]->SetVelocity(zombieFVelocity);
+				zombie[i]->DecreaseHP(1);
+				// Increaase 10 score when F1 collide with zombie
 				scoreBoard->IncreaseScore(10);
 			}
 		}
 		// Update zombie
-		zombie[i].Update();
+		zombie[i]->Update();
 	}
 	// Update F1
 	F1->Update();
@@ -148,9 +151,9 @@ void Level1::Render(LPD3DXSPRITE spriteBrush)
 	for (int i = 0; i < spawnNum; i++)
 	{	
 		// Only Draw Zombie when the zombie hp is higher than 0
-		if (zombie[i].GetHP() > 0)
+		if (zombie[i]->GetHP() > 0)
 		{
-			zombie[i].RenderSprite(spriteBrush, &mat);
+			zombie[i]->RenderSprite(spriteBrush, &mat);
 		}
 	}
 }
@@ -168,7 +171,7 @@ void Level1::CleanUpLevel()
 
 	for (int i = 0; i < spawnNum; i++)
 	{
-		zombie[i].CleanUpSprite();
+		zombie[i]->CleanUpSprite();
 	}
 	
 	retryButton->CleanUpSprite();

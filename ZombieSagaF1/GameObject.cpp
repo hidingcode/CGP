@@ -10,7 +10,7 @@ GameObject::~GameObject()
 }
 
 // Initialise Game Object
-void GameObject::Init(int textureWidth, int textureHeight, int textureRow, int textureColumn, 
+void GameObject::InitSprite(int textureWidth, int textureHeight, int textureRow, int textureColumn, 
 	int maxFrame, D3DXVECTOR2 scalingCentre,float scalingRotation, D3DXVECTOR2 position, float thrust, 
 	float rotation, float mass, D3DXVECTOR2 scaling, float rotationSpeed,float friction, D3DXCOLOR colorFilter)
 {

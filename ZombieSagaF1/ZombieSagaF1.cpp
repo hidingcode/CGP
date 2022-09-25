@@ -39,10 +39,8 @@ D3D9DeviceManager* deviceManager = new D3D9DeviceManager();
 InputManager* inputManager = new InputManager();
 // Audio globals
 AudioManager* audioManager = new AudioManager();
-
 // Framer Timer
 FrameTimer* timer = new FrameTimer();
-
 // Game Level
 vector<GameState*> gameState;
 

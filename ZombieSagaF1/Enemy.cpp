@@ -9,12 +9,12 @@ Enemy::~Enemy()
 {
 }
 
-void Enemy::Init(int textureWidth, int textureHeight, int textureRow, int textureColumn,
+void Enemy::InitSprite(int textureWidth, int textureHeight, int textureRow, int textureColumn,
 	int maxFrame, D3DXVECTOR2 scalingCentre, float scalingRotation, D3DXVECTOR2 position, float thrust,
 	float rotation, float mass, D3DXVECTOR2 scaling, float rotationSpeed, float friction, D3DXCOLOR colorFilter, 
 	int hp)
 {
-	GameObject::Init(textureWidth, textureHeight, textureRow, textureColumn,
+	GameObject::InitSprite(textureWidth, textureHeight, textureRow, textureColumn,
 		maxFrame, scalingCentre, scalingRotation, position, thrust,
 		rotation, mass, scaling, rotationSpeed, friction, colorFilter);
 	this->hp = hp;

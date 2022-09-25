@@ -11,7 +11,7 @@ MainMenu::~MainMenu()
 void MainMenu::InitLevel(IDirect3DDevice9* d3dDevice)
 {	
 	menuBG->CreateTexture(d3dDevice, "Assets/Textures/mainMenu.png");
-	menuBG->Init(840, 650, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(1, 1),
+	menuBG->InitSprite(840, 650, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(1, 1),
 		D3DCOLOR_XRGB(255, 255, 255));
 
 	instruction->CreateFontType(d3dDevice, "Arial");
@@ -19,19 +19,19 @@ void MainMenu::InitLevel(IDirect3DDevice9* d3dDevice)
 		D3DXVECTOR2(0, 0), -1, 0, D3DCOLOR_XRGB(255, 255, 255));
 
 	startButton->CreateTexture(d3dDevice, "Assets/Textures/startButton.png");
-	startButton->Init(210, 75, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(310, 300), 0.0f,
+	startButton->InitSprite(210, 75, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(310, 300), 0.0f,
 		D3DXVECTOR2(1, 1), D3DCOLOR_XRGB(255, 255, 255));
 
 	quitButton->CreateTexture(d3dDevice, "Assets/Textures/quitButton.png");
-	quitButton->Init(165, 70, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(310, 450),
+	quitButton->InitSprite(165, 70, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(310, 450),
 		0.0f, D3DXVECTOR2(1, 1), D3DCOLOR_XRGB(255, 255, 255));
 
 	eKey->CreateTexture(d3dDevice, "Assets/Textures/e-key.png");
-	eKey->Init(215, 220, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(550, 330), 0.0f, D3DXVECTOR2(0.18, 0.18),
+	eKey->InitSprite(215, 220, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(550, 330), 0.0f, D3DXVECTOR2(0.18, 0.18),
 		D3DCOLOR_XRGB(255, 255, 255));
 
 	F1->CreateTexture(d3dDevice, "Assets/Textures/F1.png");
-	F1->Init(768, 450, 3, 6, 5, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(600, 400), 1.0f, 0.0f, 2.0f,
+	F1->InitSprite(768, 450, 3, 6, 5, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(600, 400), 1.0f, 0.0f, 2.0f,
 		D3DXVECTOR2(0.4f, 0.4f), 0.05f, 0.05f, D3DCOLOR_XRGB(255, 255, 255));
 }
 

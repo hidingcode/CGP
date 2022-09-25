@@ -38,7 +38,7 @@ private:
 	// Number of Zombie to be spawn
 	int spawnNum = 2;
 	// zombie[x]  x -> maximum size of zombie array
-	Enemy zombie[20];
+	Enemy* zombie[20];
 
 	// Text and Box (Line)
 	Text* text = new Text();

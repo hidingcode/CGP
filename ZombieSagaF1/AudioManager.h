@@ -18,11 +18,16 @@ public:
 	~AudioManager();
 	
 	void InitialiseAudio();
+	// Play car engine sound
 	void PlayCarEngineSound();
+	// Play Background music
 	void PlayBackgroundMusic();
-	void LoadSounds();
-	void UpdateSound();
+	// Play Car Collision Sound
 	void PlayCollisionSound();
+	// Load Sound
+	void LoadSounds();
+	// Update Sound
+	void UpdateSound();
 	// Change the State of the Sound to paused or unpaused
 	void ChangePausedState(bool state);
 	// Change the State of the Sound to muted or unmuted

@@ -11,7 +11,7 @@ Image::~Image()
 {
 }
 
-void Image::Init(int textureWidth, int textureHeight, D3DXVECTOR2 scalingCentre,
+void Image::InitSprite(int textureWidth, int textureHeight,D3DXVECTOR2 scalingCentre,
 	float scalingRotation, D3DXVECTOR2 position, float rotation, D3DXVECTOR2 scaling, D3DXCOLOR colorFilter)
 {	
 	// Crop texture into required rectangle
@@ -22,7 +22,5 @@ void Image::Init(int textureWidth, int textureHeight, D3DXVECTOR2 scalingCentre,
 	
 	RenderComponent::InitSprite(textureWidth, textureHeight, scalingCentre, scalingRotation, scaling, D3DXVECTOR2(textureWidth * scaling.x / 2, textureHeight * scaling.y / 2),
 		rotation, position, colorFilter);
-
-	
 }
 
