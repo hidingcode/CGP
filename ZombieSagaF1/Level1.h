@@ -29,9 +29,16 @@ public:
 	void CleanUpLevel();
 
 private:
-	// Image 
+	// Image, Text and Box (Line)
 	Image* background = new Image();
 	Image* eKey = new Image();
+	Text* text = new Text();
+	Box* box = new Box();
+	Button* retryButton = new Button();
+	Button* quitButton = new Button();
+
+	//ScoreBoard 
+	ScoreBoard* scoreBoard = new ScoreBoard();
 
 	// Game Object 
 	Player* F1 = new Player();
@@ -40,12 +47,5 @@ private:
 	// zombie[x]  x -> maximum size of zombie array
 	Enemy* zombie[20];
 
-	// Text and Box (Line)
-	Text* text = new Text();
-	Box* box = new Box();
-	Button* retryButton = new Button();
-
-	//ScoreBoard 
-	ScoreBoard* scoreBoard = new ScoreBoard();
 };
 #endif

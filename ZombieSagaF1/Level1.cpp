@@ -26,29 +26,32 @@ void Level1::InitLevel(IDirect3DDevice9* d3dDevice)
 	{
 		zombie[i] = new Enemy();
 		zombie[i]->CreateTexture(d3dDevice, "Assets/Textures/zombie_idle.png");
-		// Spawn the zombie in random position
-		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (WindowWidth - zombie[i]->GetSpriteWidth() - 100),
-			rand() % (WindowHeight - zombie[i]->GetSpriteHeight() - 100));
+		// Spawn the zombie in random in the range of window width and window height
+		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (WindowWidth - zombie[i]->GetSpriteWidth()),
+			rand() % (WindowHeight - zombie[i]->GetSpriteHeight()));
 
 		zombie[i]->InitSprite(3774, 230, 1, 17, 16, D3DXVECTOR2(0, 0), 0.0f, randomSpawn, 0.0f, 0.0f, 1.0f,
 			D3DXVECTOR2(0.3f, 0.3f), 0.0f, 0.01f, D3DCOLOR_XRGB(255, 255, 255), 2);
 	}
 
+	quitButton->CreateTexture(d3dDevice, "Assets/Textures/quitButton.png");
+	quitButton->InitSprite(165, 70, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(320, 400),
+		0.0f, D3DXVECTOR2(1, 1), D3DCOLOR_XRGB(255, 255, 255));
+
 	retryButton->CreateTexture(d3dDevice, "Assets/Textures/retryButton.png");
-	retryButton->InitSprite(205, 75, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(310, 310), 0.0f,
+	retryButton->InitSprite(205, 75, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(310, 250), 0.0f,
 		D3DXVECTOR2(1, 1), D3DCOLOR_XRGB(255, 255, 255));
 
 	eKey->CreateTexture(d3dDevice, "Assets/Textures/e-key.png");
-	eKey->InitSprite(215, 220, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(550, 330), 0.0f, D3DXVECTOR2(0.18, 0.18),
+	eKey->InitSprite(215, 220, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(550, 320), 0.0f, D3DXVECTOR2(0.18, 0.18),
 		D3DCOLOR_XRGB(255, 255, 255));
 
 	box->CreateLine(d3dDevice);
-	box->Init(120, 30, D3DXVECTOR2(0, 0));
+	box->InitLine(120, 30, D3DXVECTOR2(0, 0));
 
 	text->CreateFontType(d3dDevice, "Arial");
 	text->Init(200, 200, D3DXVECTOR2(1, 1), 0.0f, D3DXVECTOR2(1, 1), text->GetPosition(), 0.0f,
 		box->GetPosition(), -1, 0, D3DCOLOR_XRGB(0, 0, 0));
-
 }
 
 void Level1::Update(IDirect3DDevice9* d3dDevice)
@@ -106,6 +109,20 @@ void Level1::Update(IDirect3DDevice9* d3dDevice)
 
 	if (scoreBoard->GetScore() >= 40)
 	{	
+		if (quitButton->RectColDetection(quitButton->GetColRectangle(), F1->GetColRectangle()))
+		{
+			quitButton->SetColorFilter(D3DCOLOR_XRGB(255, 0, 0));
+			if (inputManager->GetKeyPress(DIK_E))
+			{
+				// Quit the game
+				exit(0);
+			}
+		}
+		else
+		{
+			quitButton->SetColorFilter(D3DCOLOR_XRGB(255, 255, 255));
+		}
+
 		if (retryButton->RectColDetection(retryButton->GetColRectangle(), F1->GetColRectangle()))
 		{
 			retryButton->SetColorFilter(D3DCOLOR_XRGB(255, 0, 0));
@@ -136,7 +153,14 @@ void Level1::Render(LPD3DXSPRITE spriteBrush)
 	{
 		retryButton->RenderSprite(spriteBrush, &mat);
 		if (retryButton->RectColDetection(retryButton->GetColRectangle(), F1->GetColRectangle()))
-		{
+		{	
+			eKey->SetPosition(D3DXVECTOR2(550, 270));
+			eKey->RenderSprite(spriteBrush, &mat);
+		}
+		quitButton->RenderSprite(spriteBrush, &mat);
+		if (quitButton->RectColDetection(quitButton->GetColRectangle(), F1->GetColRectangle()))
+		{	
+			eKey->SetPosition(D3DXVECTOR2(550, 410));
 			eKey->RenderSprite(spriteBrush, &mat);
 		}
 	}
@@ -172,8 +196,11 @@ void Level1::CleanUpLevel()
 	for (int i = 0; i < spawnNum; i++)
 	{
 		zombie[i]->CleanUpSprite();
+		zombie[i] = NULL;
 	}
 	
+	quitButton->CleanUpSprite();
+	quitButton = NULL;
 	retryButton->CleanUpSprite();
 	retryButton = NULL;
 	eKey->CleanUpSprite();

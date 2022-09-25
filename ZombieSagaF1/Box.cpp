@@ -9,7 +9,7 @@ Box::~Box()
 {
 }
 
-void Box::Init(int boxWidth, int boxHeight, D3DXVECTOR2 boxPosition)
+void Box::InitLine(int boxWidth, int boxHeight, D3DXVECTOR2 boxPosition)
 {	
 	// Calculate the X position for point 2 and 3 according to the box width
 	pointX = boxPosition.x + boxWidth;

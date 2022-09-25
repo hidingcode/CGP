@@ -2,16 +2,8 @@
 // Not Set
 // x86
 
-//	Ask the compiler to include minimal header files for our program.
-// #define -> Instruction to communicate with the compiler
-#include <d3d9.h>
-#include <iostream>
-#include <string>  
 //	include the D3DX9 library
-#include <d3dx9.h>
-
 #include <ctime>
-#include <vector>
 
 //DeviceManagerClass
 #include "D3D9DeviceManager.h"
@@ -24,11 +16,11 @@
 //include windowClass
 #include "MyWindowManager.h"
 
-// Game State (Level control)
+// Game Manager 
 #include "GameManager.h"
-#include "GameState.h"
+
+// Main Menu Level
 #include "MainMenu.h"
-#include "Level1.h"
 
 
 //Window Manager
@@ -70,9 +62,8 @@ void Init()
 {
 	SetInput();
 	InitAudio();
-	MainMenu* mainMenu = new MainMenu();
 	// Push main menu to the back of the stack
-	gameState.push_back(mainMenu);
+	gameState.push_back(new MainMenu());
 	// Get the back of the game state stack  
 	gameState.back()->InitLevel(deviceManager->GetD3D9Device());
 }

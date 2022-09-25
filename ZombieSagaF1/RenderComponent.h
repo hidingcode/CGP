@@ -103,7 +103,6 @@ protected:
 	// Text Varaibles
 	int textLength = -1;
 	UINT format = 0;
-
 };
 #endif
 

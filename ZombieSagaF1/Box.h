@@ -12,7 +12,7 @@ public:
 	Box();
 	~Box();
 	// Initialisation of box in Rectangle, box position is the top left corner of the box
-	void Init(int 
+	void InitLine(int
 		Width, int boxHeight, D3DXVECTOR2 boxPosition);
 	// Render Line
 	void RenderLine(D3DXCOLOR color);
