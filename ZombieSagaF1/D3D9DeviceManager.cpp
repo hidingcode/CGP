@@ -69,18 +69,18 @@ void D3D9DeviceManager::PresentBuffer()
 
 IDirect3DDevice9* D3D9DeviceManager::GetD3D9Device()
 {
-	return this->d3dDevice;
+	return d3dDevice;
 }
 
 IDirect3DDevice9** D3D9DeviceManager::GetD3D9Reference()
 {
 	d3dDeviceReference = &d3dDevice;
-	return this->d3dDeviceReference;
+	return d3dDeviceReference;
 }
 
 LPD3DXSPRITE D3D9DeviceManager::GetSpriteBrush()
 {
-	return this->spriteBrush;
+	return spriteBrush;
 }
 
 void D3D9DeviceManager::CleanUpMyD3D9Device()

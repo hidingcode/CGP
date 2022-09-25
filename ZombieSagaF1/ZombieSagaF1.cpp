@@ -145,27 +145,8 @@ int main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nSho
 	{
 		Update(timer->FramesToUpdate());
 		inputManager->GetInput();
-		//if (inputManager->GetKeyPress(DIK_A))
-		//{
-		//	cout << "Test 1" << endl;
-		//	gameState.pop_back();
-		//	// Push main menu to the back of the stack
-		//	gameState.push_back(mainMenu);
-		//	// Get the back of the game state stack  
-		//	gameState.back()->InitLevel(deviceManager->GetD3D9Device(), windowManager);
-		//}
-		//if (inputManager->GetKeyPress(DIK_P))
-		//{
-		//	cout << "Test 2" << endl;
-		//	gameState.pop_back();
-		//	// Push main menu to the back of the stack
-		//	gameState.push_back(level1);
-		//	// Get the back of the game state stack  
-		//	gameState.back()->InitLevel(deviceManager->GetD3D9Device(), windowManager);
-		//}
 		Render();
 	}
-
 	CleanUp();
 	return 0;
 }

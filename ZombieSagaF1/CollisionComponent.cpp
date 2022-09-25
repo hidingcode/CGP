@@ -6,8 +6,6 @@ bool CollisionComponent::CircleColDetection(int radiusA, int radiusB, D3DXVECTOR
 	D3DXVECTOR2 positionB)
 {	
 	//The distance between two object's centre position of circle
-
-
 	D3DXVECTOR2 distance = positionA - positionB;
 	if (radiusA + radiusB < D3DXVec2Length(&distance))
 	{

@@ -14,18 +14,18 @@ void Level1::InitLevel(IDirect3DDevice9* d3dDevice)
 	srand(time(0));
 
 	// Create Texture and Initialise Game Object, UI and Images
-	background->CreateTexture(d3dDevice, "Assets/roadBG.png");
+	background->CreateTexture(d3dDevice, "Assets/Textures/roadBG.png");
 	background->Init(840, 650, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(1, 1), 
 		D3DCOLOR_XRGB(255, 255, 255));
 
-	F1->CreateTexture(d3dDevice, "Assets/F1.png");
+	F1->CreateTexture(d3dDevice, "Assets/Textures/F1.png");
 	F1->Init(768, 450, 3, 6, 5, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(395, 580), 1.0f, 0.0f, 2.0f,
 		D3DXVECTOR2(0.4f, 0.4f), 0.05f, 0.05f, D3DCOLOR_XRGB(255, 255, 255));
 
 	for (int i = 0; i < spawnNum; i++)
 	{
 		zombie[i] = Enemy();
-		zombie[i].CreateTexture(d3dDevice, "Assets/zombie_idle.png");
+		zombie[i].CreateTexture(d3dDevice, "Assets/Textures/zombie_idle.png");
 		// Spawn the zombie in random position
 		D3DXVECTOR2 randomSpawn = D3DXVECTOR2(rand() % (WindowWidth - zombie[i].GetSpriteWidth() - 100),
 			rand() % (WindowHeight - zombie[i].GetSpriteHeight() - 100));
@@ -34,10 +34,11 @@ void Level1::InitLevel(IDirect3DDevice9* d3dDevice)
 			D3DXVECTOR2(0.3f, 0.3f), 0.0f, 0.01f, D3DCOLOR_XRGB(255, 255, 255), 2);
 	}
 
-	retryButton->CreateTexture(d3dDevice, "Assets/retryButton.png");
+	retryButton->CreateTexture(d3dDevice, "Assets/Textures/retryButton.png");
 	retryButton->Init(205, 75, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(310, 310), 0.0f,
 		D3DXVECTOR2(1, 1), D3DCOLOR_XRGB(255, 255, 255));
-	eKey->CreateTexture(d3dDevice, "Assets/e-key.png");
+
+	eKey->CreateTexture(d3dDevice, "Assets/Textures/e-key.png");
 	eKey->Init(215, 220, D3DXVECTOR2(0, 0), 0.0f, D3DXVECTOR2(550, 330), 0.0f, D3DXVECTOR2(0.18, 0.18),
 		D3DCOLOR_XRGB(255, 255, 255));
 
@@ -139,7 +140,6 @@ void Level1::Render(LPD3DXSPRITE spriteBrush)
 
 	// Draw F1
 	F1->RenderSprite(spriteBrush, &mat);
-
 
 	// Draw Text
 	// .c_str() is to change the score from string to LPCSTR

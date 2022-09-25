@@ -140,7 +140,6 @@
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="CollisionComponent.h" />
     <ClInclude Include="GameManager.h" />
-    <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="D3D9DeviceManager.h" />
@@ -151,9 +150,7 @@
     <ClInclude Include="Box.h" />
     <ClInclude Include="Level1.h" />
     <ClInclude Include="MainMenu.h" />
-    <ClInclude Include="Canva.h" />
     <ClInclude Include="MyWindowManager.h" />
-    <ClInclude Include="VerticalPanel.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="ScoreBoard.h" />
@@ -163,7 +160,6 @@
   <ItemGroup>
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="CollisionComponent.cpp" />
-    <ClCompile Include="GameStateManager.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="D3D9DeviceManager.cpp" />
@@ -174,9 +170,7 @@
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="Level1.cpp" />
     <ClCompile Include="MainMenu.cpp" />
-    <ClCompile Include="Canva.cpp" />
     <ClCompile Include="MyWindowManager.cpp" />
-    <ClCompile Include="VerticalPanel.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="ScoreBoard.cpp" />

@@ -2,7 +2,6 @@
 #define MAINMENU_H
 #include "GameManager.h"
 #include "Player.h"
-#include "Canva.h"
 #include "Text.h"
 #include "Level1.h"
 
@@ -19,7 +18,10 @@ public:
 
 private:
 	Player* F1 = new Player();
-	Canva* canva = new Canva();
+	Image* menuBG = new Image();
+	Image* eKey = new Image();
 	Text* instruction = new Text();
+	Button* startButton = new Button();
+	Button* quitButton = new Button();
 };
 #endif

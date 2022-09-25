@@ -1,7 +1,6 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
 #include <d3dx9.h>
-#include "GameStateManager.h"
 
 class GameState
 {

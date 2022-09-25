@@ -35,18 +35,18 @@ void AudioManager::PlayCollisionSound()
 void AudioManager::LoadSounds()
 {	
 	// Car Engine Sound 
-	result = system->createSound("Assets/carSound.mp3", FMOD_DEFAULT, 0, &engineSound);
+	result = system->createSound("Assets/Sounds/carSound.mp3", FMOD_DEFAULT, 0, &engineSound);
 	result = engineSound->setMode(FMOD_LOOP_NORMAL);
 	
 	// Background Music
-	result = system->createStream("Assets/gameMusic.wav", FMOD_DEFAULT, 0, &backgroundMusic);
+	result = system->createStream("Assets/Sounds/gameMusic.wav", FMOD_DEFAULT, 0, &backgroundMusic);
 	// Allow the sound to be loopable
 	result = backgroundMusic->setMode(FMOD_LOOP_NORMAL);
 	// Set the sound to keep looping
 	result = backgroundMusic->setLoopCount(-1);
 
 	// Car Crash Sound
-	result = system->createSound("Assets/crashSound.mp3", FMOD_DEFAULT, 0, &crashSound);
+	result = system->createSound("Assets/Sounds/crashSound.mp3", FMOD_DEFAULT, 0, &crashSound);
 	result = crashSound->setMode(FMOD_LOOP_OFF);
 }
 
