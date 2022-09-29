@@ -1,3 +1,3 @@
-# A Game Project for Computer Game Programming Assignment
+# A Game Project for Computer Game Programming 
 
 
